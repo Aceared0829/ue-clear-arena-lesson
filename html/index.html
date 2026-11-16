@@ -27,7 +27,7 @@
       <i>第一节课</i>
     </div>
     <div class="progress"><span id="progressBar"></span></div>
-    <div class="meta"><span id="sectionLabel"></span><span id="counter">01 / 39</span></div>
+    <div class="meta"><span id="sectionLabel"></span><span id="counter">01 / 37</span></div>
   </header>
 
   <main id="slides">
@@ -334,234 +334,417 @@
       <aside class="notes">先指视口左下角的轴指示器：红绿蓝就是 XYZ。再强调 X 朝前不是屏幕左右，Y 才是右手边。可以转一下视角，让学生看到指示器会跟着转，但世界方向不变。</aside>
     </section>
 
-    <section class="slide" data-section="必备知识" data-title="一个物体在场景里的三件事">
+    <section class="slide dense" data-section="必备知识" data-title="Transform：位置、旋转、缩放">
       <div class="slide-inner">
-        <div class="kicker reveal">坐标系</div>
-        <h2 class="reveal" style="--d:1">一个物体在场景里的三件事</h2>
-        <div class="grid g3 reveal" style="--d:2">
-          <div class="card"><span class="num">Location</span><h3>位置</h3><p class="small muted">X / Y / Z，单位厘米。决定它站在哪。</p><div class="stat" style="font-size:1.3rem;margin-top:12px">0, 0, 0</div></div>
-          <div class="card"><span class="num">Rotation</span><h3>旋转</h3><p class="small muted">Pitch / Yaw / Roll，单位度。决定它朝哪。</p><div class="stat" style="font-size:1.3rem;margin-top:12px">0°, 0°, 0°</div></div>
-          <div class="card"><span class="num">Scale</span><h3>缩放</h3><p class="small muted">三轴独立缩放。决定它多大。</p><div class="stat" style="font-size:1.3rem;margin-top:12px">1.0, 1.0, 1.0</div></div>
-        </div>
-        <div class="card reveal" style="--d:3;margin-top:20px">
-          <div class="row" style="justify-content:space-between">
-            <div><h3 style="margin-bottom:4px">世界坐标 vs 局部坐标</h3><p class="small muted" style="margin:0">父物体转 90°，子物体跟着转。局部坐标是“相对父物体”的。</p></div>
-            <div class="flow"><span class="node c">父物体</span><span class="arr">→</span><span class="node">子物体</span><span class="arr">↺</span><span class="node v">一起转</span></div>
+        <div class="kicker reveal">坐标系 · Transform</div>
+        <h2 class="reveal" style="--d:1">Transform：位置、旋转、缩放，各管一件事</h2>
+        <p class="lead reveal" style="--d:2">UE 里每个 Actor 都挂着一份 Transform。它不是三个孤立数字：谁相对谁、单位是什么、改的是 Actor 还是组件，决定了你写出来的移动对不对。</p>
+        <div class="grid g3 reveal" style="--d:3">
+          <div class="card tight">
+            <span class="num">Location · 位置</span>
+            <h3>FVector(X, Y, Z)</h3>
+            <p class="small muted" style="margin:0 0 8px">单位厘米；Z 是高度。世界坐标是绝对位置，相对坐标是“相对父级”。</p>
+            <pre class="code">SetActorLocation(
+  FVector(0, 0, 100));
+AddActorWorldOffset(
+  FVector(0, 0, 50));
+AddActorLocalOffset(
+  FVector(100, 0, 0));</pre>
+            <p class="small" style="margin:8px 0 0"><b>100 cm</b> = 1 m；角色身高约 180 cm。</p>
           </div>
-        </div>
-      </div>
-      <aside class="notes">用父子物体演示：把箱子挂到另一个箱子下面，转父物体，子物体跟着动。</aside>
-    </section>
-
-    <section class="slide" data-section="必备知识" data-title="Pitch / Yaw / Roll">
-      <div class="slide-inner">
-        <div class="kicker reveal">坐标系</div>
-        <h2 class="reveal" style="--d:1">Pitch / Yaw / Roll：三个轴，三种转法</h2>
-        <div class="grid g3 reveal" style="--d:2">
-          <div class="card" style="text-align:center">
-            <svg class="diagram mini" viewBox="0 0 260 220">
-              <circle cx="120" cy="110" r="32" fill="rgba(34,211,238,.1)" stroke="#22d3ee" stroke-width="2"/>
-              <path d="M120 110 L158 110" stroke="#22d3ee" stroke-width="3" stroke-linecap="round"/>
-              <circle cx="162" cy="110" r="4" fill="#22d3ee"/>
-              <path d="M178 68 A56 56 0 0 1 178 152" fill="none" stroke="#fb7185" stroke-width="3" marker-end="url(#arr-red)"/>
-              <text x="130" y="192" text-anchor="middle" fill="#e2e8f0" font-size="18" font-weight="600">Pitch</text>
-              <text x="130" y="212" text-anchor="middle" fill="#94a3b8" font-size="13">点头</text>
-            </svg>
+          <div class="card tight">
+            <span class="num">Rotation · 旋转</span>
+            <h3>FRotator(Pitch, Yaw, Roll)</h3>
+            <p class="small muted" style="margin:0 0 8px">单位度。构造顺序是 Pitch、Yaw、Roll，不是 X、Y、Z。</p>
+            <pre class="code">SetActorRotation(
+  FRotator(0, 90, 0));
+AddActorWorldRotation(
+  FRotator(0, 15, 0));
+GetActorForwardVector();</pre>
+            <p class="small" style="margin:8px 0 0"><b>Yaw 90°</b> 让角色从 +X 转向 +Y。</p>
           </div>
-          <div class="card" style="text-align:center">
-            <svg class="diagram mini" viewBox="0 0 260 220">
-              <circle cx="130" cy="110" r="32" fill="rgba(52,211,153,.1)" stroke="#34d399" stroke-width="2"/>
-              <path d="M130 110 L168 110" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
-              <circle cx="172" cy="110" r="4" fill="#34d399"/>
-              <path d="M172 110 A52 52 0 1 1 90 122" fill="none" stroke="#fb7185" stroke-width="3" marker-end="url(#arr-red)"/>
-              <text x="130" y="192" text-anchor="middle" fill="#e2e8f0" font-size="18" font-weight="600">Yaw</text>
-              <text x="130" y="212" text-anchor="middle" fill="#94a3b8" font-size="13">摇头</text>
-            </svg>
-          </div>
-          <div class="card" style="text-align:center">
-            <svg class="diagram mini" viewBox="0 0 260 220">
-              <circle cx="130" cy="110" r="32" fill="rgba(167,139,250,.1)" stroke="#a78bfa" stroke-width="2"/>
-              <path d="M98 110 L162 110" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/>
-              <path d="M102 88 A46 46 0 0 1 158 88" fill="none" stroke="#fb7185" stroke-width="3" marker-end="url(#arr-red)"/>
-              <text x="130" y="192" text-anchor="middle" fill="#e2e8f0" font-size="18" font-weight="600">Roll</text>
-              <text x="130" y="212" text-anchor="middle" fill="#94a3b8" font-size="13">歪头</text>
-            </svg>
+          <div class="card tight">
+            <span class="num">Scale · 缩放</span>
+            <h3>FVector</h3>
+            <p class="small muted" style="margin:0 0 8px">三轴独立；负缩放会翻转法线和碰撞，游戏里尽量别用。</p>
+            <pre class="code">SetActorScale3D(FVector(2, 2, 2));
+GetActorScale3D();</pre>
+            <p class="small" style="margin:8px 0 0"><b>碰撞体也会缩放</b>，不是只把模型拉大。</p>
           </div>
         </div>
-        <p class="lead reveal" style="--d:3;text-align:center;margin-top:18px">点头是 Pitch，摇头是 Yaw，歪头是 Roll。</p>
-      </div>
-      <aside class="notes">用手腕做三个动作，让学生跟着做一次。比背单词快。</aside>
-    </section>
-
-    <section class="slide" data-section="必备知识" data-title="射线检测：起点 + 方向">
-      <div class="slide-inner">
-        <div class="kicker reveal">射线检测</div>
-        <h2 class="reveal" style="--d:1">从一点朝一个方向，问「打到了什么」</h2>
-        <div class="two reveal" style="--d:2">
-          <svg class="diagram" viewBox="0 0 680 380" role="img" aria-label="射线从起点沿方向命中目标，返回命中点和法线">
-            <rect x="52" y="186" width="54" height="34" rx="6" fill="rgba(34,211,238,.12)" stroke="#22d3ee" stroke-width="2"/>
-            <circle cx="112" cy="203" r="7" fill="#22d3ee"/>
-            <text x="40" y="250" fill="#67e8f9" font-size="15">起点</text>
-            <rect x="500" y="110" width="46" height="120" rx="22" fill="rgba(251,113,133,.12)" stroke="#fb7185" stroke-width="2"/>
-            <text x="498" y="270" fill="#fda4af" font-size="15">目标</text>
-            <line x1="118" y1="203" x2="500" y2="170" stroke="#22d3ee" stroke-width="2.5" stroke-dasharray="8 7"/>
-            <line x1="500" y1="170" x2="648" y2="150" stroke="rgba(34,211,238,.28)" stroke-width="2" stroke-dasharray="4 8"/>
-            <circle cx="500" cy="170" r="7" fill="#fff" stroke="#22d3ee" stroke-width="3"/>
-            <path d="M500 170 L500 94" stroke="#34d399" stroke-width="2.5" marker-end="url(#arr-green)"/>
-            <text x="512" y="92" fill="#6ee7b7" font-size="15">法线</text>
-            <text x="282" y="198" fill="#67e8f9" font-size="14">方向</text>
-            <text x="470" y="158" fill="#e2e8f0" font-size="14" text-anchor="end">命中点</text>
-            <path d="M130 310 L500 310" stroke="rgba(148,163,184,.4)" stroke-width="1" stroke-dasharray="4 4"/>
-            <path d="M130 304 L130 316 M500 304 L500 316" stroke="rgba(148,163,184,.4)" stroke-width="1"/>
-            <text x="315" y="302" text-anchor="middle" fill="#94a3b8" font-size="13">距离</text>
-          </svg>
+        <div class="two top reveal" style="--d:4;margin-top:18px">
+          <div class="card tight">
+            <div class="coord-head"><span class="num">World vs Local</span><h3>同一个“向前”，可能是两个方向</h3></div>
+            <svg class="diagram" viewBox="0 0 460 210" role="img" aria-label="父物体旋转后，子物体的局部前方变成世界 Y 方向">
+              <g>
+                <rect x="14" y="14" width="202" height="182" rx="10" fill="rgba(59,130,246,.035)" stroke="rgba(148,163,184,.18)"/>
+                <text x="30" y="36" fill="#93c5fd" font-size="12" font-weight="600">父级 Yaw 0°</text>
+                <line x1="55" y1="174" x2="55" y2="78" stroke="#fb7185" stroke-width="2.5" marker-end="url(#arr-red)"/>
+                <line x1="55" y1="174" x2="182" y2="174" stroke="#34d399" stroke-width="2.5" marker-end="url(#arr-green)"/>
+                <text x="62" y="82" fill="#fda4af" font-size="11">X 前</text>
+                <text x="165" y="192" fill="#6ee7b7" font-size="11">Y 右</text>
+                <rect x="40" y="132" width="30" height="24" rx="5" fill="rgba(34,211,238,.12)" stroke="#22d3ee" stroke-width="1.5"/>
+                <line x1="55" y1="132" x2="55" y2="108" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arr-amber)"/>
+                <circle cx="55" cy="100" r="6" fill="#fbbf24"/>
+                <text x="70" y="99" fill="#fcd34d" font-size="11">子物体</text>
+                <text x="70" y="151" fill="#cbd5e1" font-size="10">local +X = world +X</text>
+              </g>
+              <g transform="translate(230 0)">
+                <rect x="14" y="14" width="202" height="182" rx="10" fill="rgba(167,139,250,.04)" stroke="rgba(148,163,184,.18)"/>
+                <text x="30" y="36" fill="#c4b5fd" font-size="12" font-weight="600">父级 Yaw 90°</text>
+                <line x1="55" y1="174" x2="55" y2="78" stroke="#fb7185" stroke-width="2.5" marker-end="url(#arr-red)"/>
+                <line x1="55" y1="174" x2="182" y2="174" stroke="#34d399" stroke-width="2.5" marker-end="url(#arr-green)"/>
+                <text x="62" y="82" fill="#fda4af" font-size="11">X 前</text>
+                <text x="165" y="192" fill="#6ee7b7" font-size="11">Y 右</text>
+                <rect x="40" y="132" width="30" height="24" rx="5" fill="rgba(34,211,238,.12)" stroke="#22d3ee" stroke-width="1.5"/>
+                <line x1="70" y1="144" x2="120" y2="144" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arr-amber)"/>
+                <circle cx="130" cy="144" r="6" fill="#fbbf24"/>
+                <text x="141" y="141" fill="#fcd34d" font-size="11">子物体</text>
+                <text x="70" y="167" fill="#cbd5e1" font-size="10">local +X = world +Y</text>
+              </g>
+            </svg>
+            <div class="row" style="margin-top:8px">
+              <span class="chip cyan">World：绝对坐标</span>
+              <span class="chip violet">Local：相对父级</span>
+            </div>
+          </div>
           <div class="stack">
-            <div class="card tight"><span class="num">输入</span><p style="margin:0"><b>起点</b> + <b>方向</b>。方向通常是单位向量。</p></div>
-            <div class="card tight"><span class="num">输出</span><p style="margin:0"><b>打中了谁</b>、命中点、距离、法线。</p></div>
-            <div class="card tight" style="border-color:rgba(34,211,238,.35)"><span class="num">一句话</span><p style="margin:0">两个输入，一个结果。所有射线检测都是这一件事。</p></div>
+            <div class="card tight">
+              <span class="num">读代码时先问三句</span>
+              <ul class="list small">
+                <li><b>改谁？</b>Actor 的整体 Transform，还是某个 SceneComponent？</li>
+                <li><b>相对谁？</b>World 是绝对；Relative 是相对父组件。</li>
+                <li><b>哪个轴？</b>Forward / Right / Up 会随旋转变；世界 X/Y/Z 不变。</li>
+                <li><b>用哪个入口？</b><code>SetActorLocation</code> 传送；<code>AddActorWorldOffset</code> 世界轴移动；<code>AddActorLocalOffset</code> 自身轴移动；<code>SetActorTransform</code> 整体替换。</li>
+                <li><b>最容易踩的坑：</b>把 World 当 Relative，父级一转，子物体就飞。</li>
+              </ul>
+            </div>
+            <div class="card tight" style="border-color:rgba(34,211,238,.32)">
+              <p class="small" style="margin:0"><b>组件挂点：</b>枪口、相机、血条通常挂在 Actor 下。改 <code>RelativeLocation</code> 只动挂点；改 Actor 的 <code>Location</code> 会带着整棵组件树一起动。</p>
+            </div>
           </div>
         </div>
       </div>
-      <aside class="notes">用激光笔从眼睛指向屏幕一点，告诉大家：射线就是这条线，起点是眼睛，方向是手指的方向。</aside>
+      <aside class="notes">先让学生找视口里的 Location/Rotation/Scale 三个字段，再改一次 World/Local。用父物体转 90°、子物体跟着转的例子说明：局部坐标不是“另一个位置”，而是“相对父级的位置”。</aside>
     </section>
 
-    <section class="slide" data-section="必备知识" data-title="线、球、通道">
+    <section class="slide dense" data-section="必备知识" data-title="Pitch / Yaw / Roll 与朝向">
       <div class="slide-inner">
-        <div class="kicker reveal">射线检测</div>
-        <h2 class="reveal" style="--d:1">线、球、通道：只测该测的东西</h2>
-        <div class="grid g3 reveal" style="--d:2">
-          <div class="card">
-            <span class="num">Line Trace</span>
-            <h3>一条线</h3>
-            <svg class="diagram mini" viewBox="0 0 260 150" style="margin:8px auto">
-              <line x1="20" y1="100" x2="210" y2="60" stroke="#22d3ee" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-cyan)"/>
-              <rect x="170" y="38" width="36" height="86" rx="18" fill="rgba(251,113,133,.1)" stroke="#fb7185" stroke-width="2"/>
-              <circle cx="190" cy="66" r="5" fill="#fff"/>
+        <div class="kicker reveal">坐标系 · 朝向</div>
+        <h2 class="reveal" style="--d:1">Pitch / Yaw / Roll：旋转还要变成方向</h2>
+        <p class="lead reveal" style="--d:2">旋转不只是让模型转个身。角色往哪走、准星往哪打、相机怎么倾斜，最后都要落到前向、右向、上向三个单位向量上。</p>
+        <div class="grid g3 reveal" style="--d:3">
+          <div class="card tight" style="text-align:center">
+            <svg class="diagram mini" viewBox="0 0 260 190">
+              <circle cx="120" cy="96" r="32" fill="rgba(34,211,238,.1)" stroke="#22d3ee" stroke-width="2"/>
+              <path d="M120 96 L158 96" stroke="#22d3ee" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="162" cy="96" r="4" fill="#22d3ee"/>
+              <path d="M178 54 A56 56 0 0 1 178 138" fill="none" stroke="#fb7185" stroke-width="3" marker-end="url(#arr-red)"/>
+              <text x="130" y="168" text-anchor="middle" fill="#e2e8f0" font-size="18" font-weight="600">Pitch</text>
+              <text x="130" y="186" text-anchor="middle" fill="#94a3b8" font-size="12">抬头 / 低头</text>
             </svg>
-            <p class="small muted" style="margin:0">一个点扫过去，最干净，适合点射。</p>
+            <p class="small" style="margin:0"><b>绕 Y 轴。</b>正 Pitch 抬头；相机、瞄准常用。</p>
           </div>
-          <div class="card">
-            <span class="num">Sphere Trace</span>
-            <h3>一条有粗细的线</h3>
-            <svg class="diagram mini" viewBox="0 0 260 150" style="margin:8px auto">
-              <line x1="20" y1="100" x2="180" y2="64" stroke="#a78bfa" stroke-width="18" stroke-opacity=".18"/>
-              <line x1="20" y1="100" x2="180" y2="64" stroke="#a78bfa" stroke-width="2" marker-end="url(#arr-violet)"/>
-              <circle cx="180" cy="64" r="26" fill="rgba(167,139,250,.12)" stroke="#a78bfa" stroke-width="2"/>
-              <rect x="196" y="38" width="36" height="86" rx="18" fill="rgba(251,113,133,.1)" stroke="#fb7185" stroke-width="2"/>
+          <div class="card tight" style="text-align:center">
+            <svg class="diagram mini" viewBox="0 0 260 190">
+              <circle cx="130" cy="96" r="32" fill="rgba(52,211,153,.1)" stroke="#34d399" stroke-width="2"/>
+              <path d="M130 96 L168 96" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="172" cy="96" r="4" fill="#34d399"/>
+              <path d="M172 96 A52 52 0 1 1 90 108" fill="none" stroke="#fb7185" stroke-width="3" marker-end="url(#arr-red)"/>
+              <text x="130" y="168" text-anchor="middle" fill="#e2e8f0" font-size="18" font-weight="600">Yaw</text>
+              <text x="130" y="186" text-anchor="middle" fill="#94a3b8" font-size="12">左转 / 右转</text>
             </svg>
-            <p class="small muted" style="margin:0">有半径，擦边也能中，适合近战或粗判定。</p>
+            <p class="small" style="margin:0"><b>绕 Z 轴。</b>正 Yaw 向右转；角色转身主要靠它。</p>
           </div>
-          <div class="card">
-            <span class="num">Trace Channel</span>
-            <h3>通道决定“撞到什么”</h3>
-            <ul class="list small">
-              <li><b>Visibility</b>：场景里看得见的东西</li>
-              <li><b>Camera</b>：只挡镜头的东西</li>
-              <li>碰撞预设：Block / Overlap / Ignore</li>
-            </ul>
+          <div class="card tight" style="text-align:center">
+            <svg class="diagram mini" viewBox="0 0 260 190">
+              <circle cx="130" cy="96" r="32" fill="rgba(167,139,250,.1)" stroke="#a78bfa" stroke-width="2"/>
+              <path d="M98 96 L162 96" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/>
+              <path d="M102 74 A46 46 0 0 1 158 74" fill="none" stroke="#fb7185" stroke-width="3" marker-end="url(#arr-red)"/>
+              <text x="130" y="168" text-anchor="middle" fill="#e2e8f0" font-size="18" font-weight="600">Roll</text>
+              <text x="130" y="186" text-anchor="middle" fill="#94a3b8" font-size="12">歪头 / 翻滚</text>
+            </svg>
+            <p class="small" style="margin:0"><b>绕 X 轴。</b>角色通常保持 0；飞行、载具、相机才用。</p>
           </div>
         </div>
-        <div class="card reveal" style="--d:3;margin-top:18px">
-          <div class="flow" style="justify-content:center">
-            <span class="node c">准星</span><span class="arr">→</span>
-            <span class="node">相机</span><span class="arr">→</span>
-            <span class="node g">Visibility</span><span class="arr">→</span>
-            <span class="node r">敌人</span>
+        <div class="split reveal" style="--d:4;margin-top:16px">
+          <div class="card tight">
+            <span class="num">旋转 → 方向</span>
+            <h3>前向、右向、上向都是单位向量</h3>
+            <pre class="code">FVector Fwd   = GetActorForwardVector();
+FVector Right = GetActorRightVector();
+FVector Up    = GetActorUpVector();
+
+// 从 A 看向 B
+FRotator Look = (B - A).Rotation();
+SetActorRotation(Look);</pre>
+            <div class="flow" style="margin-top:10px">
+              <span class="node">FRotator</span><span class="arr">→</span><span class="node c">Vector()</span><span class="arr">→</span><span class="node">FVector</span>
+            </div>
           </div>
-          <p class="small muted" style="text-align:center;margin:10px 0 0">这局游戏就走这一条链，别加自定义通道。</p>
+          <div class="card tight">
+            <span class="num">什么时候用</span>
+            <table class="decision-table">
+              <tr><th>场景</th><th>做法</th></tr>
+              <tr><td>角色转身</td><td class="dest">只改 Yaw，Roll 保持 0</td></tr>
+              <tr><td>看向目标</td><td class="dest">(Target - Self).Rotation()</td></tr>
+              <tr><td>平滑转头</td><td class="dest">RInterpTo 或 FQuat::Slerp</td></tr>
+              <tr><td>相机倾斜</td><td class="dest">给 Roll，别给角色</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="grid g3 reveal" style="--d:5;margin-top:12px">
+          <div class="card tight">
+            <span class="num">构造顺序</span>
+            <p class="small" style="margin:0"><code>FRotator(Pitch, Yaw, Roll)</code>，和 <code>FVector(X, Y, Z)</code> 不是同一个顺序。读代码先看参数名，不要按位置猜。</p>
+          </div>
+          <div class="card tight">
+            <span class="num">平滑旋转</span>
+            <pre class="code">FRotator Now = FMath::RInterpTo(
+    GetActorRotation(), Target,
+    DeltaTime, 8.f);
+SetActorRotation(Now);</pre>
+          </div>
+          <div class="card tight">
+            <span class="num">看向目标</span>
+            <p class="small" style="margin:0">先算 <code>Target - Self</code> 的方向，再 <code>.Rotation()</code>；不要直接改模型的正前方，也不要在每帧里重复 Cast。</p>
+          </div>
+        </div>
+        <div class="card tight reveal" style="--d:6;margin-top:14px">
+          <p class="small" style="margin:0"><b>身体和相机分开：</b>第三人称常见做法是身体只吃 Yaw，相机再叠 Pitch；把 Pitch 写进角色，模型会跟着上下点头。<b>别把模型的正前方硬编码：</b>角色朝向用 <code>GetActorForwardVector()</code>；如果模型导入时朝向不对，在模型或组件上修，不要把偏移写死进每一个移动公式。</p>
         </div>
       </div>
-      <aside class="notes">只讲 Visibility 和 Camera。自定义通道留给下一节课。</aside>
+      <aside class="notes">用手腕做三个动作：点头 Pitch、摇头 Yaw、歪头 Roll。再强调：FRotator 的构造顺序是 (Pitch, Yaw, Roll)，但读方向时直接用 Forward/Right/Up 向量，不要自己推三角函数。</aside>
     </section>
 
-    <section class="slide" data-section="必备知识" data-title="一帧：引擎从头到尾做了什么">
+    <section class="slide dense" data-section="必备知识" data-title="射线检测：起点、方向、通道">
       <div class="slide-inner">
-        <div class="kicker reveal">游戏循环</div>
-        <h2 class="reveal" style="--d:1">一帧里，引擎从头到尾做了什么</h2>
-        <p class="lead reveal" style="--d:2">60 fps 就是每 16.7 毫秒跑一轮：收输入、跑逻辑、算物理、提交渲染，然后进入下一帧。</p>
-        <div class="life five reveal" style="--d:3;margin-top:30px">
-          <div class="life-node"><b>输入</b><small>键鼠、手柄：这一帧按了什么</small></div>
-          <div class="life-node"><b>游戏逻辑</b><small>蓝图、C++、Tick、AI、计时器</small></div>
-          <div class="life-node"><b>物理 / 动画</b><small>移动、碰撞、骨骼与蒙皮</small></div>
-          <div class="life-node"><b>渲染</b><small>把画面提交给渲染线程</small></div>
-          <div class="life-node"><b>显示</b><small>交换缓冲，进入下一帧</small></div>
+        <div class="kicker reveal">坐标系 · 查询</div>
+        <h2 class="reveal" style="--d:1">射线检测：起点、方向、通道，最后拿到 FHitResult</h2>
+        <p class="lead reveal" style="--d:2">准星射击不是“点一下敌人”，而是从相机沿视线发一条线，问引擎：这条线先撞到谁？</p>
+        <div class="split reveal" style="--d:3">
+          <div class="card tight">
+            <svg class="diagram" viewBox="0 0 680 380" role="img" aria-label="射线从起点沿方向命中目标，返回命中点、法线和距离">
+              <rect x="52" y="186" width="54" height="34" rx="6" fill="rgba(34,211,238,.12)" stroke="#22d3ee" stroke-width="2"/>
+              <circle cx="112" cy="203" r="7" fill="#22d3ee"/>
+              <text x="34" y="250" fill="#67e8f9" font-size="15">起点 Start</text>
+              <rect x="500" y="110" width="46" height="120" rx="22" fill="rgba(251,113,133,.12)" stroke="#fb7185" stroke-width="2"/>
+              <text x="498" y="270" fill="#fda4af" font-size="15">目标 Actor</text>
+              <line x1="118" y1="203" x2="500" y2="170" stroke="#22d3ee" stroke-width="2.5" stroke-dasharray="8 7"/>
+              <line x1="500" y1="170" x2="648" y2="150" stroke="rgba(34,211,238,.28)" stroke-width="2" stroke-dasharray="4 8"/>
+              <circle cx="500" cy="170" r="7" fill="#fff" stroke="#22d3ee" stroke-width="3"/>
+              <path d="M500 170 L500 94" stroke="#34d399" stroke-width="2.5" marker-end="url(#arr-green)"/>
+              <text x="512" y="92" fill="#6ee7b7" font-size="15">法线 ImpactNormal</text>
+              <text x="282" y="198" fill="#67e8f9" font-size="14">方向 × 长度</text>
+              <text x="470" y="158" fill="#e2e8f0" font-size="14" text-anchor="end">命中点</text>
+              <path d="M130 310 L500 310" stroke="rgba(148,163,184,.4)" stroke-width="1" stroke-dasharray="4 4"/>
+              <path d="M130 304 L130 316 M500 304 L500 316" stroke="rgba(148,163,184,.4)" stroke-width="1"/>
+              <text x="315" y="302" text-anchor="middle" fill="#94a3b8" font-size="13">Distance / 距离</text>
+              <circle cx="112" cy="203" r="22" fill="none" stroke="rgba(251,191,36,.35)" stroke-width="1" stroke-dasharray="4 4"/>
+              <text x="34" y="284" fill="#fcd34d" font-size="11">通常先忽略自己</text>
+            </svg>
+          </div>
+          <div class="stack">
+            <div class="card tight">
+              <span class="num">输入</span>
+              <p class="small" style="margin:0"><b>Start</b> 起点、<b>End</b> 终点（或方向 × 长度）、<b>TraceChannel</b>、<b>QueryParams</b>（忽略谁、要不要复杂碰撞）。</p>
+            </div>
+            <div class="card tight">
+              <span class="num">输出 · FHitResult</span>
+              <ul class="list small">
+                <li><code>bBlockingHit</code>：有没有被挡住</li>
+                <li><code>GetActor()</code> / <code>GetComponent()</code>：撞到谁</li>
+                <li><code>ImpactPoint</code> / <code>ImpactNormal</code>：打在哪、朝哪</li>
+                <li><code>Distance</code> / <code>BoneName</code>：多远、哪根骨骼</li>
+              </ul>
+            </div>
+            <div class="card tight" style="border-color:rgba(34,211,238,.35)">
+              <p class="small" style="margin:0"><b>一句话：</b>起点 + 方向 + 通道 = 一个 FHitResult。射线、球体、多段命中都是这个模型。</p>
+            </div>
+          </div>
         </div>
-        <div class="grid g3 reveal" style="--d:4;margin-top:26px">
-          <div class="card tight"><h3>游戏线程</h3><p class="small muted" style="margin:0">蓝图、C++、Tick 都在这里排队跑。这里卡住，整帧就卡住。</p></div>
-          <div class="card tight"><h3>渲染线程</h3><p class="small muted" style="margin:0">拿到场景数据后去画，不和 Tick 同步跑；不要在这里改游戏逻辑。</p></div>
-          <div class="card tight" style="border-color:rgba(34,211,238,.35)"><h3>帧预算</h3><p class="small muted" style="margin:0">60 fps 只有 16.7 ms；逻辑、物理、渲染都在这笔预算里分时间。</p></div>
+        <div class="grid g2 reveal" style="--d:4;margin-top:16px">
+          <div class="card tight">
+            <span class="num">最小可用代码</span>
+            <pre class="code">FHitResult Hit;
+FCollisionQueryParams P;
+P.AddIgnoredActor(this);
+
+const FVector Start = GetActorLocation();
+const FVector Dir = GetActorForwardVector();
+const FVector End = Start + Dir * 5000.f;
+
+const bool bHit = GetWorld()->LineTraceSingleByChannel(
+    Hit, Start, End, ECC_Visibility, P);</pre>
+          </div>
+          <div class="card tight">
+            <span class="num">Line / Sphere / Multi</span>
+            <table class="decision-table">
+              <tr><th>查询</th><th>典型用途</th></tr>
+              <tr><td class="dest">LineTraceSingle</td><td>点射、视线判断</td></tr>
+              <tr><td class="dest">SphereTraceSingle</td><td>近战、弹道宽容</td></tr>
+              <tr><td class="dest">LineTraceMulti</td><td>穿透、收集多个目标</td></tr>
+              <tr><td class="dest">Visibility / Camera</td><td>看得见 / 只挡镜头</td></tr>
+              <tr><td class="dest">Block / Overlap / Ignore</td><td>碰撞响应：挡住 / 穿过但报告 / 完全忽略</td></tr>
+            </table>
+          </div>
         </div>
       </div>
-      <aside class="notes">先问：一帧里最先发生什么？从输入讲到显示，强调游戏线程和渲染线程是两条线。不展开多线程细节，只要知道 Tick 阻塞会拖整帧。</aside>
+      <aside class="notes">用激光笔从眼睛指向屏幕一点：起点是眼睛，方向是手指，命中点是激光落点。现场可以先用 DrawDebugLine 画出来，再调通道和忽略列表。自定义通道留给下一节课。</aside>
     </section>
 
-    <section class="slide" data-section="必备知识" data-title="帧率与帧预算：为什么会卡">
+    <section class="slide dense" data-section="必备知识" data-title="一帧：流水线、线程与预算">
       <div class="slide-inner">
-        <div class="kicker reveal">游戏循环</div>
-        <h2 class="reveal" style="--d:1">60 fps 不是感觉，是 16.7 毫秒的预算</h2>
-        <p class="lead reveal" style="--d:2">帧率越高，每帧时间越短。逻辑、物理、渲染都在抢这段时间。</p>
-        <div class="grid g3 reveal" style="--d:3;margin-top:14px">
-          <div class="card tight"><div class="stat">16.7<small>ms · 60 fps</small></div></div>
-          <div class="card tight"><div class="stat">33.3<small>ms · 30 fps</small></div></div>
-          <div class="card tight"><div class="stat">8.3<small>ms · 120 fps</small></div></div>
+        <div class="kicker reveal">游戏循环 · 一帧</div>
+        <h2 class="reveal" style="--d:1">一帧不是“画一张图”，是一条完整流水线</h2>
+        <p class="lead reveal" style="--d:2">60 fps 就是每秒跑 60 轮：收输入、跑逻辑、算物理和动画、提交渲染、显示。轮与轮之间没有“等一等”，只有下一帧的预算。</p>
+        <div class="life five reveal" style="--d:3;margin-top:24px">
+          <div class="life-node"><span class="hook">01 · Input</span><b>收输入</b><small>键鼠、手柄、触摸：这一帧按了什么</small></div>
+          <div class="life-node"><span class="hook">02 · Game</span><b>游戏逻辑</b><small>Tick、蓝图、C++、AI、计时器</small></div>
+          <div class="life-node"><span class="hook">03 · Phys / Anim</span><b>物理与动画</b><small>移动、碰撞、骨骼、蒙皮</small></div>
+          <div class="life-node"><span class="hook">04 · Draw</span><b>提交渲染</b><small>场景数据交给渲染线程</small></div>
+          <div class="life-node"><span class="hook">05 · Present</span><b>显示</b><small>交换缓冲，进入下一帧</small></div>
         </div>
-        <div class="reveal" style="--d:4;margin-top:20px">
-          <div class="row" style="gap:14px;margin-bottom:8px"><span class="tiny" style="color:#67e8f9">60 fps</span><span class="muted small">16.7 ms 内做完所有事</span></div>
-          <div class="dt-track" style="background-image:linear-gradient(90deg,rgba(34,211,238,.65) 0 62%,rgba(251,113,133,.65) 62% 78%,transparent 78% 100%);background-size:100% 100%"></div>
-          <div class="row" style="justify-content:space-between;margin-top:8px"><span class="tiny muted">逻辑 + 物理</span><span class="tiny" style="color:#fda4af">渲染</span><span class="tiny muted">空闲</span></div>
+        <div class="split reveal" style="--d:4;margin-top:20px">
+          <div class="card tight">
+            <span class="num">线程不是一条线</span>
+            <div class="lane compact"><div class="label">Game<small>Tick / 蓝图 / AI</small></div><div class="track game"></div></div>
+            <div class="lane compact"><div class="label">Render<small>场景代理 / 提交</small></div><div class="track render"></div></div>
+            <div class="lane compact"><div class="label">GPU<small>真正画像素</small></div><div class="track gpu"></div></div>
+            <p class="small muted" style="margin:6px 0 0">Game 卡住，Frame 一定卡；GPU 慢则 GPU 数高。不要把所有“卡”都归咎于模型面数。</p>
+          </div>
+          <div class="card tight">
+            <span class="num">一帧的预算 · 16.7 ms 示例</span>
+            <div class="budget-bar" aria-label="一帧预算示意：逻辑、物理、渲染和余量">
+              <span class="logic">Game 6.2</span><span class="physics">Phys 3.1</span><span class="render">Draw 4.8</span><span class="free">余量</span>
+            </div>
+            <p class="tiny muted" style="margin:6px 0 8px">谁接近 16.7 ms，谁就是瓶颈。控制台输入 <code>stat unit</code> 看数。</p>
+            <table class="decision-table">
+              <tr><th>stat unit</th><th>看什么</th></tr>
+              <tr><td class="dest">Frame</td><td>整帧总时间</td></tr>
+              <tr><td class="dest">Game</td><td>Tick、蓝图、AI</td></tr>
+              <tr><td class="dest">Draw</td><td>渲染线程提交</td></tr>
+              <tr><td class="dest">GPU</td><td>显卡实际画多久</td></tr>
+            </table>
+          </div>
         </div>
-        <div class="grid g3 reveal" style="--d:5;margin-top:18px">
+        <div class="grid g3 reveal" style="--d:5;margin-top:14px">
           <div class="card tight"><h3>掉帧</h3><p class="small muted" style="margin:0">这一帧超预算，画面晚一点出来；操作手感变钝。</p></div>
           <div class="card tight"><h3>卡顿（Hitch）</h3><p class="small muted" style="margin:0">加载资源、GC、一次性大计算，突然占用几十毫秒。</p></div>
-          <div class="card tight"><h3>先看谁慢</h3><p class="small muted" style="margin:0">控制台输入 <code>stat unit</code>，看 Game / Draw / GPU 谁最高。</p></div>
+          <div class="card tight" style="border-color:rgba(34,211,238,.35)"><h3>先看谁慢</h3><p class="small muted" style="margin:0"><code>stat unit</code> 先定位 Game / Draw / GPU，再决定优化什么；不要一上来就降画质。</p></div>
         </div>
       </div>
-      <aside class="notes">用 stat unit 现场看三个数：Game、Draw、GPU。谁接近 16.7 ms，谁就是瓶颈。别一上来就说优化画质。</aside>
+      <aside class="notes">先问：一帧里最先发生什么？从输入讲到显示，强调 Game / Render / GPU 是三条线。现场输入 stat unit，指出谁接近 16.7 ms 谁就是瓶颈。不要一上来就说优化画质。</aside>
     </section>
 
-    <section class="slide" data-section="必备知识" data-title="Tick：每帧都跑，还是发生了才跑">
+    <section class="slide dense" data-section="必备知识" data-title="Tick 还是事件：别每帧都做偶尔才发生的事">
       <div class="slide-inner">
-        <div class="kicker reveal">游戏循环</div>
-        <h2 class="reveal" style="--d:1">每帧都跑，还是发生了才跑？</h2>
-        <div class="lane reveal" style="--d:2">
-          <div class="label">Tick<small>每帧都跑</small></div>
+        <div class="kicker reveal">游戏循环 · Tick</div>
+        <h2 class="reveal" style="--d:1">Tick 还是事件：别让每帧都做“偶尔才发生”的事</h2>
+        <p class="lead reveal" style="--d:2">Tick 是每帧都会跑的回调；事件是条件满足才跑。选错的代价不是多写几行，而是每帧都在浪费预算。</p>
+        <div class="lane reveal" style="--d:3">
+          <div class="label">Tick<small>60 次/秒 · 持续变化</small></div>
           <div class="track ticks"></div>
         </div>
-        <div class="lane reveal" style="--d:3">
-          <div class="label">事件<small>发生了才跑</small></div>
+        <div class="lane reveal" style="--d:4">
+          <div class="label">事件<small>发生了才跑 · 离散响应</small></div>
           <div class="track events">
             <span class="ev" style="left:18%"></span>
             <span class="ev" style="left:47%"></span>
             <span class="ev" style="left:76%"></span>
           </div>
         </div>
-        <div class="grid g3 reveal" style="--d:4;margin-top:16px">
-          <div class="card tight"><h3>持续变化 → Tick</h3><p class="small muted" style="margin:0">敌人追人、冷却倒计时、每帧更新朝向。</p></div>
-          <div class="card tight"><h3>响应 → 回调</h3><p class="small muted" style="margin:0">按键、受伤、碰撞、进出触发区。</p></div>
-          <div class="card tight" style="border-color:rgba(34,211,238,.35)"><h3>原则</h3><p class="small" style="margin:0">能在事件里做，就别放 Tick。</p></div>
+        <div class="grid g2 reveal" style="--d:5;margin-top:12px">
+          <div class="card tight">
+            <span class="num">Tick 正确用法</span>
+            <pre class="code">void AEnemy::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+    if (!Target) return;
+
+    const FVector Dir = (Target->GetActorLocation()
+        - GetActorLocation()).GetSafeNormal();
+    AddActorWorldOffset(Dir * Speed * DeltaTime);
+}</pre>
+            <p class="small muted" style="margin:6px 0 0">不需要时 <code>SetActorTickEnabled(false)</code>；低频逻辑可用 <code>TickInterval</code>。</p>
+          </div>
+          <div class="card tight">
+            <span class="num">事件 / 定时器</span>
+            <pre class="code">OnComponentBeginOverlap.AddDynamic(
+    this, &AEnemy::OnOverlap);
+
+GetWorldTimerManager().SetTimer(
+    FireTimer, this, &AEnemy::Fire, 0.5f, true);</pre>
+            <p class="small muted" style="margin:6px 0 0">绑定事件的处理函数要标 <code>UFUNCTION()</code>；计时器单位是秒。</p>
+          </div>
+        </div>
+        <div class="card tight reveal" style="--d:6;margin-top:14px">
+          <table class="decision-table">
+            <tr><th>需求</th><th>放哪</th><th>例子</th></tr>
+            <tr><td>持续变化</td><td class="dest">Tick</td><td>追踪玩家、冷却倒计时、每帧更新朝向</td></tr>
+            <tr><td>离散响应</td><td class="dest">事件 / 委托</td><td>按键、受伤、重叠、动画结束</td></tr>
+            <tr><td>延迟或周期</td><td class="dest">Timer</td><td>0.5 秒后开火、每 2 秒刷怪</td></tr>
+            <tr><td>根本不需要</td><td class="dest">关掉 Tick</td><td>静态道具、已死亡敌人</td></tr>
+          </table>
         </div>
       </div>
-      <aside class="notes">问一句：敌人追人应该放哪？停两秒再答。答案是 Tick，因为它是持续变化。</aside>
+      <aside class="notes">问一句：敌人追人应该放哪？停两秒再答。答案是 Tick，因为它是持续变化。再问：敌人死亡后还要 Tick 吗？不需要，关掉。强调事件绑定要 UFUNCTION，计时器单位是秒。</aside>
     </section>
 
-    <section class="slide" data-section="必备知识" data-title="DeltaTime：按秒算，不按帧算">
+    <section class="slide dense" data-section="必备知识" data-title="DeltaTime：让速度按秒算">
       <div class="slide-inner">
-        <div class="kicker reveal">游戏循环</div>
-        <h2 class="reveal" style="--d:1">DeltaTime：让速度按秒算，不按帧算</h2>
-        <p class="lead reveal" style="--d:2">同样跑 1 秒，帧率不同，帧数就不同。乘上 DeltaTime，距离才一样。</p>
-        <div class="reveal" style="--d:3;margin-top:18px">
-          <div class="row" style="gap:16px;margin-bottom:8px"><span class="tiny" style="color:#67e8f9">60 fps</span><span class="muted small">每帧 16.7 ms</span></div>
-          <div class="dt-track"></div>
-          <div class="row" style="gap:16px;margin:18px 0 8px"><span class="tiny" style="color:#c4b5fd">30 fps</span><span class="muted small">每帧 33.3 ms</span></div>
-          <div class="dt-track slow"></div>
-          <div class="row" style="justify-content:space-between;margin-top:10px"><span class="tiny muted">0 s</span><span class="tiny muted">1 s · 都是 200 cm</span></div>
+        <div class="kicker reveal">游戏循环 · 时间</div>
+        <h2 class="reveal" style="--d:1">DeltaTime：让“每秒 200 cm”在 30 / 60 / 120 fps 下都一样</h2>
+        <p class="lead reveal" style="--d:2">DeltaTime 是上一帧到这一帧的秒数。所有“按时间变化”的量都乘它；否则帧率就会变成游戏速度。</p>
+        <div class="grid g3 reveal" style="--d:3">
+          <div class="card tight">
+            <div class="stat">16.7<small>ms · 60 fps</small></div>
+            <p class="small muted" style="margin:10px 0 0">dt = 0.0167 s<br>200 cm/s → <b>3.33 cm/帧</b></p>
+          </div>
+          <div class="card tight">
+            <div class="stat">33.3<small>ms · 30 fps</small></div>
+            <p class="small muted" style="margin:10px 0 0">dt = 0.0333 s<br>200 cm/s → <b>6.67 cm/帧</b></p>
+          </div>
+          <div class="card tight">
+            <div class="stat">8.3<small>ms · 120 fps</small></div>
+            <p class="small muted" style="margin:10px 0 0">dt = 0.0083 s<br>200 cm/s → <b>1.67 cm/帧</b></p>
+          </div>
         </div>
-        <div class="grid g2 reveal" style="--d:4;margin-top:18px">
-          <div class="card tight"><span class="num">写法</span><pre class="code" style="border:0;padding:6px 0;background:transparent">Distance = Speed * DeltaTime;</pre></div>
-          <div class="card tight" style="border-color:rgba(251,113,133,.35)"><h3 style="color:#fda4af">不乘会怎样</h3><p class="small muted" style="margin:0">帧率高一倍，跑得就快一倍。同一台机器换个场景，手感就变了。</p></div>
+        <div class="reveal" style="--d:4;margin-top:16px">
+          <div class="row" style="gap:16px;margin-bottom:6px"><span class="tiny" style="color:#67e8f9">60 fps</span><span class="muted small">每帧 16.7 ms</span></div>
+          <div class="dt-track"></div>
+          <div class="row" style="gap:16px;margin:14px 0 6px"><span class="tiny" style="color:#c4b5fd">30 fps</span><span class="muted small">每帧 33.3 ms</span></div>
+          <div class="dt-track slow"></div>
+          <div class="row" style="gap:16px;margin:14px 0 6px"><span class="tiny" style="color:#6ee7b7">120 fps</span><span class="muted small">每帧 8.3 ms</span></div>
+          <div class="dt-track fast"></div>
+          <div class="row" style="justify-content:space-between;margin-top:8px"><span class="tiny muted">0 s</span><span class="tiny muted">1 s · 都是 200 cm</span></div>
+        </div>
+        <div class="split reveal" style="--d:5;margin-top:14px">
+          <div class="card tight">
+            <span class="num">所有“随时间变化”的量都乘 DeltaTime</span>
+            <pre class="code">FVector V = GetActorForwardVector() * Speed; // cm/s
+AddActorWorldOffset(V * DeltaTime, true);
+
+Cooldown -= DeltaTime;
+if (Cooldown <= 0.f) { Fire(); Cooldown = 0.5f; }</pre>
+            <div class="flow" style="margin-top:8px">
+              <span class="node">速度 cm/s</span><span class="arr">×</span><span class="node c">DeltaTime s</span><span class="arr">=</span><span class="node g">本帧位移 cm</span>
+            </div>
+          </div>
+          <div class="card tight">
+            <span class="num">三个坑</span>
+            <ul class="list small">
+              <li><b>卡顿后 dt 变大：</b>先 <code>FMath::Min(DeltaTime, 0.05f)</code> 再积分，避免一步穿墙。</li>
+              <li><b>一帧多次触发：</b>高速移动、连招用扫掠或子步进，别假设一次 Tick 只碰一次。</li>
+              <li><b>计时用秒：</b><code>SetTimer(..., 0.5f, true)</code> 是 0.5 秒，不是 0.5 帧。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card tight reveal" style="--d:6;margin-top:14px">
+          <p class="small" style="margin:0"><b>验证方法：</b>把帧率限制到 30 / 60 / 120，跑同一段路；如果距离不同，说明还有地方没乘 DeltaTime。DeltaTime 不是“手感参数”，是单位换算。</p>
         </div>
       </div>
-      <aside class="notes">现场把帧率限制到 30，跑同一段路，对比一下。这个演示比公式直观。</aside>
+      <aside class="notes">现场把帧率限制到 30，再跑同一段路，对比距离。强调 DeltaTime 是秒，不是帧；所有速度、转速、冷却都要乘。高速移动要扫掠，防止卡顿后一步穿墙。</aside>
     </section>
 
     <section class="slide" data-section="面向对象" data-title="类与对象：图纸和房子">
@@ -972,6 +1155,7 @@ FOnValueChanged OnValueChanged;
               </ul>
             </div>
         </div>
+      </div>
       </div>
       <aside class="notes">接口解决“玩家、敌人、箱子都能挨打，但没有共同父类”。重点讲 Execute_ 和 _Implementation，别把它当普通虚函数。</aside>
     </section>

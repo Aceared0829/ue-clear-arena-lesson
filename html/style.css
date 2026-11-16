@@ -460,6 +460,17 @@ pre.code code{background:none;border:0;padding:0;color:inherit;font-size:1em}
 .decision-table tr td:last-child{border-right:1px solid rgba(148,163,184,.1);border-radius:0 8px 8px 0;color:#94a3b8;font-size:.65rem}
 .decision-table .dest{font-family:var(--mono);color:#67e8f9;white-space:nowrap}
 
+.dense .kicker{margin-bottom:10px}
+.dense h2{font-size:clamp(1.65rem,2.9vw,2.55rem);margin-bottom:.28em}
+.dense .lead{font-size:clamp(.98rem,1.25vw,1.12rem);line-height:1.58;max-width:94ch}
+.dense .card.tight{padding:12px 14px}
+.dense .card h3{font-size:.98rem;margin-bottom:.35em}
+.dense .list li{font-size:.86rem;line-height:1.45}
+.dense .list.small li{font-size:.8rem}
+.dense pre.code{font-size:clamp(.68rem,.78vw,.8rem);line-height:1.5;padding:11px 13px}
+.dense .decision-table{font-size:.68rem;border-spacing:0 3px}
+.dense .decision-table td{padding:6px 10px}
+
 .life.five{grid-template-columns:repeat(5,1fr)}
 .life-node .hook{
   display:inline-block;margin-bottom:5px;padding:2px 5px;border-radius:4px;
@@ -506,10 +517,23 @@ pre.code code{background:none;border:0;padding:0;color:inherit;font-size:1em}
 .track{height:44px;border-radius:8px;border:1px solid var(--line);position:relative;background:rgba(15,23,42,.5);overflow:hidden}
 .track.ticks{background-image:repeating-linear-gradient(90deg,rgba(34,211,238,.85) 0 2px,transparent 2px 24px);background-size:100% 16px;background-repeat:no-repeat;background-position:left center}
 .track.events{background-image:linear-gradient(90deg,rgba(251,191,36,.06),rgba(251,191,36,.02))}
+.track.game{background-image:repeating-linear-gradient(90deg,rgba(34,211,238,.82) 0 3px,transparent 3px 22px);background-size:100% 12px;background-repeat:no-repeat;background-position:left center}
+.track.render{background-image:repeating-linear-gradient(90deg,rgba(167,139,250,.8) 0 3px,transparent 3px 30px);background-size:100% 12px;background-repeat:no-repeat;background-position:left center}
+.track.gpu{background-image:repeating-linear-gradient(90deg,rgba(52,211,153,.78) 0 3px,transparent 3px 40px);background-size:100% 12px;background-repeat:no-repeat;background-position:left center}
+.lane.compact{grid-template-columns:98px 1fr;gap:12px;margin:8px 0}
+.lane.compact .track{height:26px}
 .ev{position:absolute;top:50%;width:11px;height:11px;border-radius:50%;background:var(--amber);box-shadow:0 0 14px rgba(251,191,36,.85);transform:translate(-50%,-50%)}
 
 .dt-track{height:32px;border-radius:7px;border:1px solid var(--line);background-color:rgba(15,23,42,.4);background-image:linear-gradient(90deg,rgba(34,211,238,.6) 0 70%,transparent 70% 100%);background-size:5% 100%;background-repeat:repeat-x}
 .dt-track.slow{background-image:linear-gradient(90deg,rgba(167,139,250,.6) 0 70%,transparent 70% 100%);background-size:10% 100%}
+.dt-track.fast{background-image:linear-gradient(90deg,rgba(52,211,153,.55) 0 70%,transparent 70% 100%);background-size:2.5% 100%}
+
+.budget-bar{display:flex;height:34px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:rgba(15,23,42,.5);font-family:var(--mono);font-size:.56rem;color:#dbeafe}
+.budget-bar span{display:flex;align-items:center;justify-content:center;height:100%;border-right:1px solid rgba(5,7,13,.55);white-space:nowrap;overflow:hidden}
+.budget-bar .logic{width:37%;background:rgba(34,211,238,.2);color:#a5f3fc}
+.budget-bar .physics{width:19%;background:rgba(167,139,250,.2);color:#ddd6fe}
+.budget-bar .render{width:29%;background:rgba(52,211,153,.17);color:#a7f3d0}
+.budget-bar .free{width:15%;background:rgba(148,163,184,.08);color:#94a3b8}
 
 .life{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px}
 .life::before{content:"";position:absolute;left:6%;right:6%;top:13px;height:1px;background:linear-gradient(90deg,var(--cyan),rgba(167,139,250,.7))}
