@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>第一节课 · 用虚幻引擎做一局《清场》</title>
+    <title>第一节课 · 用虚幻引擎做一局小游戏</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,25 +31,25 @@
       <i>第一节课</i>
     </div>
     <div class="progress"><span id="progressBar"></span></div>
-    <div class="meta"><span id="sectionLabel"></span><span id="counter">01 / 37</span></div>
+    <div class="meta"><span id="sectionLabel"></span><span id="counter">01 / 39</span></div>
   </header>
 
   <main id="slides">
 
-    <section class="slide cover active" data-section="开场" data-title="用虚幻引擎做一局《清场》">
+    <section class="slide cover active" data-section="开场" data-title="用虚幻引擎做一局小游戏">
       <div class="slide-inner cover-grid">
         <div>
           <div class="logo-lockup reveal">
             <svg class="ue-logo"><use href="#ue-mark"/></svg>
             <div><b>UNREAL ENGINE</b><span>5.8.4 · 第一节课</span></div>
           </div>
-          <h1 class="reveal" style="--d:1">用虚幻引擎<br>做一局<span class="grad">《清场》</span></h1>
-          <p class="lead reveal" style="--d:2">从编辑器界面到 C++ 源码，一节课走完一局第三人称小游戏。</p>
+          <h1 class="reveal" style="--d:1">用虚幻引擎<br>做一局<span class="grad">小游戏</span></h1>
+          <p class="lead reveal" style="--d:2">从编辑器界面到 C++ 源码，把一局第三人称小游戏讲透。</p>
           <div class="chips reveal" style="--d:3">
-            <span class="chip cyan">90 分钟</span>
+            <span class="chip cyan">编辑器基础</span>
             <span class="chip">大课演示</span>
             <span class="chip">零 C++ 基础</span>
-            <span class="chip violet">AI Native 现场开发</span>
+            <span class="chip violet">课件后 · AI 现场演示</span>
           </div>
         </div>
         <div class="hero-visual reveal" style="--d:2" aria-hidden="true">
@@ -61,69 +61,28 @@
           <div class="orb"><i></i></div>
         </div>
       </div>
-      <aside class="notes">开场别讲历史。直接说：90 分钟后，你们会看到一局能跑、能打、能赢的游戏，以及它对应的源码。</aside>
+      <aside class="notes">开场别讲历史。直接说：这节课只讲编辑器、理论和代码结构；课件讲完，再现场用 AI 把游戏做出来。</aside>
     </section>
 
-    <section class="slide" data-section="路线" data-title="90 分钟路线">
+    <section class="slide" data-section="路线" data-title="今天的路线">
       <div class="slide-inner">
         <div class="kicker reveal">今天的路线</div>
-        <h2 class="reveal" style="--d:1">90 分钟，把一局游戏从界面带到源码</h2>
-        <p class="lead reveal" style="--d:2">前 40 分钟打基础，中间 20 分钟讲框架和读法，最后 30 分钟现场生成、读码收口。</p>
+        <h2 class="reveal" style="--d:1">一条线，把界面、循环和源码读完</h2>
+        <p class="lead reveal" style="--d:2">顺序不跳步：先能在编辑器里看懂，再补坐标与循环，然后从面向对象进 C++ 语法，最后落到 UEC++ 和 Gameplay 框架。开发演示放在课件之后。</p>
         <div class="timeline reveal" style="--d:3">
-          <div class="tl-item"><span class="t">06–24</span><b>界面 + 坐标系</b><small>先能在编辑器里找到东西</small></div>
-          <div class="tl-item"><span class="t">24–40</span><b>射线 + Tick</b><small>打中什么，什么时候跑</small></div>
-          <div class="tl-item"><span class="t">40–52</span><b>Gameplay 框架</b><small>四层职责，细讲生成顺序</small></div>
-          <div class="tl-item"><span class="t">52–60</span><b>蓝图与 C++</b><small>同一个类的两种写法</small></div>
-          <div class="tl-item"><span class="t">60–84</span><b>AI Native</b><small>四个任务，现场生成</small></div>
-          <div class="tl-item"><span class="t">84–90</span><b>读码 + 收尾</b><small>把生成的代码对上号</small></div>
+          <div class="tl-item"><span class="t">01</span><b>开场</b><small>今天讲什么，读完能做什么</small></div>
+          <div class="tl-item"><span class="t">02</span><b>界面 + 坐标系</b><small>先能在编辑器里找到东西</small></div>
+          <div class="tl-item"><span class="t">03</span><b>射线 + 游戏循环</b><small>打中什么，一帧怎么跑</small></div>
+          <div class="tl-item"><span class="t">04</span><b>面向对象 + C++ 语法</b><small>类、指针、四个入口</small></div>
+          <div class="tl-item"><span class="t">05</span><b>UEC++</b><small>标记、UENUM、委托、接口</small></div>
+          <div class="tl-item"><span class="t">06</span><b>Gameplay 框架</b><small>四层职责，细讲生成顺序</small></div>
+          <div class="tl-item"><span class="t">07</span><b>读源码 + 收尾</b><small>追一条链路，带走五件事</small></div>
+        </div>
+        <div class="card tight reveal" style="--d:4;margin-top:22px;border-color:rgba(167,139,250,.32)">
+          <p class="small" style="margin:0"><b style="color:#c4b5fd">课件之后：</b>现场演示用 AI 在 UE 里做游戏，单独一场，不占课件时间。</p>
         </div>
       </div>
-      <aside class="notes">把节奏说清楚：前 40 分钟打基础，后 30 分钟现场生成。每个时间段只做一件事，别拖。</aside>
-    </section>
-
-    <section class="slide" data-section="目标" data-title="最终形态：清场">
-      <div class="slide-inner">
-        <div class="kicker reveal">最终形态</div>
-        <h2 class="reveal" style="--d:1">一局完整的《清场》</h2>
-        <div class="two reveal" style="--d:2">
-          <div class="arena" aria-hidden="true">
-            <div class="floor"></div>
-            <div class="crate" style="left:18%;top:26%"></div>
-            <div class="crate" style="left:68%;top:58%"></div>
-            <div class="crate" style="left:44%;top:70%"></div>
-            <div class="enemy" style="left:24%;top:38%"></div>
-            <div class="enemy" style="left:72%;top:28%"></div>
-            <div class="enemy" style="left:61%;top:64%"></div>
-            <div class="enemy" style="left:33%;top:62%"></div>
-            <div class="enemy" style="left:80%;top:48%"></div>
-            <div class="player" style="left:48%;top:46%"></div>
-            <div class="crosshair"></div>
-            <div class="hud-mock">
-              <div class="hp"><i></i></div>
-              <div class="count">剩余 5</div>
-            </div>
-          </div>
-          <div class="stack">
-            <div class="card">
-              <span class="num">核心循环</span>
-              <ul class="list">
-                <li>移动、跳跃、瞄准</li>
-                <li>准星点射，小怪两枪倒</li>
-                <li>被小怪追着打，血量下降</li>
-                <li>清完 5 个胜利，血量归零失败</li>
-                <li>按 R 重开</li>
-              </ul>
-            </div>
-            <div class="grid g4">
-              <div class="stat">5<small>小怪</small></div>
-              <div class="stat">100<small>玩家血量</small></div>
-              <div class="stat">25<small>单发伤害</small></div>
-              <div class="stat">2<small>枪一个</small></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <aside class="notes">先把目标亮出来。后面每个知识点都服务于这一局：坐标、射线、Tick、血量和胜负。</aside>
+      <aside class="notes">把节奏说清楚：课件只讲基础和理论，不现场生成；演示放在课件之后。每个时间段只做一件事，别拖。</aside>
     </section>
 
     <section class="slide" data-section="界面" data-title="编辑器全景：先认六个区域">
@@ -519,6 +478,51 @@
       <aside class="notes">只讲 Visibility 和 Camera。自定义通道留给下一节课。</aside>
     </section>
 
+    <section class="slide" data-section="必备知识" data-title="一帧：引擎从头到尾做了什么">
+      <div class="slide-inner">
+        <div class="kicker reveal">游戏循环</div>
+        <h2 class="reveal" style="--d:1">一帧里，引擎从头到尾做了什么</h2>
+        <p class="lead reveal" style="--d:2">60 fps 就是每 16.7 毫秒跑一轮：收输入、跑逻辑、算物理、提交渲染，然后进入下一帧。</p>
+        <div class="life five reveal" style="--d:3;margin-top:30px">
+          <div class="life-node"><b>输入</b><small>键鼠、手柄：这一帧按了什么</small></div>
+          <div class="life-node"><b>游戏逻辑</b><small>蓝图、C++、Tick、AI、计时器</small></div>
+          <div class="life-node"><b>物理 / 动画</b><small>移动、碰撞、骨骼与蒙皮</small></div>
+          <div class="life-node"><b>渲染</b><small>把画面提交给渲染线程</small></div>
+          <div class="life-node"><b>显示</b><small>交换缓冲，进入下一帧</small></div>
+        </div>
+        <div class="grid g3 reveal" style="--d:4;margin-top:26px">
+          <div class="card tight"><h3>游戏线程</h3><p class="small muted" style="margin:0">蓝图、C++、Tick 都在这里排队跑。这里卡住，整帧就卡住。</p></div>
+          <div class="card tight"><h3>渲染线程</h3><p class="small muted" style="margin:0">拿到场景数据后去画，不和 Tick 同步跑；不要在这里改游戏逻辑。</p></div>
+          <div class="card tight" style="border-color:rgba(34,211,238,.35)"><h3>帧预算</h3><p class="small muted" style="margin:0">60 fps 只有 16.7 ms；逻辑、物理、渲染都在这笔预算里分时间。</p></div>
+        </div>
+      </div>
+      <aside class="notes">先问：一帧里最先发生什么？从输入讲到显示，强调游戏线程和渲染线程是两条线。不展开多线程细节，只要知道 Tick 阻塞会拖整帧。</aside>
+    </section>
+
+    <section class="slide" data-section="必备知识" data-title="帧率与帧预算：为什么会卡">
+      <div class="slide-inner">
+        <div class="kicker reveal">游戏循环</div>
+        <h2 class="reveal" style="--d:1">60 fps 不是感觉，是 16.7 毫秒的预算</h2>
+        <p class="lead reveal" style="--d:2">帧率越高，每帧时间越短。逻辑、物理、渲染都在抢这段时间。</p>
+        <div class="grid g3 reveal" style="--d:3;margin-top:14px">
+          <div class="card tight"><div class="stat">16.7<small>ms · 60 fps</small></div></div>
+          <div class="card tight"><div class="stat">33.3<small>ms · 30 fps</small></div></div>
+          <div class="card tight"><div class="stat">8.3<small>ms · 120 fps</small></div></div>
+        </div>
+        <div class="reveal" style="--d:4;margin-top:20px">
+          <div class="row" style="gap:14px;margin-bottom:8px"><span class="tiny" style="color:#67e8f9">60 fps</span><span class="muted small">16.7 ms 内做完所有事</span></div>
+          <div class="dt-track" style="background-image:linear-gradient(90deg,rgba(34,211,238,.65) 0 62%,rgba(251,113,133,.65) 62% 78%,transparent 78% 100%);background-size:100% 100%"></div>
+          <div class="row" style="justify-content:space-between;margin-top:8px"><span class="tiny muted">逻辑 + 物理</span><span class="tiny" style="color:#fda4af">渲染</span><span class="tiny muted">空闲</span></div>
+        </div>
+        <div class="grid g3 reveal" style="--d:5;margin-top:18px">
+          <div class="card tight"><h3>掉帧</h3><p class="small muted" style="margin:0">这一帧超预算，画面晚一点出来；操作手感变钝。</p></div>
+          <div class="card tight"><h3>卡顿（Hitch）</h3><p class="small muted" style="margin:0">加载资源、GC、一次性大计算，突然占用几十毫秒。</p></div>
+          <div class="card tight"><h3>先看谁慢</h3><p class="small muted" style="margin:0">控制台输入 <code>stat unit</code>，看 Game / Draw / GPU 谁最高。</p></div>
+        </div>
+      </div>
+      <aside class="notes">用 stat unit 现场看三个数：Game、Draw、GPU。谁接近 16.7 ms，谁就是瓶颈。别一上来就说优化画质。</aside>
+    </section>
+
     <section class="slide" data-section="必备知识" data-title="Tick：每帧都跑，还是发生了才跑">
       <div class="slide-inner">
         <div class="kicker reveal">游戏循环</div>
@@ -562,6 +566,422 @@
         </div>
       </div>
       <aside class="notes">现场把帧率限制到 30，跑同一段路，对比一下。这个演示比公式直观。</aside>
+    </section>
+
+    <section class="slide" data-section="面向对象" data-title="类与对象：图纸和房子">
+      <div class="slide-inner">
+        <div class="kicker reveal">面向对象</div>
+        <h2 class="reveal" style="--d:1">类与对象：图纸和房子</h2>
+        <p class="lead reveal" style="--d:2">类是图纸，对象是按图纸建出来的那一个。改图纸会影响以后建的房子，已经建好的不会自动变。</p>
+        <div class="grid g3 reveal" style="--d:3">
+          <div class="card"><span class="num">类 · Class</span><h3>图纸</h3><p class="small muted" style="margin:0">描述“这种对象有什么”：数据（血量、速度）和行为（受伤、开火）。</p></div>
+          <div class="card"><span class="num">对象 · Object</span><h3>房子</h3><p class="small muted" style="margin:0">按图纸创建出来的实例，各自有自己的数据；改一个不影响另一个。</p></div>
+          <div class="card"><span class="num">在 UE 里</span><h3>类 vs 关卡实例</h3><p class="small muted" style="margin:0">内容浏览器里的蓝图或 C++ 类是图纸；大纲里的 Actor 是对象。</p></div>
+        </div>
+        <div class="grid g2 reveal" style="--d:4;margin-top:18px;align-items:start">
+          <div class="card"><span class="num">一个最小的类</span>
+            <pre class="code"><span class="kw">class</span> Enemy
+{
+<span class="kw">public</span>:
+    <span class="kw">float</span> Health = 100.f;              <span class="cm">// 数据</span>
+    <span class="kw">void</span> TakeDamage(<span class="kw">float</span> Amount);  <span class="cm">// 行为</span>
+};</pre>
+          </div>
+          <div class="card"><span class="num">创建两个对象</span>
+            <pre class="code">Enemy A;
+Enemy B;
+
+A.Health = 50.f;  <span class="cm">// 只改 A</span>
+<span class="cm">// B.Health 还是 100</span></pre>
+          </div>
+        </div>
+        <p class="small muted reveal" style="--d:5;margin-top:16px">记住两句：类定义“是什么”，对象装“这一份数据”；关卡里拖的是对象，改类会影响这一类。</p>
+      </div>
+      <aside class="notes">用“图纸/房子”讲类与对象。强调改类影响所有实例，改关卡里的对象只影响那一个。这里先不出现 UCLASS。</aside>
+    </section>
+
+    <section class="slide" data-section="面向对象" data-title="继承与组合：is-a 和 has-a">
+      <div class="slide-inner">
+        <div class="kicker reveal">面向对象</div>
+        <h2 class="reveal" style="--d:1">继承与组合：is-a 和 has-a</h2>
+        <p class="lead reveal" style="--d:2">共同身份往上提，具体能力往下放；不属于“身份”的能力，用组件挂上去。</p>
+        <div class="two reveal" style="--d:3;align-items:start">
+          <div class="card">
+            <span class="num">继承 · is-a</span>
+            <h3>角色是一种 Pawn</h3>
+            <div class="chain-list" style="margin-top:10px">
+              <div class="chain-row"><span class="chain-tag">UE</span><span class="chain-node base">AActor</span><span class="chain-arrow">→</span><span class="chain-node">APawn</span><span class="chain-arrow">→</span><span class="chain-node leaf">ACharacter</span></div>
+            </div>
+            <p class="small muted" style="margin-top:12px">子类自动拥有父类的能力，还能覆写；<code>Character</code> 是一种 <code>Pawn</code>，也是一种 <code>Actor</code>。</p>
+          </div>
+          <div class="card">
+            <span class="num">组合 · has-a</span>
+            <h3>角色身上挂着组件</h3>
+            <div class="flow" style="margin-top:14px">
+              <span class="node c">AEnemy</span><span class="arr">+</span>
+              <span class="node r">UMyComponent</span>
+            </div>
+            <div class="flow" style="margin-top:10px">
+              <span class="node c">AEnemy</span><span class="arr">+</span>
+              <span class="node">Collision</span><span class="arr">+</span>
+              <span class="node">Mesh</span>
+            </div>
+            <p class="small muted" style="margin-top:12px">组件负责一块能力，能复用、能拆；敌人和玩家可以挂同一个组件。</p>
+          </div>
+        </div>
+        <div class="grid g2 reveal" style="--d:4;margin-top:18px">
+          <div class="card tight"><h3>什么时候用继承</h3><p class="small muted" style="margin:0">“它是一种……”：玩家是一种 Character，敌人也是一种 Character。</p></div>
+          <div class="card tight"><h3>什么时候用组合</h3><p class="small muted" style="margin:0">“它有一个……”：有一个血量、一个背包、一个武器；优先组合，别把一切塞进超大类。</p></div>
+        </div>
+      </div>
+      <aside class="notes">先问：敌人和玩家共同点是什么？再问：血量一定要靠继承吗？引出组件。记住 is-a 用继承，has-a 用组合。</aside>
+    </section>
+
+    <section class="slide" data-section="C++ 语法" data-title="蓝图和 C++ 是同一个类的两种写法">
+      <div class="slide-inner">
+        <div class="kicker reveal">蓝图与 C++</div>
+        <h2 class="reveal" style="--d:1">同一个类的两种写法</h2>
+        <div class="two top reveal" style="--d:2">
+          <div class="card">
+            <span class="num">蓝图</span>
+            <h3>节点连线</h3>
+            <div class="flow" style="margin-top:14px">
+              <span class="node c">Event BeginPlay</span><span class="arr">→</span>
+              <span class="node">Print String</span>
+            </div>
+            <p class="small muted" style="margin-top:14px">适合快速搭逻辑、调参数，看得见。</p>
+          </div>
+          <div class="card">
+            <span class="num">C++</span>
+            <h3>类声明</h3>
+            <pre class="code"><span class="kw">UCLASS</span>()
+<span class="kw">class</span> <span class="ty">AClearArenaCharacter</span> : <span class="kw">public</span> ACharacter
+{
+    <span class="ty">GENERATED_BODY</span>()
+
+    <span class="ty">UPROPERTY</span>(EditAnywhere)
+    <span class="kw">float</span> MaxHealth = 100.f;
+
+    <span class="ty">UFUNCTION</span>()
+    <span class="kw">void</span> OnDied();
+};</pre>
+          </div>
+        </div>
+        <div class="grid g3 reveal" style="--d:3;margin-top:18px">
+          <div class="card tight"><h3><span style="color:#c4b5fd">UCLASS</span></h3><p class="small muted" style="margin:0">告诉引擎：这是一个可认识的类。</p></div>
+          <div class="card tight"><h3><span style="color:#c4b5fd">UPROPERTY</span></h3><p class="small muted" style="margin:0">变量进编辑器、参与回收。</p></div>
+          <div class="card tight"><h3><span style="color:#c4b5fd">UFUNCTION</span></h3><p class="small muted" style="margin:0">函数能被蓝图或引擎调用。</p></div>
+        </div>
+        <p class="small muted reveal" style="--d:4;margin-top:14px">前缀：<b>A</b> Actor，<b>U</b> UObject / 组件，<b>F</b> 结构体，<b>E</b> 枚举，<b>I</b> 接口。对象由引擎回收，不用手动 delete。</p>
+      </div>
+      <aside class="notes">并排打开蓝图和对应 C++，指出同一个类名。让学生看到“这两个是一回事”。</aside>
+    </section>
+
+    <section class="slide" data-section="C++ 语法" data-title="一个类，两个文件">
+      <div class="slide-inner">
+        <div class="kicker reveal">C++ 语法</div>
+        <h2 class="reveal" style="--d:1">一个类，两个文件：.h 说有什么，.cpp 说怎么做</h2>
+        <div class="grid g2 reveal" style="--d:2;align-items:start">
+          <div class="card">
+            <span class="num">ClearArenaCharacter.h · 声明</span>
+            <pre class="code"><span class="kw">UCLASS</span>()
+<span class="kw">class</span> <span class="ty">CLEARARENA_API AClearArenaCharacter</span> : <span class="kw">public</span> ACharacter
+{
+    <span class="ty">GENERATED_BODY</span>()
+
+<span class="kw">public</span>:
+    AClearArenaCharacter();
+
+<span class="kw">protected</span>:
+    <span class="kw">virtual void</span> BeginPlay() <span class="kw">override</span>;
+
+    <span class="ty">UPROPERTY</span>(EditAnywhere, Category = <span class="cm">"Health"</span>)
+    <span class="kw">float</span> MaxHealth = 100.f;
+};</pre>
+          </div>
+          <div class="card">
+            <span class="num">ClearArenaCharacter.cpp · 实现</span>
+            <pre class="code"><span class="cm">#include "ClearArenaCharacter.h"</span>
+
+AClearArenaCharacter::AClearArenaCharacter()
+{
+    PrimaryActorTick.bCanEverTick = <span class="kw">true</span>;
+}
+
+<span class="kw">void</span> AClearArenaCharacter::BeginPlay()
+{
+    Super::BeginPlay();
+    <span class="ty">UE_LOG</span>(LogTemp, Log,
+        <span class="ty">TEXT</span>(<span class="cm">"MaxHealth = %f"</span>), MaxHealth);
+}</pre>
+          </div>
+        </div>
+        <div class="grid g3 reveal" style="--d:3;margin-top:18px">
+          <div class="card tight"><h3>GENERATED_BODY()</h3><p class="small muted" style="margin:0">必须放在类体最前面，展开成引擎需要的反射代码。</p></div>
+          <div class="card tight"><h3>CLEARARENA_API</h3><p class="small muted" style="margin:0">模块导出宏，让别的模块能链接这个类；新建类时自动带上。</p></div>
+          <div class="card tight"><h3>Super::BeginPlay()</h3><p class="small muted" style="margin:0">先调父类，再做自己的初始化；漏了父类，很多引擎逻辑不会跑。</p></div>
+        </div>
+        <p class="small muted reveal" style="--d:4;margin-top:14px">改头文件（加变量、改继承）后要重新编译；只改 cpp 里的函数体，可以用 Live Coding 热更。</p>
+      </div>
+      <aside class="notes">先看目录：h 是目录，cpp 是正文。GENERATED_BODY 不是装饰，删了编译就报错。构造和 BeginPlay 的区别后面再展开。</aside>
+    </section>
+
+    <section class="slide" data-section="C++ 语法" data-title="指针、TObjectPtr 与 GC">
+      <div class="slide-inner">
+        <div class="kicker reveal">C++ 语法</div>
+        <h2 class="reveal" style="--d:1">指针是遥控器，GC 决定谁会被收走</h2>
+        <p class="lead reveal" style="--d:2">UObject 由引擎管生命周期。你的成员指针加不加 <code>UPROPERTY</code>，决定了引擎知不知道你还在用它。</p>
+        <div class="grid g2 reveal" style="--d:3;align-items:start">
+          <div class="card">
+            <span class="num">声明 · UE5 推荐写法</span>
+            <pre class="code"><span class="ty">UPROPERTY</span>(VisibleAnywhere, Category = <span class="cm">"Mesh"</span>)
+<span class="ty">TObjectPtr</span>&lt;UStaticMeshComponent&gt; Mesh;</pre>
+            <p class="small muted" style="margin:10px 0 0"><code>TObjectPtr</code> 本质仍是指针；加 <code>UPROPERTY</code> 才算“我持有它”。</p>
+          </div>
+          <div class="card">
+            <span class="num">创建 · 在构造函数里</span>
+            <pre class="code">Mesh = <span class="ty">CreateDefaultSubobject</span>&lt;UStaticMeshComponent&gt;(
+    <span class="ty">TEXT</span>(<span class="cm">"Mesh"</span>));</pre>
+            <p class="small muted" style="margin:10px 0 0">组件跟 Actor 一起创建、一起销毁；不需要手动 <code>delete</code>。</p>
+          </div>
+        </div>
+        <div class="grid g3 reveal" style="--d:4;margin-top:18px">
+          <div class="card tight"><h3>GC 只看引用</h3><p class="small muted" style="margin:0">被 <code>UPROPERTY</code> 引用着的 UObject 不会被回收；没人引用的会被收走。</p></div>
+          <div class="card tight"><h3>不要 delete</h3><p class="small muted" style="margin:0">UObject 用 <code>NewObject</code> / <code>CreateDefaultSubobject</code> 创建，不配对 <code>delete</code>。</p></div>
+          <div class="card tight"><h3>裸指针会悬空</h3><p class="small muted" style="margin:0">成员指针一定加 <code>UPROPERTY</code>；临时指针只在本次调用里用。</p></div>
+        </div>
+        <div class="card tight reveal" style="--d:5;margin-top:16px;border-color:rgba(251,191,36,.32)">
+          <p class="small" style="margin:0"><b>一句话：</b>普通 C++ 的 <code>new</code> 和 UE 的 <code>NewObject</code> 不是一回事；UE 的对象，交给 UE 管。</p>
+        </div>
+      </div>
+      <aside class="notes">用遥控器比喻：指针是遥控器，不是电视。GC 只看你还拿不拿着遥控器——UPROPERTY 就是那只手。</aside>
+    </section>
+
+    <section class="slide" data-section="C++ 语法" data-title="构造函数 / BeginPlay / Tick / EndPlay">
+      <div class="slide-inner">
+        <div class="kicker reveal">C++ 语法</div>
+        <h2 class="reveal" style="--d:1">代码什么时候跑：四个入口</h2>
+        <p class="lead reveal" style="--d:2">同一个类，函数写在不同位置，跑的时间完全不同。先认入口，再读实现。</p>
+        <div class="life reveal" style="--d:3;margin-top:30px">
+          <div class="life-node"><b>构造函数</b><small>创建对象时；定默认值、建组件</small></div>
+          <div class="life-node"><b>BeginPlay</b><small>进入游戏时一次；绑定、查找、初始化</small></div>
+          <div class="life-node"><b>Tick</b><small>每帧；只放持续变化，记得乘 DeltaTime</small></div>
+          <div class="life-node"><b>EndPlay</b><small>离开或销毁时一次；解绑、清理</small></div>
+        </div>
+        <div class="grid g2 reveal" style="--d:4;margin-top:26px">
+          <div class="card tight"><h3>构造里不要找别人</h3><p class="small muted" style="margin:0">这时 World 还不一定完整，别的 Actor 也可能没生成。构造只做自己的默认值和组件。</p></div>
+          <div class="card tight"><h3>BeginPlay 才适合绑定</h3><p class="small muted" style="margin:0">拿 World、找玩家、绑委托，放这里最稳；记得先调 <code>Super::BeginPlay()</code>。</p></div>
+          <div class="card tight"><h3>Tick 要能关就关</h3><p class="small muted" style="margin:0"><code>PrimaryActorTick.bCanEverTick</code> 打开才跑；不需要每帧的逻辑，用事件或计时器。</p></div>
+          <div class="card tight"><h3>EndPlay 做收尾</h3><p class="small muted" style="margin:0">委托不解绑，对象走了还可能被回调；计时器、音效、UI 同理。</p></div>
+        </div>
+        <p class="small muted reveal" style="--d:5;margin-top:12px;text-align:center">口诀：构造定默认，<b>BeginPlay</b> 做初始化，<b>Tick</b> 做持续变化，<b>EndPlay</b> 收尾。</p>
+      </div>
+      <aside class="notes">用打印演示四个入口的顺序：构造 → BeginPlay → Tick → EndPlay。强调构造早于 World，别在那里找玩家。</aside>
+    </section>
+
+    <section class="slide" data-section="C++ 语法" data-title="零基础读 C++：只看四个地方">
+      <div class="slide-inner">
+        <div class="kicker reveal">C++ 语法</div>
+        <h2 class="reveal" style="--d:1">零基础读 C++：只看四个地方</h2>
+        <div class="grid g2 reveal" style="--d:2">
+          <div class="card"><span class="num">01 · 类名</span><pre class="code" style="background:transparent;border:0;padding:0">class AClearArenaCharacter : public ACharacter</pre><p class="small muted" style="margin:8px 0 0">它继承谁，大概就知道它是什么。</p></div>
+          <div class="card"><span class="num">02 · 变量</span><pre class="code" style="background:transparent;border:0;padding:0">UPROPERTY(EditAnywhere)
+float MaxHealth = 100.f;</pre><p class="small muted" style="margin:8px 0 0">UPROPERTY 上面的，能在编辑器里看到。</p></div>
+          <div class="card"><span class="num">03 · 函数</span><pre class="code" style="background:transparent;border:0;padding:0">UFUNCTION()
+void OnDied();</pre><p class="small muted" style="margin:8px 0 0">函数名说明它干什么，先不用读实现。</p></div>
+          <div class="card"><span class="num">04 · 时机</span><pre class="code" style="background:transparent;border:0;padding:0">BeginPlay() / Tick() / Fire()</pre><p class="small muted" style="margin:8px 0 0">先找它什么时候跑，再读它做了什么。</p></div>
+        </div>
+        <div class="card reveal" style="--d:3;margin-top:18px">
+          <div class="row" style="justify-content:space-between">
+            <span class="small"><b>头文件</b> = 目录：这个类有什么</span>
+            <span class="small"><b>cpp</b> = 正文：具体怎么做</span>
+            <span class="small"><b>指针</b> = 遥控器：指着一个对象，不是对象本身</span>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">只认四个地方，别逐行讲语法。学生今天的目标是“指认”，不是“默写”。</aside>
+    </section>
+
+    <section class="slide" data-section="UEC++" data-title="类型宏：UCLASS / USTRUCT / UENUM / UINTERFACE">
+      <div class="slide-inner compact">
+        <div class="kicker reveal">C++ 结构</div>
+        <h2 class="reveal" style="--d:1">类型宏：类、结构体、枚举、接口</h2>
+        <p class="lead reveal" style="--d:2">这些宏把普通 C++ 类型交给 Unreal Header Tool，生成反射、序列化和蓝图支持。</p>
+        <table class="decision-table reveal" style="--d:3;margin-top:10px">
+          <thead><tr><th>宏</th><th>用在哪</th><th>关键点</th></tr></thead>
+          <tbody>
+            <tr><td><code>UCLASS()</code></td><td>UObject 派生类</td><td>蓝图能不能用，看 <code>Blueprintable</code></td></tr>
+            <tr><td><code>USTRUCT()</code></td><td>纯数据类型</td><td>值传递；必须有 <code>GENERATED_BODY()</code></td></tr>
+            <tr><td><code>UENUM()</code></td><td>枚举</td><td>蓝图用要 <code>: uint8</code> + <code>BlueprintType</code></td></tr>
+            <tr><td><code>UINTERFACE()</code></td><td>接口</td><td>配一个 <code>I</code> 前缀的实现类</td></tr>
+          </tbody>
+        </table>
+        <div class="grid g3 reveal" style="--d:4;margin-top:14px;align-items:start">
+          <div class="card"><span class="num">UENUM · 给枚举起中文名</span>
+            <pre class="code"><span class="ty">UENUM</span>(BlueprintType)
+<span class="kw">enum class</span> EWeaponState : <span class="kw">uint8</span>
+{
+    Idle   <span class="ty">UMETA</span>(DisplayName = <span class="cm">"待机"</span>),
+    Firing <span class="ty">UMETA</span>(DisplayName = <span class="cm">"开火"</span>)
+};</pre>
+          </div>
+          <div class="card"><span class="num">USTRUCT · 一组数据</span>
+            <pre class="code"><span class="ty">USTRUCT</span>(BlueprintType)
+<span class="kw">struct</span> FDamageInfo
+{
+    <span class="ty">GENERATED_BODY</span>()
+    <span class="ty">UPROPERTY</span>(BlueprintReadOnly)
+    <span class="kw">float</span> Amount = 0.f;
+    <span class="ty">UPROPERTY</span>(BlueprintReadOnly)
+    <span class="ty">TObjectPtr</span>&lt;AActor&gt; Instigator;
+};</pre>
+          </div>
+          <div class="card"><span class="num">UINTERFACE · U 壳，I 实现</span>
+            <p class="small muted" style="margin:0"><code>U</code> 开头的类只是给 Unreal Header Tool 的反射壳；真正的方法写在 <code>I</code> 开头的接口类里。</p>
+            <p class="small muted" style="margin:10px 0 0">实现方多继承这个 <code>I</code> 接口，就能被统一调用；完整写法在“接口”一页展开。</p>
+          </div>
+        </div>
+        <p class="small muted reveal" style="--d:5;margin-top:12px">底线：<code>UENUM</code> 蓝图用必须 <code>: uint8</code>；<code>USTRUCT</code> 没有 GC；<code>UINTERFACE</code> 的 <code>U</code> 只是反射壳，<code>I</code> 才是真正要实现的方法。</p>
+      </div>
+      <aside class="notes">先分清类型宏和成员宏。UENUM 的 uint8 是硬要求；USTRUCT 是值类型，不走 GC；UINTERFACE 一定是 U/I 成对。</aside>
+    </section>
+
+    <section class="slide" data-section="UEC++" data-title="成员宏：UPROPERTY / UFUNCTION / UDELEGATE">
+      <div class="slide-inner compact">
+        <div class="kicker reveal">C++ 结构</div>
+        <h2 class="reveal" style="--d:1">成员宏：变量、函数、事件</h2>
+        <p class="lead reveal" style="--d:2">类型宏管“这是什么”，成员宏管“编辑器、蓝图和引擎能不能看见它”。</p>
+        <table class="decision-table reveal" style="--d:3;margin-top:8px">
+          <thead><tr><th>宏</th><th>作用</th><th>常用写法</th><th>漏了会怎样</th></tr></thead>
+          <tbody>
+            <tr><td><code>UPROPERTY()</code></td><td>变量进反射 / GC / 编辑器</td><td><code>UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Health")</code></td><td>编辑器看不到，指针可能被回收</td></tr>
+            <tr><td><code>UFUNCTION()</code></td><td>函数暴露给蓝图 / 委托</td><td><code>UFUNCTION(BlueprintCallable)</code></td><td>蓝图调不到，AddDynamic 绑不上</td></tr>
+            <tr><td><code>UDELEGATE()</code></td><td>单个回调签名</td><td><code>DECLARE_DYNAMIC_DELEGATE_OneParam(...)</code></td><td>不能进蓝图，动态绑定失败</td></tr>
+            <tr><td><code>DECLARE_DYNAMIC_MULTICAST_DELEGATE...</code></td><td>一对多事件</td><td><code>..._TwoParams(FOnHealthChanged, float, float)</code></td><td>HUD / UI 收不到广播</td></tr>
+          </tbody>
+        </table>
+        <div class="grid g2 reveal" style="--d:4;margin-top:12px;align-items:start">
+          <div class="card"><span class="num">事件声明</span>
+            <pre class="code"><span class="ty">DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams</span>(
+    FOnHealthChanged, <span class="kw">float</span>, Current, <span class="kw">float</span>, Max);
+
+<span class="ty">UPROPERTY</span>(BlueprintAssignable, Category = <span class="cm">"Health"</span>)
+FOnHealthChanged OnHealthChanged;</pre>
+          </div>
+          <div class="card"><span class="num">绑定与广播</span>
+            <pre class="code"><span class="cm">// 绑定：C++ 用 AddDynamic，蓝图用 Assign</span>
+OnHealthChanged.AddDynamic(<span class="kw">this</span>, &amp;UMyHUD::HandleHealth);
+
+<span class="cm">// 广播：谁关心谁收到</span>
+OnHealthChanged.Broadcast(Current, Max);</pre>
+          </div>
+        </div>
+        <div class="grid g3 reveal" style="--d:5;margin-top:10px">
+          <div class="card tight"><h3>编辑器看得到</h3><p class="small muted" style="margin:0"><code>EditAnywhere</code> 可改；<code>VisibleAnywhere</code> 只读；<code>Category</code> 分组。</p></div>
+          <div class="card tight"><h3>蓝图碰得到</h3><p class="small muted" style="margin:0"><code>BlueprintReadWrite</code> / <code>BlueprintCallable</code>；只读用 <code>BlueprintReadOnly</code> / <code>BlueprintPure</code>。</p></div>
+          <div class="card tight"><h3>别忘 AddDynamic</h3><p class="small muted" style="margin:0">动态委托必须用 <code>AddDynamic</code> / <code>RemoveDynamic</code>，普通 <code>Add</code> 绑不上。</p></div>
+        </div>
+      </div>
+      <aside class="notes">这一页只讲三个词：看见、调用、通知。UPROPERTY 管看见，UFUNCTION 管调用，UDELEGATE 管通知。广播后别忘了在 EndPlay 解绑。</aside>
+    </section>
+
+    <section class="slide" data-section="UEC++" data-title="委托：谁关心，谁收到">
+      <div class="slide-inner compact">
+        <div class="kicker reveal">C++ 结构</div>
+        <h2 class="reveal" style="--d:1">委托：把“发生了什么”广播出去</h2>
+        <p class="lead reveal" style="--d:2">发生方只管 Broadcast，关心方自己 Bind；两边不需要互相认识。</p>
+        <div class="grid g3 reveal" style="--d:3">
+          <div class="card tight"><h3>单播 Delegate</h3><p class="small muted" style="margin:0">一个事件绑一个回调，适合“只通知一个人”。</p></div>
+          <div class="card tight"><h3>多播 Multicast</h3><p class="small muted" style="margin:0">一个事件绑多个回调：HUD、音效、成就同时收到。</p></div>
+          <div class="card tight"><h3>动态 Dynamic</h3><p class="small muted" style="margin:0">带 Dynamic 的才能进蓝图；C++ 用 <code>AddDynamic</code> 绑定。</p></div>
+        </div>
+        <div class="grid g2 reveal" style="--d:4;margin-top:16px;align-items:start">
+          <div class="card"><span class="num">声明 + 广播</span>
+            <pre class="code"><span class="ty">DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams</span>(
+    FOnValueChanged, <span class="kw">float</span>, Value, <span class="kw">float</span>, Max);
+
+<span class="ty">UPROPERTY</span>(BlueprintAssignable, Category = <span class="cm">"Value"</span>)
+FOnValueChanged OnValueChanged;
+
+<span class="kw">void</span> UMyActor::SetValue(<span class="kw">float</span> NewValue)
+{
+    Value = <span class="ty">FMath</span>::Clamp(NewValue, 0.f, Max);
+    OnValueChanged.Broadcast(Value, Max);
+}</pre>
+          </div>
+          <div class="card"><span class="num">绑定 + 解绑</span>
+            <pre class="code"><span class="kw">void</span> UMyHUD::BeginPlay()
+{
+    Super::BeginPlay();
+    Target->OnValueChanged.AddDynamic(
+        <span class="kw">this</span>, &amp;UMyHUD::HandleValue);
+}
+
+<span class="kw">void</span> UMyHUD::EndPlay(EEndPlayReason::Type Reason)
+{
+    Target->OnValueChanged.RemoveDynamic(
+        <span class="kw">this</span>, &amp;UMyHUD::HandleValue);
+    Super::EndPlay(Reason);
+}</pre>
+          </div>
+        </div>
+        <p class="small muted reveal" style="--d:5;margin-top:12px">动态委托用 <code>AddDynamic</code> / <code>RemoveDynamic</code>，普通 C++ 委托才用 <code>AddUObject</code>；BeginPlay 绑定，EndPlay 解绑——先绑后广播，广播时没人听，这次的值就丢了。</p>
+      </div>
+      <aside class="notes">用“显示方不需要认识角色”讲委托。现场可以演示一次“先广播、后绑定”，让学生看到值丢了；再讲 EndPlay 解绑。</aside>
+    </section>
+
+    <section class="slide" data-section="UEC++" data-title="接口：没有共同父类，也能统一调用">
+      <div class="slide-inner compact">
+        <div class="kicker reveal">C++ 结构</div>
+        <h2 class="reveal" style="--d:1">接口：会挨打就行，不必是同一个爹</h2>
+        <p class="lead reveal" style="--d:2">玩家、敌人、木箱没有共同父类，但只要实现 IDamageable，就能用同一种方式扣血。</p>
+        <div class="grid g2 reveal" style="--d:3;align-items:start">
+          <div class="stack">
+            <div class="card"><span class="num">声明 · U 是壳，I 是方法</span>
+              <pre class="code"><span class="ty">UINTERFACE</span>(MinimalAPI, Blueprintable)
+<span class="kw">class</span> UDamageable : <span class="kw">public</span> UInterface
+{
+    <span class="ty">GENERATED_BODY</span>()
+};
+<span class="kw">class</span> IDamageable
+{
+    <span class="ty">GENERATED_BODY</span>()
+<span class="kw">public</span>:
+    <span class="ty">UFUNCTION</span>(BlueprintNativeEvent)
+    <span class="kw">void</span> ReceiveDamage(<span class="kw">float</span> Amount);
+};</pre>
+            </div>
+            <div class="card tight"><span class="num">调用 · 走 Execute_</span>
+              <pre class="code" style="margin-top:8px"><span class="kw">if</span> (Actor->Implements&lt;UDamageable&gt;())
+{
+    IDamageable::Execute_ReceiveDamage(Actor, 25.f);
+}</pre>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="card"><span class="num">实现 · 多继承一个 I</span>
+              <pre class="code"><span class="kw">class</span> AEnemy : <span class="kw">public</span> AActor, <span class="kw">public</span> IDamageable
+{
+    <span class="ty">GENERATED_BODY</span>()
+<span class="kw">public</span>:
+    <span class="kw">virtual void</span> ReceiveDamage_Implementation(
+        <span class="kw">float</span> Amount) <span class="kw">override</span>;
+};
+<span class="kw">void</span> AEnemy::ReceiveDamage_Implementation(<span class="kw">float</span> Amount)
+{
+    Health -= Amount;
+}</pre>
+            </div>
+            <div class="card tight"><h3>三种写法</h3>
+              <ul class="list small" style="margin-top:6px">
+                <li><b>BlueprintNativeEvent</b>：C++ 给默认实现，蓝图可覆写；生成 <code>_Implementation</code>。</li>
+                <li><b>BlueprintImplementableEvent</b>：只有声明，实现在蓝图里。</li>
+                <li><b>调用</b>：统一走 <code>Execute_</code>；Cast 要求具体类，接口只要求能力。</li>
+              </ul>
+            </div>
+        </div>
+      </div>
+      <aside class="notes">接口解决“玩家、敌人、箱子都能挨打，但没有共同父类”。重点讲 Execute_ 和 _Implementation，别把它当普通虚函数。</aside>
     </section>
 
     <section class="slide" data-section="框架" data-title="Gameplay 框架：四层职责">
@@ -760,7 +1180,7 @@
             <tr><td>HUD 显示什么</td><td class="dest">HUD / UMG</td><td>只读 GameState，不自己存比分</td></tr>
             <tr><td>按键开火、R 重开</td><td class="dest">PlayerController</td><td>输入映射绑定</td></tr>
             <tr><td>移动、相机、开火、死亡</td><td class="dest">Character</td><td>玩家的身体和行为</td></tr>
-            <tr><td>扣血、受伤、死亡广播</td><td class="dest">HealthComponent</td><td>玩家和小怪共用</td></tr>
+            <tr><td>一块可复用的能力（生命、交互、背包）</td><td class="dest">ActorComponent</td><td>谁需要就挂谁身上</td></tr>
             <tr><td>敌人追人</td><td class="dest">Enemy Character</td><td>本课用 Tick；完整项目放 AIController + 行为树</td></tr>
             <tr><td>跨关卡存档、设置</td><td class="dest">GameInstance / SaveGame</td><td>本课不用，先知道在哪</td></tr>
           </tbody>
@@ -773,7 +1193,7 @@
           </div>
         </div>
       </div>
-      <aside class="notes">现场指工程：GameMode 负责刷怪和胜负，GameState 给 HUD 读数，PlayerController 管输入，Character 管身体，HealthComponent 管血。PlayerState 和 AIController 知道完整项目放哪就行。</aside>
+      <aside class="notes">现场对号：GameMode 定规则，GameState 放这一局大家都能看的读数，PlayerController 管输入，Character 是身体，可复用的能力挂成 ActorComponent。PlayerState 和 AIController 知道完整框架里放哪就行。</aside>
     </section>
 
     <section class="slide" data-section="框架" data-title="从一局开始，到一局结束">
@@ -797,70 +1217,7 @@
       <aside class="notes">生命周期分两段：一局怎么开始（InitGame、PostLogin），对象怎么进场（BeginPlay），进场后怎么跑（Tick/回调），最后怎么收（EndPlay/Logout）。用打印演示一遍最直观。</aside>
     </section>
 
-    <section class="slide" data-section="蓝图与 C++" data-title="蓝图和 C++ 是同一个类的两种写法">
-      <div class="slide-inner">
-        <div class="kicker reveal">蓝图与 C++</div>
-        <h2 class="reveal" style="--d:1">同一个类的两种写法</h2>
-        <div class="two top reveal" style="--d:2">
-          <div class="card">
-            <span class="num">蓝图</span>
-            <h3>节点连线</h3>
-            <div class="flow" style="margin-top:14px">
-              <span class="node c">Event BeginPlay</span><span class="arr">→</span>
-              <span class="node">Print String</span>
-            </div>
-            <p class="small muted" style="margin-top:14px">适合快速搭逻辑、调参数，看得见。</p>
-          </div>
-          <div class="card">
-            <span class="num">C++</span>
-            <h3>类声明</h3>
-            <pre class="code"><span class="kw">UCLASS</span>()
-<span class="kw">class</span> <span class="ty">AClearArenaCharacter</span> : <span class="kw">public</span> ACharacter
-{
-    <span class="ty">GENERATED_BODY</span>()
-
-    <span class="ty">UPROPERTY</span>(EditAnywhere)
-    <span class="kw">float</span> MaxHealth = 100.f;
-
-    <span class="ty">UFUNCTION</span>()
-    <span class="kw">void</span> OnDied();
-};</pre>
-          </div>
-        </div>
-        <div class="grid g3 reveal" style="--d:3;margin-top:18px">
-          <div class="card tight"><h3><span style="color:#c4b5fd">UCLASS</span></h3><p class="small muted" style="margin:0">告诉引擎：这是一个可认识的类。</p></div>
-          <div class="card tight"><h3><span style="color:#c4b5fd">UPROPERTY</span></h3><p class="small muted" style="margin:0">变量进编辑器、参与回收。</p></div>
-          <div class="card tight"><h3><span style="color:#c4b5fd">UFUNCTION</span></h3><p class="small muted" style="margin:0">函数能被蓝图或引擎调用。</p></div>
-        </div>
-        <p class="small muted reveal" style="--d:4;margin-top:14px">前缀：<b>A</b> 是 Actor，<b>U</b> 是 UObject，<b>F</b> 是普通结构体。对象由引擎回收，不用手动 delete。</p>
-      </div>
-      <aside class="notes">并排打开蓝图和对应 C++，指出同一个类名。让学生看到“这两个是一回事”。</aside>
-    </section>
-
-    <section class="slide" data-section="蓝图与 C++" data-title="零基础读 C++：只看四个地方">
-      <div class="slide-inner">
-        <div class="kicker reveal">蓝图与 C++</div>
-        <h2 class="reveal" style="--d:1">零基础读 C++：只看四个地方</h2>
-        <div class="grid g2 reveal" style="--d:2">
-          <div class="card"><span class="num">01 · 类名</span><pre class="code" style="background:transparent;border:0;padding:0">class AClearArenaCharacter : public ACharacter</pre><p class="small muted" style="margin:8px 0 0">它继承谁，大概就知道它是什么。</p></div>
-          <div class="card"><span class="num">02 · 变量</span><pre class="code" style="background:transparent;border:0;padding:0">UPROPERTY(EditAnywhere)
-float MaxHealth = 100.f;</pre><p class="small muted" style="margin:8px 0 0">UPROPERTY 上面的，能在编辑器里看到。</p></div>
-          <div class="card"><span class="num">03 · 函数</span><pre class="code" style="background:transparent;border:0;padding:0">UFUNCTION()
-void OnDied();</pre><p class="small muted" style="margin:8px 0 0">函数名说明它干什么，先不用读实现。</p></div>
-          <div class="card"><span class="num">04 · 时机</span><pre class="code" style="background:transparent;border:0;padding:0">BeginPlay() / Tick() / Fire()</pre><p class="small muted" style="margin:8px 0 0">先找它什么时候跑，再读它做了什么。</p></div>
-        </div>
-        <div class="card reveal" style="--d:3;margin-top:18px">
-          <div class="row" style="justify-content:space-between">
-            <span class="small"><b>头文件</b> = 目录：这个类有什么</span>
-            <span class="small"><b>cpp</b> = 正文：具体怎么做</span>
-            <span class="small"><b>指针</b> = 遥控器：指着一个对象，不是对象本身</span>
-          </div>
-        </div>
-      </div>
-      <aside class="notes">只认四个地方，别逐行讲语法。学生今天的目标是“指认”，不是“默写”。</aside>
-    </section>
-
-    <section class="slide" data-section="蓝图与 C++" data-title="只追一条链路">
+    <section class="slide" data-section="读源码" data-title="只追一条链路">
       <div class="slide-inner">
         <div class="kicker reveal">读源码</div>
         <h2 class="reveal" style="--d:1">只追一条链路，就够读懂这局</h2>
@@ -872,8 +1229,8 @@ void OnDied();</pre><p class="small muted" style="margin:8px 0 0">函数名说�
             <span class="node">Deproject</span><span class="arr">→</span>
             <span class="node">LineTrace</span><span class="arr">→</span>
             <span class="node a">ApplyDamage</span><span class="arr">→</span>
-            <span class="node r">HealthComponent</span><span class="arr">→</span>
-            <span class="node v">OnHealthChanged</span><span class="arr">→</span>
+            <span class="node r">扣血</span><span class="arr">→</span>
+            <span class="node v">OnValueChanged</span><span class="arr">→</span>
             <span class="node v">HUD</span>
           </div>
         </div>
@@ -883,189 +1240,7 @@ void OnDied();</pre><p class="small muted" style="margin:8px 0 0">函数名说�
           <div class="card tight"><h3>表现层</h3><p class="small muted" style="margin:0">委托 → HUD。屏幕怎么变。</p></div>
         </div>
       </div>
-      <aside class="notes">这条链是今天读源码的唯一路线。每生成一个任务，就回到这条链上指出位置。</aside>
-    </section>
-
-    <section class="slide" data-section="AI Native" data-title="AI Native 现场开发流程">
-      <div class="slide-inner">
-        <div class="kicker reveal">AI Native</div>
-        <h2 class="reveal" style="--d:1">不是让 AI 替你想，是让它替你敲</h2>
-        <p class="lead reveal" style="--d:2">一次只做一件事。每一步都能编译、能验收、能回滚。</p>
-        <div class="grid g3 reveal" style="--d:3;margin-top:20px">
-          <div class="card"><span class="num">01</span><h3>说需求</h3><p class="small muted" style="margin:0">目标、文件、约束、验收标准，一次说清。</p></div>
-          <div class="card"><span class="num">02</span><h3>生成</h3><p class="small muted" style="margin:0">让它只改指定文件，不许顺手重构。</p></div>
-          <div class="card"><span class="num">03</span><h3>看 diff</h3><p class="small muted" style="margin:0">改了哪些文件，有没有越界。</p></div>
-          <div class="card"><span class="num">04</span><h3>编译</h3><p class="small muted" style="margin:0">报错原样喂回去，不猜。</p></div>
-          <div class="card"><span class="num">05</span><h3>验收</h3><p class="small muted" style="margin:0">按事先写好的标准试一遍。</p></div>
-          <div class="card"><span class="num">06</span><h3>提交</h3><p class="small muted" style="margin:0">一个任务一个 commit，失败可回滚。</p></div>
-        </div>
-        <div class="card reveal" style="--d:4;margin-top:18px;text-align:center">
-          <p style="margin:0"><b style="color:#67e8f9">AI 写</b> · <b style="color:#c4b5fd">老师审</b> · <b style="color:#6ee7b7">学生指认</b></p>
-        </div>
-      </div>
-      <aside class="notes">先写验收标准，再让 AI 生成；不要反过来。生成时安静等，结果出来再讲。</aside>
-    </section>
-
-    <section class="slide" data-section="AI Native" data-title="生成之后，必须人工看这五处">
-      <div class="slide-inner">
-        <div class="kicker reveal">AI Native</div>
-        <h2 class="reveal" style="--d:1">生成之后，必须人工看这五处</h2>
-        <div class="grid g2 reveal" style="--d:2">
-          <div class="warn">射线有没有 <b>忽略自己</b>，通道是不是 Visibility。</div>
-          <div class="warn">伤害是不是走 <b>ApplyDamage</b>，有没有直接改别人的血。</div>
-          <div class="warn">委托有没有 <b>重复绑定</b>，死亡会不会触发两次。</div>
-          <div class="warn">Tick 里有没有 <b>不必要的开销</b>，能不能改成事件。</div>
-          <div class="warn">有没有 <b>编造的 API</b>。编译不过往往就是它。</div>
-          <div class="warn">有没有 <b>改到别的类</b>。越界的改动一律退回。</div>
-        </div>
-        <div class="card reveal" style="--d:3;margin-top:20px">
-          <p class="small" style="margin:0"><b>看不懂就停。</b>AI 生成的代码，读不懂就不算完成；先让它解释，再决定留不留。</p>
-        </div>
-      </div>
-      <aside class="notes">这五处是今天的审查清单。每生成一个任务，就按这张表过一遍。</aside>
-    </section>
-
-    <section class="slide" data-section="AI Native" data-title="基础工程里有什么">
-      <div class="slide-inner">
-        <div class="kicker reveal">基础工程</div>
-        <h2 class="reveal" style="--d:1">课前已经准备好的，和现场要生成的</h2>
-        <div class="two top reveal" style="--d:2">
-          <div class="card" style="border-color:rgba(52,211,153,.35)">
-            <span class="num" style="color:#6ee7b7">已预置 · 能跑</span>
-            <ul class="list green small">
-              <li>UE 5.8.4 C++ 工程、第三人称模板</li>
-              <li>场地、墙、箱子、5 个刷怪点</li>
-              <li>移动、相机、Enhanced Input</li>
-              <li>Idle / Run / Jump / Fall 状态机</li>
-              <li>HUD 布局：血条、人数、准星、提示</li>
-              <li>七个类的骨架，方法留空</li>
-              <li><code>base</code> 标签，随时可回</li>
-            </ul>
-          </div>
-          <div class="card" style="border-color:rgba(251,191,36,.35)">
-            <span class="num" style="color:#fcd34d">现场生成 · 增量</span>
-            <ul class="list amber small">
-              <li>任务 1：HealthComponent 扣血与委托</li>
-              <li>任务 2：Fire 射线与 ApplyDamage</li>
-              <li>任务 3：Enemy 追击与攻击</li>
-              <li>任务 4：GameMode 胜负 + HUD 绑定</li>
-            </ul>
-            <p class="small muted" style="margin:14px 0 0">基础工程能跑，现场才有东西可增量。</p>
-          </div>
-        </div>
-      </div>
-      <aside class="notes">强调基础工程是能跑的：能移动、能跳、能开火（只打日志）。现场只加逻辑。</aside>
-    </section>
-
-    <section class="slide" data-section="任务" data-title="任务 1 · 血量组件">
-      <div class="slide-inner">
-        <div class="row reveal" style="justify-content:space-between;margin-bottom:14px">
-          <div><div class="kicker" style="margin-bottom:6px">任务 1 / 4</div><h2 style="margin:0">血量组件</h2></div>
-          <span class="chip cyan">6 min</span>
-        </div>
-        <div class="task reveal" style="--d:2">
-          <div class="prompt-wrap">
-            <span class="prompt-tag">提示词</span>
-            <button class="copy" data-target="p1">复制</button>
-            <div class="prompt" id="p1">在 ClearArena 项目里实现 UHealthComponent：
-- MaxHealth 默认 100，CurrentHealth 初始等于 MaxHealth
-- BeginPlay 绑定 Owner 的 OnTakeAnyDamage
-- 受伤后扣 CurrentHealth，广播 OnHealthChanged(Current, Max)
-- 归零广播 OnDied，只触发一次
-- 玩家和小怪共用，不写 UI，不改其他类</div>
-          </div>
-          <div class="stack">
-            <div class="card tight"><span class="num">审查</span><ul class="list small"><li>委托签名对不对</li><li>绑定时机是不是 BeginPlay</li><li>死亡会不会触发两次</li></ul></div>
-            <div class="card tight"><span class="num">验收</span><p class="small" style="margin:0">日志能看到扣血；血量归零只出现一次 Died。</p></div>
-            <div class="row"><span class="chip green">step1-health</span></div>
-          </div>
-        </div>
-      </div>
-      <aside class="notes">提示词投屏，生成时安静等。结果出来先看 diff，再讲委托。</aside>
-    </section>
-
-    <section class="slide" data-section="任务" data-title="任务 2 · 射击与射线">
-      <div class="slide-inner">
-        <div class="row reveal" style="justify-content:space-between;margin-bottom:14px">
-          <div><div class="kicker" style="margin-bottom:6px">任务 2 / 4</div><h2 style="margin:0">射击与射线</h2></div>
-          <span class="chip cyan">6 min</span>
-        </div>
-        <div class="task reveal" style="--d:2">
-          <div class="prompt-wrap">
-            <span class="prompt-tag">提示词</span>
-            <button class="copy" data-target="p2">复制</button>
-            <div class="prompt" id="p2">在 AClearArenaCharacter::Fire 里实现第三人称点射：
-- 取屏幕中心（准星）位置，DeprojectScreenPositionToWorld 得到起点和方向
-- 从相机沿方向 LineTraceByChannel，通道 Visibility，距离 5000
-- AddIgnoredActor(this)，不要打到自己
-- 命中挂 UHealthComponent 的 Actor，调用 ApplyDamage，伤害 25
-- DrawDebugLine 画 1 秒，方便验证
-不要加武器模型，不要改动画</div>
-          </div>
-          <div class="stack">
-            <div class="card tight"><span class="num">审查</span><ul class="list small"><li>通道是不是 Visibility</li><li>有没有忽略自己</li><li>伤害是否走 ApplyDamage</li></ul></div>
-            <div class="card tight"><span class="num">验收</span><p class="small" style="margin:0">准星指哪打哪；小怪两枪倒；不误伤自己。</p></div>
-            <div class="row"><span class="chip green">step2-fire</span></div>
-          </div>
-        </div>
-      </div>
-      <aside class="notes">这一页把坐标系和射线合起来：屏幕坐标 → 世界方向 → 射线。演示时用调试线确认打点。</aside>
-    </section>
-
-    <section class="slide" data-section="任务" data-title="任务 3 · 敌人">
-      <div class="slide-inner">
-        <div class="row reveal" style="justify-content:space-between;margin-bottom:14px">
-          <div><div class="kicker" style="margin-bottom:6px">任务 3 / 4</div><h2 style="margin:0">敌人</h2></div>
-          <span class="chip cyan">6 min</span>
-        </div>
-        <div class="task reveal" style="--d:2">
-          <div class="prompt-wrap">
-            <span class="prompt-tag">提示词</span>
-            <button class="copy" data-target="p3">复制</button>
-            <div class="prompt" id="p3">实现 AClearArenaEnemy：
-- Tick 里朝玩家移动，速度 300，乘 DeltaTime
-- 距离 200 内，每 1.5 秒对玩家 ApplyDamage 10
-- 自己血量归零时通知 GameMode，然后销毁
-- 不用导航、行为树、AIController
-- 玩家为空时站着不动
-不要改玩家类</div>
-          </div>
-          <div class="stack">
-            <div class="card tight"><span class="num">审查</span><ul class="list small"><li>Tick 里有没有重活</li><li>有没有乘 DeltaTime</li><li>攻击冷却是否生效</li></ul></div>
-            <div class="card tight"><span class="num">验收</span><p class="small" style="margin:0">小怪会追、近身会打、被打死会消失。</p></div>
-            <div class="row"><span class="chip green">step3-enemy</span></div>
-          </div>
-        </div>
-      </div>
-      <aside class="notes">AI 常见错误：忘了 DeltaTime、每帧都攻击、死亡触发多次。现场盯这三处。</aside>
-    </section>
-
-    <section class="slide" data-section="任务" data-title="任务 4 · 胜负与 HUD">
-      <div class="slide-inner">
-        <div class="row reveal" style="justify-content:space-between;margin-bottom:14px">
-          <div><div class="kicker" style="margin-bottom:6px">任务 4 / 4</div><h2 style="margin:0">胜负与 HUD</h2></div>
-          <span class="chip cyan">6 min</span>
-        </div>
-        <div class="task reveal" style="--d:2">
-          <div class="prompt-wrap">
-            <span class="prompt-tag">提示词</span>
-            <button class="copy" data-target="p4">复制</button>
-            <div class="prompt" id="p4">实现 AClearArenaGameMode、AClearArenaGameState 和 HUD 绑定：
-- 开局在 5 个 TargetPoint 各生成 1 个 Enemy，记录剩余数
-- 敌人死亡剩余数减 1，减到 0 判胜
-- 玩家 OnDied 判负
-- GameState 存 RemainingEnemies、bGameOver，提供变更委托
-- HUD 绑定血条、剩余数、胜负提示；R 重开
-- 单人，不做网络同步</div>
-          </div>
-          <div class="stack">
-            <div class="card tight"><span class="num">审查</span><ul class="list small"><li>计数会不会重复扣</li><li>胜负会不会触发多次</li><li>HUD 有没有解绑</li></ul></div>
-            <div class="card tight"><span class="num">验收</span><p class="small" style="margin:0">清完 5 个胜利；血量归零失败；R 能重开。</p></div>
-            <div class="row"><span class="chip green">step4-win</span></div>
-          </div>
-        </div>
-      </div>
-      <aside class="notes">最后一个任务把前面三个串起来。生成后直接跑一局，按验收清单过。</aside>
+      <aside class="notes">这条链是今天读源码的唯一路线。每讲到一个概念，就回到这条链上指出它落在哪一段。</aside>
     </section>
 
     <section class="slide" data-section="收尾" data-title="改完代码为什么不生效">
@@ -1090,32 +1265,6 @@ void OnDied();</pre><p class="small muted" style="margin:8px 0 0">函数名说�
       <aside class="notes">故意改 25 到 50，编译，演示一枪一个。让学生看到“改 → 编译 → 结果”的完整链路。</aside>
     </section>
 
-    <section class="slide" data-section="收尾" data-title="现场验收">
-      <div class="slide-inner">
-        <div class="kicker reveal">验收</div>
-        <h2 class="reveal" style="--d:1">一局完整跑通，才算做完</h2>
-        <div class="grid g2 reveal" style="--d:2">
-          <div class="card tight"><div class="check">能跑、能跳，镜头不穿墙</div></div>
-          <div class="card tight"><div class="check">准星命中，小怪两枪倒</div></div>
-          <div class="card tight"><div class="check">被小怪打，血条立刻掉</div></div>
-          <div class="card tight"><div class="check">清完 5 个，显示胜利</div></div>
-          <div class="card tight"><div class="check">血量归零，显示失败</div></div>
-          <div class="card tight"><div class="check">按 R 能重开</div></div>
-        </div>
-        <div class="card reveal" style="--d:3;margin-top:18px">
-          <p class="small muted" style="margin:0 0 8px">卡住就切标签，不硬修：</p>
-          <div class="flow">
-            <span class="node">base</span><span class="arr">→</span>
-            <span class="node g">step1-health</span><span class="arr">→</span>
-            <span class="node g">step2-fire</span><span class="arr">→</span>
-            <span class="node g">step3-enemy</span><span class="arr">→</span>
-            <span class="node g">step4-win</span>
-          </div>
-        </div>
-      </div>
-      <aside class="notes">按清单逐条过。过不了就切标签，课堂时间比现场修 bug 值钱。</aside>
-    </section>
-
     <section class="slide" data-section="收尾" data-title="今天要带走的五件事">
       <div class="slide-inner">
         <div class="kicker reveal">收口</div>
@@ -1124,48 +1273,52 @@ void OnDied();</pre><p class="small muted" style="margin:8px 0 0">函数名说�
           <div class="card tight"><div class="row"><span class="stat" style="font-size:1.1rem;color:#67e8f9">01</span><span><b>左手系</b><span class="muted small"> · X 前、Y 右、Z 上，单位厘米</span></span></div></div>
           <div class="card tight"><div class="row"><span class="stat" style="font-size:1.1rem;color:#67e8f9">02</span><span><b>射线</b><span class="muted small"> · 起点 + 方向，返回命中了谁、在哪、多远</span></span></div></div>
           <div class="card tight"><div class="row"><span class="stat" style="font-size:1.1rem;color:#67e8f9">03</span><span><b>Tick 与事件</b><span class="muted small"> · 持续变化每帧跑，响应发生了才跑，速度乘 DeltaTime</span></span></div></div>
-          <div class="card tight"><div class="row"><span class="stat" style="font-size:1.1rem;color:#67e8f9">04</span><span><b>Gameplay 框架</b><span class="muted small"> · GameMode / GameState / Controller / Character / PlayerState</span></span></div></div>
-          <div class="card tight"><div class="row"><span class="stat" style="font-size:1.1rem;color:#67e8f9">05</span><span><b>AI 生成要审查</b><span class="muted small"> · 看 diff、编译、验收、提交，四步缺一不可</span></span></div></div>
+          <div class="card tight"><div class="row"><span class="stat" style="font-size:1.1rem;color:#67e8f9">04</span><span><b>C++ 的结构</b><span class="muted small"> · .h 声明、.cpp 实现，UCLASS / UPROPERTY / UENUM 让引擎认识它</span></span></div></div>
+          <div class="card tight"><div class="row"><span class="stat" style="font-size:1.1rem;color:#67e8f9">05</span><span><b>Gameplay 框架</b><span class="muted small"> · GameMode / GameState / Controller / Character / PlayerState</span></span></div></div>
         </div>
         <p class="lead reveal" style="--d:3;text-align:center;margin-top:18px">会读，比会写更重要。</p>
       </div>
       <aside class="notes">收口只讲这五条。不要再展开新概念，留时间给提问。</aside>
     </section>
 
-    <section class="slide" data-section="课后" data-title="课后：改三个数，看三次结果">
+    <section class="slide" data-section="演示" data-title="最后环节：现场用 AI 做游戏">
       <div class="slide-inner">
-        <div class="kicker reveal">课后</div>
-        <h2 class="reveal" style="--d:1">改三个数，看三次结果</h2>
-        <div class="grid g3 reveal" style="--d:2">
-          <div class="card"><span class="num">01</span><h3>伤害 25 → 50</h3><p class="small muted" style="margin:0">编译后一枪一个。</p></div>
-          <div class="card"><span class="num">02</span><h3>血量 100 → 200</h3><p class="small muted" style="margin:0">能多挨几下。</p></div>
-          <div class="card"><span class="num">03</span><h3>小怪 5 → 3</h3><p class="small muted" style="margin:0">胜负条件不变。</p></div>
+        <div class="kicker reveal">最后环节 · 课件之后</div>
+        <h2 class="reveal" style="--d:1">课件讲完，现场用 AI 把游戏做出来</h2>
+        <p class="lead reveal" style="--d:2">课件只讲编辑器、游戏循环和代码结构；讲完之后，现场演示从基础工程到一局能玩的小游戏。</p>
+        <div class="grid g4 reveal" style="--d:3;margin-top:22px">
+          <div class="card"><span class="num">01</span><h3>建场景</h3><p class="small muted" style="margin:0">工程、关卡、光照、玩家起点。</p></div>
+          <div class="card"><span class="num">02</span><h3>提需求</h3><p class="small muted" style="margin:0">把移动、射击、敌人、胜负拆成几步。</p></div>
+          <div class="card"><span class="num">03</span><h3>生成 + 编译</h3><p class="small muted" style="margin:0">AI 写代码，现场编译、看报错。</p></div>
+          <div class="card"><span class="num">04</span><h3>试玩验收</h3><p class="small muted" style="margin:0">能跑、能打、能赢，才算过。</p></div>
         </div>
-        <div class="card reveal" style="--d:3;margin-top:20px">
-          <span class="num">阅读顺序</span>
-          <div class="flow">
-            <span class="node c">Character::Fire</span><span class="arr">→</span>
-            <span class="node r">HealthComponent</span><span class="arr">→</span>
-            <span class="node v">GameMode</span><span class="arr">→</span>
-            <span class="node">HUD</span>
+        <div class="card reveal" style="--d:4;margin-top:20px">
+          <div class="flow" style="justify-content:center">
+            <span class="node c">说需求</span><span class="arr">→</span>
+            <span class="node">AI 生成</span><span class="arr">→</span>
+            <span class="node a">编译</span><span class="arr">→</span>
+            <span class="node g">试玩</span><span class="arr">→</span>
+            <span class="node v">看 diff</span><span class="arr">→</span>
+            <span class="node">提交</span>
           </div>
         </div>
+        <p class="small muted reveal" style="--d:5;text-align:center;margin-top:16px">具体组件、提示词和任务拆解不在课件里展开，现场按进度演示。</p>
       </div>
-      <aside class="notes">课后只改三个数，别加功能。改完重新编译，记录变化。</aside>
+      <aside class="notes">这一页只交代“后面还有一场演示”，不展开技术细节，也不留课堂任务。演示时按现场节奏取舍，能跑通一条链路就够。</aside>
     </section>
 
     <section class="slide" data-section="结束" data-title="下一节课见">
       <div class="slide-inner" style="text-align:center;align-items:center">
         <svg class="ue-logo reveal" style="width:72px;height:72px;margin-bottom:18px"><use href="#ue-mark"/></svg>
         <h1 class="reveal" style="--d:1">下一节课见</h1>
-        <p class="lead reveal" style="--d:2;margin:0 auto">把工程跑起来，改三个数。剩下的，交给下一局。</p>
+        <p class="lead reveal" style="--d:2;margin:0 auto">课件到这里。接下来，看 AI 把这一局做出来。</p>
         <div class="chips reveal" style="--d:3;justify-content:center">
           <span class="chip cyan">Q &amp; A</span>
           <span class="chip">UE 5.8.4</span>
-          <span class="chip violet">清场 · 第一课</span>
+          <span class="chip violet">虚幻引擎 · 第一课</span>
         </div>
       </div>
-      <aside class="notes">留 2 分钟提问。没有问题的話，提醒课后任务和工程位置。</aside>
+      <aside class="notes">留 2 分钟提问，然后进入课件之后的现场演示。</aside>
     </section>
 
   </main>
