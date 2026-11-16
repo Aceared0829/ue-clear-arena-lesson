@@ -707,8 +707,7 @@ AClearArenaCharacter::AClearArenaCharacter()
 <span class="kw">void</span> AClearArenaCharacter::BeginPlay()
 {
     Super::BeginPlay();
-    <span class="ty">UE_LOG</span>(LogTemp, Log,
-        <span class="ty">TEXT</span>(<span class="cm">"MaxHealth = %f"</span>), MaxHealth);
+    <span class="ty">UE_LOG</span>(LogTemp, Log, <span class="ty">TEXT</span>(<span class="cm">"MaxHealth = %f"</span>), MaxHealth);
 }</pre>
           </div>
         </div>
@@ -723,7 +722,7 @@ AClearArenaCharacter::AClearArenaCharacter()
     </section>
 
     <section class="slide" data-section="C++ 语法" data-title="指针、TObjectPtr 与 GC">
-      <div class="slide-inner">
+      <div class="slide-inner compact">
         <div class="kicker reveal">C++ 语法</div>
         <h2 class="reveal" style="--d:1">指针是遥控器，GC 决定谁会被收走</h2>
         <p class="lead reveal" style="--d:2">UObject 由引擎管生命周期。你的成员指针加不加 <code>UPROPERTY</code>，决定了引擎知不知道你还在用它。</p>
@@ -736,8 +735,7 @@ AClearArenaCharacter::AClearArenaCharacter()
           </div>
           <div class="card">
             <span class="num">创建 · 在构造函数里</span>
-            <pre class="code">Mesh = <span class="ty">CreateDefaultSubobject</span>&lt;UStaticMeshComponent&gt;(
-    <span class="ty">TEXT</span>(<span class="cm">"Mesh"</span>));</pre>
+            <pre class="code">Mesh = <span class="ty">CreateDefaultSubobject</span>&lt;UStaticMeshComponent&gt;(<span class="ty">TEXT</span>(<span class="cm">"Mesh"</span>));</pre>
             <p class="small muted" style="margin:10px 0 0">组件跟 Actor 一起创建、一起销毁；不需要手动 <code>delete</code>。</p>
           </div>
         </div>
@@ -826,8 +824,10 @@ void OnDied();</pre><p class="small muted" style="margin:8px 0 0">函数名说�
 <span class="kw">struct</span> FDamageInfo
 {
     <span class="ty">GENERATED_BODY</span>()
+
     <span class="ty">UPROPERTY</span>(BlueprintReadOnly)
     <span class="kw">float</span> Amount = 0.f;
+
     <span class="ty">UPROPERTY</span>(BlueprintReadOnly)
     <span class="ty">TObjectPtr</span>&lt;AActor&gt; Instigator;
 };</pre>
