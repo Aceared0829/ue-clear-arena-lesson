@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -31,7 +31,7 @@
       <i>第一节课</i>
     </div>
     <div class="progress"><span id="progressBar"></span></div>
-    <div class="meta"><span id="sectionLabel"></span><span id="counter">01 / 30</span></div>
+    <div class="meta"><span id="sectionLabel"></span><span id="counter">01 / 37</span></div>
   </header>
 
   <main id="slides">
@@ -72,7 +72,7 @@
         <div class="timeline reveal" style="--d:3">
           <div class="tl-item"><span class="t">06–24</span><b>界面 + 坐标系</b><small>先能在编辑器里找到东西</small></div>
           <div class="tl-item"><span class="t">24–40</span><b>射线 + Tick</b><small>打中什么，什么时候跑</small></div>
-          <div class="tl-item"><span class="t">40–52</span><b>Gameplay 框架</b><small>五个类，五个问题</small></div>
+          <div class="tl-item"><span class="t">40–52</span><b>Gameplay 框架</b><small>四层职责，细讲生成顺序</small></div>
           <div class="tl-item"><span class="t">52–60</span><b>蓝图与 C++</b><small>同一个类的两种写法</small></div>
           <div class="tl-item"><span class="t">60–84</span><b>AI Native</b><small>四个任务，现场生成</small></div>
           <div class="tl-item"><span class="t">84–90</span><b>读码 + 收尾</b><small>把生成的代码对上号</small></div>
@@ -126,76 +126,257 @@
       <aside class="notes">先把目标亮出来。后面每个知识点都服务于这一局：坐标、射线、Tick、血量和胜负。</aside>
     </section>
 
-    <section class="slide" data-section="界面" data-title="编辑器先认四块">
+    <section class="slide" data-section="界面" data-title="编辑器全景：先认六个区域">
       <div class="slide-inner">
         <div class="kicker reveal">界面</div>
-        <h2 class="reveal" style="--d:1">编辑器先认四块</h2>
-        <p class="lead reveal" style="--d:2">今天只用到这四个面板，其它的先当不存在。</p>
-        <div class="editor-mock reveal" style="--d:3" aria-hidden="true">
-          <div class="panel viewport"><span>Viewport</span><b>视口</b><em class="badge">看</em></div>
-          <div class="panel outliner"><span>Outliner</span><b>大纲</b><em class="badge">选</em></div>
-          <div class="panel details"><span>Details</span><b>细节</b><em class="badge">改</em></div>
-          <div class="panel content"><span>Content Browser</span><b>内容浏览器</b><em class="badge">找</em></div>
-        </div>
-      </div>
-      <aside class="notes">打开工程，先用大纲点一个箱子，让大家看细节面板的数字跟着变。不要先讲蓝图。</aside>
-    </section>
-
-    <section class="slide" data-section="界面" data-title="点一下，改的是关卡里的对象">
-      <div class="slide-inner">
-        <div class="kicker reveal">界面</div>
-        <h2 class="reveal" style="--d:1">点一下，改的是关卡里的那个对象</h2>
-        <div class="grid g3 reveal" style="--d:2">
-          <div class="card"><span class="num">01</span><h3>大纲里选中</h3><p class="small muted">点名字，视口里出现选中框。</p></div>
-          <div class="card"><span class="num">02</span><h3>视口里拖 Gizmo</h3><p class="small muted">红绿蓝三个箭头，对应三个轴。</p></div>
-          <div class="card"><span class="num">03</span><h3>细节面板改数值</h3><p class="small muted">Location / Rotation / Scale 实时变。</p></div>
-        </div>
-        <div class="card reveal" style="--d:3;margin-top:20px">
-          <div class="row">
-            <span class="chip cyan">Play / PIE</span>
-            <span class="muted small">玩一下，按 Esc 停下，回到编辑状态。</span>
+        <h2 class="reveal" style="--d:1">编辑器全景：先认六个区域</h2>
+        <p class="lead reveal" style="--d:2">菜单栏下命令，视口里看和动，右侧查选中对象，下方找资产。</p>
+        <div class="editor-tour reveal" style="--d:3">
+          <div class="editor-shot">
+            <img src="assets/editor-overview.png" alt="虚幻编辑器界面，标出菜单与工具栏、视口、大纲、细节、内容浏览器和状态栏">
+            <div class="tour-zone z-toolbar" data-n="1" aria-hidden="true"></div>
+            <div class="tour-zone z-viewport" data-n="2" aria-hidden="true"></div>
+            <div class="tour-zone z-outliner" data-n="3" aria-hidden="true"></div>
+            <div class="tour-zone z-details" data-n="4" aria-hidden="true"></div>
+            <div class="tour-zone z-content" data-n="5" aria-hidden="true"></div>
+            <div class="tour-zone z-status" data-n="6" aria-hidden="true"></div>
           </div>
-          <p class="small" style="margin-top:10px">现在改的是<b>关卡里的这个实例</b>；类本身在内容浏览器里。这个区别后面会反复用到。</p>
+          <div class="tour-legend">
+            <div class="tour-item"><b>1</b><span><strong>菜单与工具栏</strong><small>打开、保存、运行</small></span></div>
+            <div class="tour-item"><b>2</b><span><strong>视口</strong><small>看关卡、拖物体</small></span></div>
+            <div class="tour-item"><b>3</b><span><strong>大纲</strong><small>找关卡里的对象</small></span></div>
+            <div class="tour-item"><b>4</b><span><strong>细节</strong><small>改选中对象的属性</small></span></div>
+            <div class="tour-item"><b>5</b><span><strong>内容浏览器</strong><small>找资产、拖进关卡</small></span></div>
+            <div class="tour-item"><b>6</b><span><strong>状态栏</strong><small>看日志、保存状态</small></span></div>
+          </div>
         </div>
       </div>
-      <aside class="notes">强调“实例”和“类”的区别。视口里拖的是位置，不是模型本身。</aside>
+      <aside class="notes">先带大家用眼睛走一圈：上面是命令，中间大块是视口，右边是大纲和细节，下面是内容浏览器。今天只反复用这几块，别展开其它面板。</aside>
     </section>
 
-    <section class="slide" data-section="必备知识" data-title="UE 的坐标系：左手系">
+    <section class="slide" data-section="界面" data-title="选中一个物体，三处同时说话">
       <div class="slide-inner">
-        <div class="kicker reveal">坐标系</div>
-        <h2 class="reveal" style="--d:1">UE 的坐标系：左手系</h2>
-        <div class="two reveal" style="--d:2">
-          <svg class="diagram" viewBox="0 0 560 440" role="img" aria-label="UE 左手坐标系：X 向前、Y 向右、Z 向上">
-            <polygon points="280,250 440,330 280,410 120,330" fill="rgba(59,130,246,.06)" stroke="rgba(148,163,184,.2)" stroke-width="1"/>
-            <path d="M280 250 L280 330 M200 290 L360 370 M360 290 L200 370" stroke="rgba(148,163,184,.12)" stroke-width="1"/>
-            <line x1="280" y1="330" x2="280" y2="76" stroke="#60a5fa" stroke-width="4" marker-end="url(#arr-blue)"/>
-            <line x1="280" y1="330" x2="108" y2="406" stroke="#fb7185" stroke-width="4" marker-end="url(#arr-red)"/>
-            <line x1="280" y1="330" x2="452" y2="406" stroke="#34d399" stroke-width="4" marker-end="url(#arr-green)"/>
-            <rect x="266" y="262" width="28" height="68" rx="14" fill="rgba(34,211,238,.12)" stroke="#22d3ee" stroke-width="2"/>
-            <circle cx="280" cy="262" r="14" fill="rgba(34,211,238,.18)" stroke="#22d3ee" stroke-width="2"/>
-            <circle cx="280" cy="330" r="5" fill="#e2e8f0"/>
-            <text x="292" y="72" fill="#93c5fd" font-size="19" font-weight="600">Z 上</text>
-            <text x="54" y="424" fill="#fda4af" font-size="19" font-weight="600">X 前</text>
-            <text x="464" y="424" fill="#6ee7b7" font-size="19" font-weight="600">Y 右</text>
-            <text x="292" y="368" fill="#94a3b8" font-size="14">原点</text>
-            <text x="300" y="296" fill="#67e8f9" font-size="13">角色</text>
+        <div class="kicker reveal">界面</div>
+        <h2 class="reveal" style="--d:1">选中一个物体，三处同时说话</h2>
+        <p class="lead reveal" style="--d:2">以截图里的 <b style="color:#67e8f9">SM_Cylinder</b> 为例：大纲里点名，视口里框住，细节里列出属性。</p>
+        <div class="sel-grid reveal" style="--d:3">
+          <div class="card sel-card">
+            <div class="sel-head"><span class="num">01</span><h3>大纲：它在名单里</h3></div>
+            <div class="ui-mock outliner-mock">
+              <div class="om-row root">▾ Lvl_ThirdPerson <em>（编辑器）</em></div>
+              <div class="om-row ind1">▾ Playground</div>
+              <div class="om-row ind2 dim">SM_Cube15 <em>StaticMeshActor</em></div>
+              <div class="om-row ind2 dim">SM_Cube16 <em>StaticMeshActor</em></div>
+              <div class="om-row ind2 sel">SM_Cylinder <em>StaticMeshActor</em></div>
+              <div class="om-row ind2 dim">SM_Cylinder2 <em>StaticMeshActor</em></div>
+              <div class="om-row ind2 dim">SM_Cylinder3 <em>StaticMeshActor</em></div>
+              <div class="om-foot">64 个 Actor · 已选 1 个</div>
+            </div>
+          </div>
+          <div class="card sel-card">
+            <div class="sel-head"><span class="num">02</span><h3>视口：它被框住了</h3></div>
+            <div class="ui-mock viewport-mock">
+              <div class="vm-sky"></div>
+              <div class="vm-grid"></div>
+              <div class="vm-cylinder"></div>
+              <svg class="vm-gizmo" viewBox="0 0 180 130" aria-hidden="true">
+                <line x1="90" y1="68" x2="30" y2="108" stroke="#fb7185" stroke-width="3" marker-end="url(#arr-red)"/>
+                <line x1="90" y1="68" x2="150" y2="108" stroke="#34d399" stroke-width="3" marker-end="url(#arr-green)"/>
+                <line x1="90" y1="68" x2="90" y2="14" stroke="#60a5fa" stroke-width="3" marker-end="url(#arr-blue)"/>
+                <circle cx="90" cy="68" r="6" fill="#0b1220" stroke="#cbd5e1" stroke-width="2"/>
+              </svg>
+              <span class="vm-label">SM_Cylinder</span>
+              <span class="vm-hint">橙色轮廓 = 当前选中</span>
+            </div>
+          </div>
+          <div class="card sel-card">
+            <div class="sel-head"><span class="num">03</span><h3>细节：它是这个实例</h3></div>
+            <div class="ui-mock details-mock">
+              <div class="dm-head">SM_Cylinder <em>（实例）</em></div>
+              <div class="dm-sec">变换</div>
+              <div class="dm-row"><span class="lbl">位置</span><span class="axis r">0.0</span><span class="axis g">-10.0</span><span class="axis b">200.0</span></div>
+              <div class="dm-row"><span class="lbl">旋转</span><span class="axis r">0.0°</span><span class="axis g">0.0°</span><span class="axis b">0.0°</span></div>
+              <div class="dm-row"><span class="lbl">缩放</span><span class="axis r">7.0</span><span class="axis g">7.0</span><span class="axis b">0.1</span></div>
+              <div class="dm-sec">静态网格体</div>
+              <div class="dm-row full"><span class="lbl">网格</span><span class="val">SM_Cylinder</span></div>
+              <div class="dm-row full"><span class="lbl">材质</span><span class="val">MI_ThirdPersonColWay</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card tight reveal" style="--d:4;margin-top:14px">
+          <div class="grid g2" style="gap:16px">
+            <div><span class="chip cyan">关卡实例</span><p class="small" style="margin:8px 0 0">大纲和视口里这个 <b>SM_Cylinder</b> 是摆进关卡的一份拷贝。改它，只影响这一个。</p></div>
+            <div><span class="chip violet">资产</span><p class="small" style="margin:8px 0 0">内容浏览器里的 <b>SM_Cylinder</b> 是模板。改资产，用它的实例都会被影响。</p></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">现场点大纲里的 SM_Cylinder：让大家看视口出现橙色轮廓和 Gizmo，细节面板同时出现位置、旋转、缩放。强调这里是关卡实例，不是内容浏览器里的资产。</aside>
+    </section>
+
+    <section class="slide" data-section="界面" data-title="视口：右键走位，W/E/R 改">
+      <div class="slide-inner">
+        <div class="kicker reveal">界面</div>
+        <h2 class="reveal" style="--d:1">视口：右键走位，W/E/R 改</h2>
+        <p class="lead reveal" style="--d:2">不背快捷键，先记六个动作。每个都在视口里试一遍，再进入坐标。</p>
+        <div class="keys-grid reveal" style="--d:3">
+          <div class="key-card"><kbd>右键拖动</kbd><b>环顾四周</b><small>像转头一样看场景。</small></div>
+          <div class="key-card"><kbd>右键 + WASD</kbd><b>在场景里飞</b><small>W 前、S 后、A 左、D 右。</small></div>
+          <div class="key-card"><kbd>滚轮</kbd><b>前后推拉</b><small>靠近或远离当前物体。</small></div>
+          <div class="key-card"><kbd>F</kbd><b>聚焦选中</b><small>把选中的东西拉到眼前。</small></div>
+          <div class="key-card"><kbd>W / E / R</kbd><b>移动 / 旋转 / 缩放</b><small>Gizmo 在三种模式间切换。</small></div>
+          <div class="key-card"><kbd>Alt + P</kbd><b>开始运行</b><small>进入 Play，实际玩一下。</small></div>
+        </div>
+        <div class="card tight reveal keys-inline" style="--d:4;margin-top:14px">
+          <div class="row" style="gap:24px">
+            <span><kbd>Esc</kbd> 停止运行</span>
+            <span><kbd>Ctrl + S</kbd> 保存</span>
+            <span><kbd>Ctrl + Z</kbd> 撤销</span>
+            <span><kbd>Del</kbd> 删除选中</span>
+          </div>
+          <p class="small muted" style="margin:10px 0 0">Play 时改的是运行中的副本；按 <b style="color:#e2e8f0">Esc</b> 回到编辑，关卡里原来的摆放还在。</p>
+        </div>
+      </div>
+      <aside class="notes">让大家跟着做：右键飞一下、滚轮推一下、F 聚焦选中的圆柱。最后按 Alt+P 跑一次，再按 Esc 回来。这里只建立手感，坐标下一节再讲。</aside>
+    </section>
+
+    <section class="slide" data-section="必备知识" data-title="2D 坐标：屏幕和数学课不一样">
+      <div class="slide-inner">
+        <div class="kicker reveal">坐标系 · 2D</div>
+        <h2 class="reveal" style="--d:1">2D 坐标：屏幕和数学课不一样</h2>
+        <p class="lead reveal" style="--d:2">同样是 X / Y，屏幕的 Y 朝下，数学课的 Y 朝上。做 HUD 先认原点。</p>
+        <div class="two reveal" style="--d:3;align-items:stretch">
+          <div class="card coord-card">
+            <div class="coord-head"><span class="num">屏幕 / UMG</span><h3>原点在左上角</h3></div>
+            <svg class="coord-svg" viewBox="0 0 460 300" role="img" aria-label="屏幕坐标：X 向右，Y 向下，原点在左上角">
+              <defs>
+                <pattern id="screenGrid" width="35" height="35" patternUnits="userSpaceOnUse">
+                  <path d="M35 0H0V35" fill="none" stroke="rgba(148,163,184,.12)" stroke-width="1"/>
+                </pattern>
+              </defs>
+              <rect x="20" y="20" width="420" height="250" rx="10" fill="rgba(59,130,246,.04)" stroke="rgba(148,163,184,.18)"/>
+              <rect x="20" y="20" width="420" height="250" rx="10" fill="url(#screenGrid)"/>
+              <line x1="45" y1="45" x2="425" y2="45" stroke="#fb7185" stroke-width="3" marker-end="url(#arr-red)"/>
+              <line x1="45" y1="45" x2="45" y2="265" stroke="#34d399" stroke-width="3" marker-end="url(#arr-green)"/>
+              <circle cx="45" cy="45" r="5" fill="#e2e8f0"/>
+              <text x="405" y="34" text-anchor="end" fill="#fda4af" font-size="15" font-weight="600">X → 右</text>
+              <text x="58" y="248" fill="#6ee7b7" font-size="15" font-weight="600">Y ↓ 下</text>
+              <text x="58" y="64" fill="#94a3b8" font-size="12">原点 (0, 0)</text>
+              <text x="405" y="256" text-anchor="end" fill="#94a3b8" font-size="12">单位：像素</text>
+              <rect x="250" y="120" width="120" height="48" rx="7" fill="rgba(34,211,238,.08)" stroke="#22d3ee" stroke-width="1.5"/>
+              <text x="310" y="150" text-anchor="middle" fill="#cbd5e1" font-size="14">按钮</text>
+              <circle cx="310" cy="95" r="6" fill="#fbbf24"/>
+              <text x="322" y="100" fill="#fcd34d" font-size="13">(600, 320)</text>
+            </svg>
+          </div>
+          <div class="card coord-card">
+            <div class="coord-head"><span class="num">数学课 / 平面直角</span><h3>原点可放在任意处</h3></div>
+            <svg class="coord-svg" viewBox="0 0 460 300" role="img" aria-label="数学平面坐标：X 向右，Y 向上">
+              <defs>
+                <pattern id="mathGrid" width="35" height="35" patternUnits="userSpaceOnUse">
+                  <path d="M35 0H0V35" fill="none" stroke="rgba(148,163,184,.12)" stroke-width="1"/>
+                </pattern>
+              </defs>
+              <rect x="20" y="20" width="420" height="250" rx="10" fill="rgba(59,130,246,.04)" stroke="rgba(148,163,184,.18)"/>
+              <rect x="20" y="20" width="420" height="250" rx="10" fill="url(#mathGrid)"/>
+              <line x1="45" y1="255" x2="425" y2="255" stroke="#fb7185" stroke-width="3" marker-end="url(#arr-red)"/>
+              <line x1="45" y1="255" x2="45" y2="40" stroke="#34d399" stroke-width="3" marker-end="url(#arr-green)"/>
+              <circle cx="45" cy="255" r="5" fill="#e2e8f0"/>
+              <text x="405" y="244" text-anchor="end" fill="#fda4af" font-size="15" font-weight="600">X → 右</text>
+              <text x="58" y="58" fill="#6ee7b7" font-size="15" font-weight="600">Y ↑ 上</text>
+              <text x="58" y="274" fill="#94a3b8" font-size="12">原点 (0, 0)</text>
+              <text x="405" y="274" text-anchor="end" fill="#94a3b8" font-size="12">单位：任意</text>
+              <line x1="310" y1="90" x2="310" y2="255" stroke="rgba(251,191,36,.3)" stroke-width="1" stroke-dasharray="4 4"/>
+              <line x1="45" y1="90" x2="310" y2="90" stroke="rgba(251,191,36,.3)" stroke-width="1" stroke-dasharray="4 4"/>
+              <circle cx="310" cy="90" r="6" fill="#fbbf24"/>
+              <text x="322" y="86" fill="#fcd34d" font-size="13">(3, 4)</text>
+            </svg>
+          </div>
+        </div>
+        <div class="card tight reveal" style="--d:4;margin-top:14px">
+          <p class="small" style="margin:0"><b>记住一句：</b>屏幕坐标的 Y 朝下，数学坐标的 Y 朝上；同一个“向上”，数字可能是变小而不是变大。</p>
+        </div>
+      </div>
+      <aside class="notes">先问一句：屏幕左上角是 (0,0)，往下走 Y 变大还是变小？答案是变大。再对比数学课。做 HUD 时这个差异会经常坑人。</aside>
+    </section>
+
+    <section class="slide" data-section="必备知识" data-title="从 2D 到 3D：多出来的是高度">
+      <div class="slide-inner">
+        <div class="kicker reveal">坐标系 · 2D → 3D</div>
+        <h2 class="reveal" style="--d:1">从 2D 到 3D：多出来的是高度</h2>
+        <p class="lead reveal" style="--d:2">2D 只有长和宽；把同一个平面抬高，就多出高度。UE 把这个方向交给 Z。</p>
+        <div class="two reveal" style="--d:3;align-items:center">
+          <svg class="diagram coord-scene" viewBox="0 0 520 400" role="img" aria-label="2D 平面沿垂直方向抬高，形成有高度的 3D 空间">
+            <polygon points="30,300 200,384 370,300 200,216" fill="rgba(59,130,246,.10)" stroke="rgba(148,163,184,.28)" stroke-width="1.5"/>
+            <path d="M115,258 L285,342 M285,258 L115,342" stroke="rgba(148,163,184,.14)" stroke-width="1"/>
+            <polygon points="30,300 200,384 200,274 30,190" fill="rgba(34,211,238,.045)" stroke="none"/>
+            <polygon points="200,384 370,300 370,190 200,274" fill="rgba(59,130,246,.06)" stroke="none"/>
+            <polygon points="30,190 200,106 370,190 200,274" fill="rgba(34,211,238,.07)" stroke="#22d3ee" stroke-width="1.6" stroke-dasharray="6 5"/>
+            <path d="M30 300 V190 M200 384 V274 M370 300 V190 M200 216 V106" stroke="rgba(34,211,238,.38)" stroke-width="1.2" stroke-dasharray="4 4"/>
+            <path d="M378 300 H440 M378 190 H440" stroke="rgba(96,165,250,.4)" stroke-width="1.2" stroke-dasharray="4 4"/>
+            <line x1="440" y1="300" x2="440" y2="190" stroke="#60a5fa" stroke-width="2" marker-end="url(#arr-blue)"/>
+            <text transform="translate(460 246) rotate(90)" text-anchor="middle" fill="#93c5fd" font-size="14" font-weight="600">Z 高度</text>
+            <text x="200" y="398" text-anchor="middle" fill="#94a3b8" font-size="13">2D 平面：只有长和宽</text>
+            <text x="200" y="90" text-anchor="middle" fill="#67e8f9" font-size="13">抬高一层，就是 3D</text>
+          </svg>
+          <div class="stack">
+            <div class="map-row"><span class="tag">2D 屏幕</span><span class="axes"><b class="axis-chip x">X 右</b><b class="axis-chip y">Y 下</b></span><span class="meta">原点左上 · 像素</span></div>
+            <div class="map-row"><span class="tag">2D 数学</span><span class="axes"><b class="axis-chip x">X 右</b><b class="axis-chip y">Y 上</b></span><span class="meta">原点任意 · 任意单位</span></div>
+            <div class="map-row ue"><span class="tag">3D UE</span><span class="axes"><b class="axis-chip x">X 前</b><b class="axis-chip y">Y 右</b><b class="axis-chip z">Z 上</b></span><span class="meta">世界原点 · 厘米</span></div>
+            <p class="small muted" style="margin:2px 4px 0">屏幕的 Y 是像素行号，UE 的 Z 才是高度。两套坐标不能直接相加。</p>
+          </div>
+        </div>
+        <div class="card tight reveal" style="--d:4;margin-top:14px">
+          <p class="small" style="margin:0"><b>别直接套：</b>从 2D 到 3D 不是把屏幕坐标加一轴；世界坐标有自己的朝向和单位。屏幕的 Y 朝下，UE 世界的 Z 才朝上。</p>
+        </div>
+      </div>
+      <aside class="notes">先看 2D 平面，再把高度拉出来。强调屏幕坐标和世界坐标是两套东西：HUD 用屏幕空间，角色移动用世界空间。不要拿 UI 的 Y 去推世界的 Z。</aside>
+    </section>
+
+    <section class="slide" data-section="必备知识" data-title="3D 坐标系：UE 的左手系">
+      <div class="slide-inner">
+        <div class="kicker reveal">坐标系 · 3D</div>
+        <h2 class="reveal" style="--d:1">3D 坐标系：UE 的左手系</h2>
+        <p class="lead reveal" style="--d:2">X 前、Y 右、Z 上。站在角色背后看：X 指向远处，Y 指向右手边，Z 指向头顶。</p>
+        <div class="two reveal" style="--d:3">
+          <svg class="diagram coord-scene" viewBox="0 0 560 440" role="img" aria-label="UE 世界坐标：站在角色背后看，X 向前、Y 向右、Z 向上">
+            <polygon points="118,334 334,233 502,295 286,396" fill="rgba(59,130,246,.08)" stroke="rgba(148,163,184,.26)" stroke-width="1"/>
+            <path d="M160,350 L376,249 M202,365 L418,264 M244,380 L460,279 M172,309 L340,371 M226,284 L394,346 M280,258 L448,320" stroke="rgba(148,163,184,.14)" stroke-width="1"/>
+            <ellipse cx="272" cy="318" rx="26" ry="8" fill="rgba(0,0,0,.35)"/>
+            <line x1="272" y1="315" x2="272" y2="100" stroke="#60a5fa" stroke-width="3.5" marker-end="url(#arr-blue)"/>
+            <rect x="251" y="212" width="42" height="101" rx="21" fill="#0b1420" stroke="#22d3ee" stroke-width="2"/>
+            <circle cx="272" cy="198" r="13" fill="#0b1420" stroke="#22d3ee" stroke-width="2"/>
+            <line x1="272" y1="315" x2="452" y2="231" stroke="#fb7185" stroke-width="3.5" marker-end="url(#arr-red)"/>
+            <line x1="272" y1="315" x2="440" y2="377" stroke="#34d399" stroke-width="3.5" marker-end="url(#arr-green)"/>
+            <text x="286" y="94" fill="#93c5fd" font-size="18" font-weight="600">Z 上</text>
+            <text x="462" y="226" fill="#fda4af" font-size="18" font-weight="600">X 前</text>
+            <text x="450" y="398" fill="#6ee7b7" font-size="18" font-weight="600">Y 右</text>
+            <text x="304" y="248" fill="#67e8f9" font-size="12">角色</text>
+            <g transform="translate(400,40)">
+              <rect x="0" y="0" width="140" height="150" rx="10" fill="rgba(8,14,24,.72)" stroke="rgba(148,163,184,.22)"/>
+              <text x="12" y="21" fill="#64748b" font-size="11">俯视 · 从上往下</text>
+              <line x1="55" y1="128" x2="55" y2="50" stroke="#fb7185" stroke-width="2" marker-end="url(#arr-red)"/>
+              <line x1="55" y1="128" x2="118" y2="128" stroke="#34d399" stroke-width="2" marker-end="url(#arr-green)"/>
+              <circle cx="55" cy="128" r="3.5" fill="#93c5fd"/>
+              <text x="63" y="47" fill="#fda4af" font-size="12" font-weight="600">X 前</text>
+              <text x="98" y="145" fill="#6ee7b7" font-size="12" font-weight="600">Y 右</text>
+              <text x="8" y="146" fill="#93c5fd" font-size="10">Z 朝你</text>
+            </g>
           </svg>
           <div>
             <ul class="list">
-              <li><b style="color:#fda4af">X</b> 朝前：角色面朝的方向</li>
-              <li><b style="color:#6ee7b7">Y</b> 朝右：从角色左手边到右手边</li>
-              <li><b style="color:#93c5fd">Z</b> 朝上：跳跃、高度</li>
+              <li><b class="axis-chip x">X</b> 朝前：角色面朝的方向（UE 红色）</li>
+              <li><b class="axis-chip y">Y</b> 朝右：角色右手边（UE 绿色）</li>
+              <li><b class="axis-chip z">Z</b> 朝上：跳跃、高度（UE 蓝色）</li>
               <li>单位是厘米：角色约 180，地板一格 100</li>
-              <li>和数学课常见的 Y 朝上不同，先把这张图记住</li>
+              <li>左手系：俯视时 X 朝上、Y 朝右、Z 指向你</li>
             </ul>
             <div class="card tight" style="margin-top:18px">
-              <p class="small" style="margin:0"><b>判断方法：</b>看角色脚下的箭头，红色指向哪，哪就是它的前方。</p>
+              <p class="small" style="margin:0"><b>判断方法：</b>看视口左下角的轴指示器，红 X、绿 Y、蓝 Z；它随视角转，但世界方向不变。选中角色时，脚下的红色箭头就是它的前方。</p>
             </div>
           </div>
         </div>
       </div>
-      <aside class="notes">在视口里沿 X 拖一下，强调 X 是朝前，不是屏幕左右。Y 才是左右。</aside>
+      <aside class="notes">先指视口左下角的轴指示器：红绿蓝就是 XYZ。再强调 X 朝前不是屏幕左右，Y 才是右手边。可以转一下视角，让学生看到指示器会跟着转，但世界方向不变。</aside>
     </section>
 
     <section class="slide" data-section="必备知识" data-title="一个物体在场景里的三件事">
@@ -383,72 +564,237 @@
       <aside class="notes">现场把帧率限制到 30，跑同一段路，对比一下。这个演示比公式直观。</aside>
     </section>
 
-    <section class="slide framework" data-section="框架" data-title="Gameplay 框架：五个类，五个问题">
+    <section class="slide" data-section="框架" data-title="Gameplay 框架：四层职责">
       <div class="slide-inner">
         <div class="kicker reveal">Gameplay 框架</div>
-        <h2 class="reveal" style="--d:1">五个类，回答五个问题</h2>
-        <p class="lead reveal" style="--d:2">不背继承树。每个类只记一句话：它负责回答什么。</p>
-        <svg class="diagram reveal" style="--d:3;margin-top:8px" viewBox="0 0 1000 470" role="img" aria-label="Gameplay 框架：GameMode、GameState、PlayerController、Character、PlayerState 的关系">
-          <rect x="350" y="30" width="300" height="100" rx="14" fill="rgba(34,211,238,.07)" stroke="rgba(34,211,238,.55)" stroke-width="1.5"/>
-          <text x="500" y="70" text-anchor="middle" fill="#67e8f9" font-size="21" font-weight="600">GameMode</text>
-          <text x="500" y="100" text-anchor="middle" fill="#94a3b8" font-size="15">这一局怎么玩</text>
-          <rect x="700" y="30" width="260" height="100" rx="14" fill="rgba(167,139,250,.07)" stroke="rgba(167,139,250,.55)" stroke-width="1.5"/>
-          <text x="830" y="70" text-anchor="middle" fill="#c4b5fd" font-size="21" font-weight="600">GameState</text>
-          <text x="830" y="100" text-anchor="middle" fill="#94a3b8" font-size="15">这一局现在怎样</text>
-          <rect x="30" y="300" width="280" height="100" rx="14" fill="rgba(52,211,153,.07)" stroke="rgba(52,211,153,.55)" stroke-width="1.5"/>
-          <text x="170" y="340" text-anchor="middle" fill="#6ee7b7" font-size="21" font-weight="600">PlayerController</text>
-          <text x="170" y="370" text-anchor="middle" fill="#94a3b8" font-size="15">谁在操作</text>
-          <rect x="350" y="300" width="300" height="100" rx="14" fill="rgba(251,191,36,.07)" stroke="rgba(251,191,36,.55)" stroke-width="1.5"/>
-          <text x="500" y="340" text-anchor="middle" fill="#fcd34d" font-size="21" font-weight="600">Character</text>
-          <text x="500" y="370" text-anchor="middle" fill="#94a3b8" font-size="15">被控制的身体</text>
-          <rect x="700" y="300" width="260" height="100" rx="14" fill="rgba(148,163,184,.04)" stroke="rgba(148,163,184,.35)" stroke-width="1.5" stroke-dasharray="7 6"/>
-          <text x="830" y="340" text-anchor="middle" fill="#94a3b8" font-size="21" font-weight="600">PlayerState</text>
-          <text x="830" y="370" text-anchor="middle" fill="#64748b" font-size="15">跨局玩家数据 · 本课不用</text>
-          <line x1="652" y1="80" x2="694" y2="80" stroke="#22d3ee" stroke-width="2" marker-end="url(#arr-cyan)"/>
-          <text x="673" y="66" text-anchor="middle" fill="#67e8f9" font-size="12">写状态</text>
-          <line x1="312" y1="350" x2="344" y2="350" stroke="#34d399" stroke-width="2" marker-end="url(#arr-green)"/>
-          <text x="328" y="336" text-anchor="middle" fill="#6ee7b7" font-size="12">占有</text>
-          <line x1="500" y1="134" x2="500" y2="294" stroke="rgba(34,211,238,.55)" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#arr-cyan)"/>
-          <text x="514" y="220" fill="#67e8f9" font-size="12">生成 / 规则</text>
-          <line x1="652" y1="350" x2="694" y2="350" stroke="#a78bfa" stroke-width="2" marker-end="url(#arr-violet)"/>
-          <text x="673" y="336" text-anchor="middle" fill="#c4b5fd" font-size="12">上报</text>
-        </svg>
+        <h2 class="reveal" style="--d:1">框架不是五个类，是四层职责</h2>
+        <p class="lead reveal" style="--d:2">从跨关卡的管理器，到这一局的规则，再到玩家意图和身体。先认层，再认类。</p>
+        <div class="cast-map reveal" style="--d:3">
+          <div class="cast-layer">
+            <div class="layer-label">引擎 / 全局<small>跨关卡一直在</small></div>
+            <div class="cast-nodes">
+              <div class="cast-node cyan"><b>GameInstance</b><small>跨关卡数据 · 存档 · 在线服务</small></div>
+              <div class="cast-node slate"><b>World</b><small>当前地图 · 所有 Actor 的容器</small></div>
+            </div>
+          </div>
+          <div class="cast-layer">
+            <div class="layer-label">一局 / 规则<small>每张地图一套</small></div>
+            <div class="cast-nodes">
+              <div class="cast-node blue"><b>GameMode</b><small>规则 · 生成 · 胜负</small></div>
+              <div class="cast-node violet"><b>GameState</b><small>比分 · 目标 · 玩家列表</small></div>
+            </div>
+          </div>
+          <div class="cast-layer">
+            <div class="layer-label">玩家 / 意图<small>接输入、看屏幕</small></div>
+            <div class="cast-nodes">
+              <div class="cast-node green"><b>PlayerController</b><small>输入 · HUD · 相机</small></div>
+              <div class="cast-node green"><b>AIController</b><small>AI 意图 · 行为树 / 状态树</small></div>
+              <div class="cast-node amber"><b>PlayerState</b><small>玩家数据 · 跨死亡保留</small></div>
+            </div>
+          </div>
+          <div class="cast-layer">
+            <div class="layer-label">身体 / 能力<small>真正在关卡里动</small></div>
+            <div class="cast-nodes">
+              <div class="cast-node amber"><b>Pawn / Character</b><small>碰撞 · 移动 · 模型</small></div>
+              <div class="cast-node slate"><b>Components</b><small>血量 · 相机 · 弹簧臂 · 网格</small></div>
+            </div>
+          </div>
+        </div>
+        <div class="card tight reveal" style="--d:4;margin-top:12px">
+          <div class="row" style="justify-content:space-between">
+            <p class="small" style="margin:0"><b>本课只动中间两层</b>：GameMode、GameState、PlayerController、Character；GameInstance 和 World 先知道在哪。</p>
+            <a class="src-link" href="https://dev.epicgames.com/documentation/unreal-engine/gameplay-framework-in-unreal-engine?lang=zh-CN" target="_blank" rel="noreferrer">Epic 官方：Gameplay 框架</a>
+          </div>
+        </div>
       </div>
-      <aside class="notes">五个类只记五个问题，不背继承树。指到图上：规则、状态、操作、身体、跨局数据。</aside>
+      <aside class="notes">先把“层”立起来：跨关卡的、这一局的、玩家的、身体的。学生只要知道每个类站在哪一层，后面读源码就不会把 GameMode 和 Character 混在一起。</aside>
     </section>
 
-    <section class="slide" data-section="框架" data-title="这局游戏里，谁是谁">
+    <section class="slide" data-section="框架" data-title="继承树：只认三条线">
       <div class="slide-inner">
         <div class="kicker reveal">框架</div>
-        <h2 class="reveal" style="--d:1">在这局《清场》里，谁是谁</h2>
-        <div class="grid g3 reveal" style="--d:2">
-          <div class="card"><span class="num">GameMode</span><h3>规则</h3><p class="small muted" style="margin:0">开局刷 5 个怪；剩余 0 判胜；玩家死亡判负。</p></div>
-          <div class="card"><span class="num">GameState</span><h3>这一局的状态</h3><p class="small muted" style="margin:0">剩余人数、是否结束；HUD 从这里读。</p></div>
-          <div class="card"><span class="num">PlayerController</span><h3>输入与 HUD</h3><p class="small muted" style="margin:0">按键映射、创建 HUD、R 重开。</p></div>
-          <div class="card"><span class="num">Character</span><h3>玩家身体</h3><p class="small muted" style="margin:0">移动、相机、开火、死亡。</p></div>
-          <div class="card"><span class="num">Enemy</span><h3>小怪</h3><p class="small muted" style="margin:0">直线追、近身攻击、被打死消失。</p></div>
-          <div class="card"><span class="num">HealthComponent</span><h3>血量</h3><p class="small muted" style="margin:0">玩家和小怪共用；扣血、广播、死亡。</p></div>
+        <h2 class="reveal" style="--d:1">继承树只认三条线</h2>
+        <p class="lead reveal" style="--d:2">读源码看到 <b>ACharacter</b>、<b>APlayerController</b>、<b>AGameModeBase</b>，先知道它们从哪来。</p>
+        <div class="chain-list reveal" style="--d:3">
+          <div class="chain-row">
+            <span class="chain-tag">身体</span>
+            <span class="chain-node base">UObject</span><span class="chain-arrow">→</span>
+            <span class="chain-node">Actor</span><span class="chain-arrow">→</span>
+            <span class="chain-node">Pawn</span><span class="chain-arrow">→</span>
+            <span class="chain-node leaf">Character</span>
+          </div>
+          <div class="chain-row">
+            <span class="chain-tag">意图</span>
+            <span class="chain-node base">UObject</span><span class="chain-arrow">→</span>
+            <span class="chain-node">Actor</span><span class="chain-arrow">→</span>
+            <span class="chain-node">Controller</span><span class="chain-arrow">→</span>
+            <span class="chain-split"><span class="chain-node leaf">PlayerController</span><span class="chain-node leaf">AIController</span></span>
+          </div>
+          <div class="chain-row">
+            <span class="chain-tag">规则</span>
+            <span class="chain-node base">UObject</span><span class="chain-arrow">→</span>
+            <span class="chain-node">Actor</span><span class="chain-arrow">→</span>
+            <span class="chain-node">Info</span><span class="chain-arrow">→</span>
+            <span class="chain-split"><span class="chain-node leaf">GameModeBase</span><span class="chain-node leaf">GameStateBase</span><span class="chain-node leaf">PlayerState</span></span>
+          </div>
+          <div class="chain-row">
+            <span class="chain-tag">屏幕</span>
+            <span class="chain-node base">UObject</span><span class="chain-arrow">→</span>
+            <span class="chain-node">Actor</span><span class="chain-arrow">→</span>
+            <span class="chain-node leaf">HUD</span>
+          </div>
         </div>
-        <p class="small muted reveal" style="--d:3;margin-top:16px">PlayerState 这节不用：单人、没有跨局要保留的玩家数据。</p>
+        <div class="grid g3 reveal" style="--d:4;margin-top:14px">
+          <div class="card tight"><h3>Info 不是身体</h3><p class="small muted" style="margin:0">GameMode、GameState、PlayerState 继承 AInfo，负责管理，不参与移动和碰撞。</p></div>
+          <div class="card tight"><h3>Controller 也不是身体</h3><p class="small muted" style="margin:0">它没有模型，负责“谁在操作”；真正在关卡里挨打的是 Pawn。</p></div>
+          <div class="card tight"><h3>HUD 属于本地玩家</h3><p class="small muted" style="margin:0">每个本地玩家一个 HUD，负责把自己的视口画出来。</p></div>
+        </div>
       </div>
-      <aside class="notes">指到工程里：GameMode 是哪个蓝图，Character 是哪个蓝图。让学生把名字和类对上。</aside>
+      <aside class="notes">只认三条线：身体 UObject→Actor→Pawn→Character；意图 Actor→Controller→PlayerController/AIController；规则 Actor→Info→GameMode/GameState/PlayerState。不要背整棵树。</aside>
     </section>
 
-    <section class="slide" data-section="框架" data-title="我的代码什么时候跑">
+    <section class="slide" data-section="框架" data-title="一局游戏，是谁把谁生出来">
       <div class="slide-inner">
-        <div class="kicker reveal">生命周期</div>
-        <h2 class="reveal" style="--d:1">我的代码什么时候跑？</h2>
-        <div class="life reveal" style="--d:2">
-          <div class="life-node"><b>BeginPlay</b><small>进入游戏时跑一次，做初始化。</small></div>
-          <div class="life-node loop"><b>Tick</b><small>每帧跑，适合持续变化。</small></div>
-          <div class="life-node"><b>输入回调</b><small>玩家按键时才跑。</small></div>
-          <div class="life-node"><b>EndPlay</b><small>离开游戏时跑一次，做收尾。</small></div>
+        <div class="kicker reveal">生成顺序</div>
+        <h2 class="reveal" style="--d:1">一局游戏，是谁把谁生出来</h2>
+        <p class="lead reveal" style="--d:2">GameMode 是关卡里第一个 Actor；它创建 GameState、PlayerState，并在玩家加入时安排 Controller 和 Pawn。</p>
+        <div class="spawn-grid reveal" style="--d:3">
+          <div class="spawn-step"><span class="n">01</span><b>GameInstance</b><small>引擎启动就创建，跨关卡不销毁。</small></div>
+          <div class="spawn-step"><span class="n">02</span><b>World + GameMode</b><small>加载地图；GameMode 第一个进场，只在服务器。</small></div>
+          <div class="spawn-step"><span class="n">03</span><b>GameState + PlayerState</b><small>由 GameMode 创建，负责这一局和玩家数据。</small></div>
+          <div class="spawn-step"><span class="n">04</span><b>PlayerController</b><small>玩家加入时创建，代表这个人的操作意图。</small></div>
+          <div class="spawn-step"><span class="n">05</span><b>Pawn / Character</b><small>RestartPlayer 生成身体，Controller 占有它。</small></div>
+          <div class="spawn-step"><span class="n">06</span><b>HUD / Camera</b><small>跟随 PlayerController，给这个玩家看屏幕。</small></div>
         </div>
-        <div class="card reveal" style="--d:3;margin-top:26px">
-          <p style="margin:0;text-align:center;font-size:clamp(1rem,1.5vw,1.2rem)">初始化在 <b style="color:#67e8f9">BeginPlay</b>，持续变化在 <b style="color:#c4b5fd">Tick</b>，响应在 <b style="color:#fcd34d">回调</b>，收尾在 <b style="color:#6ee7b7">EndPlay</b>。</p>
+        <div class="card tight reveal" style="--d:4;margin-top:14px">
+          <div class="grid g3" style="gap:10px">
+            <div class="flow mini-flow"><span class="node c">GameMode</span><span class="arr">创建</span><span class="node v">GameState</span><span class="node a">PlayerState</span></div>
+            <div class="flow mini-flow"><span class="node c">PlayerController</span><span class="arr">占有</span><span class="node a">Pawn</span></div>
+            <div class="flow mini-flow"><span class="node c">PlayerController</span><span class="arr">拥有</span><span class="node g">HUD / Camera</span></div>
+          </div>
+          <p class="small muted" style="margin:10px 0 0">单人游戏也走同一套：你的机器既是服务器也是客户端，GameMode 仍然只在“服务器那一边”。</p>
         </div>
       </div>
-      <aside class="notes">用打印演示：BeginPlay 只出现一次，Tick 一直刷。学生看到日志就懂了。</aside>
+      <aside class="notes">按顺序指一遍：引擎先有 GameInstance；加载地图先有 GameMode；GameMode 搭台创建状态；玩家加入才有 Controller；进场才生成 Pawn；HUD 和相机跟着 Controller。</aside>
+    </section>
+
+    <section class="slide" data-section="框架" data-title="规则、状态、玩家数据，别混">
+      <div class="slide-inner">
+        <div class="kicker reveal">职责划分</div>
+        <h2 class="reveal" style="--d:1">规则、状态、玩家数据，别混</h2>
+        <p class="lead reveal" style="--d:2">这三个类都在“管一局”，但一个管规则，一个管全局状态，一个管某个玩家。</p>
+        <div class="role-grid reveal" style="--d:3">
+          <div class="role-card mode">
+            <div class="role-head"><b>GameMode</b><span>规则书</span><em class="role-tag server">Server Only</em></div>
+            <div class="role-row"><span class="k">负责</span><span class="v">开局、刷怪、胜负、重开</span></div>
+            <div class="role-row"><span class="k">在哪</span><span class="v">只在服务器，客户端没有</span></div>
+            <div class="role-row"><span class="k">复制</span><span class="v">不复制；规则不发给客户端</span></div>
+            <div class="role-row"><span class="k">寿命</span><span class="v">一张地图一局</span></div>
+            <div class="role-row"><span class="k">本局</span><span class="v">清完 5 个怪判胜</span></div>
+          </div>
+          <div class="role-card state">
+            <div class="role-head"><b>GameState</b><span>记分牌</span><em class="role-tag repl">Replicated</em></div>
+            <div class="role-row"><span class="k">负责</span><span class="v">剩余人数、结束标志、玩家列表</span></div>
+            <div class="role-row"><span class="k">在哪</span><span class="v">服务器 + 所有客户端</span></div>
+            <div class="role-row"><span class="k">复制</span><span class="v">是；让所有人看到同一局</span></div>
+            <div class="role-row"><span class="k">寿命</span><span class="v">一局</span></div>
+            <div class="role-row"><span class="k">本局</span><span class="v">HUD 从这里读剩余数</span></div>
+          </div>
+          <div class="role-card pstate">
+            <div class="role-head"><b>PlayerState</b><span>玩家档案</span><em class="role-tag repl">Replicated</em></div>
+            <div class="role-row"><span class="k">负责</span><span class="v">名字、得分、击杀 / 死亡数</span></div>
+            <div class="role-row"><span class="k">在哪</span><span class="v">服务器 + 所有客户端</span></div>
+            <div class="role-row"><span class="k">复制</span><span class="v">是；跟人走，不跟身体走</span></div>
+            <div class="role-row"><span class="k">寿命</span><span class="v">玩家加入到离开</span></div>
+            <div class="role-row"><span class="k">本局</span><span class="v">单人不需要，先不用</span></div>
+          </div>
+        </div>
+        <div class="card tight reveal" style="--d:4;margin-top:14px">
+          <p class="small" style="margin:0"><b>口诀：</b>规则找 <b style="color:#67e8f9">GameMode</b>，大家看的状态找 <b style="color:#c4b5fd">GameState</b>，跟人走的找 <b style="color:#fcd34d">PlayerState</b>。客户端不要直接改 GameMode，让服务器改，再复制出去。</p>
+        </div>
+      </div>
+      <aside class="notes">这一页讲清“为什么需要三个类”。GameMode 是服务器上的规则书，客户端根本没有；GameState 是大家都能看的记分牌；PlayerState 是玩家自己的档案，死亡后还在。别把所有状态都塞进 GameMode。</aside>
+    </section>
+
+    <section class="slide" data-section="框架" data-title="控制器是意图，Pawn 是身体">
+      <div class="slide-inner">
+        <div class="kicker reveal">Controller / Pawn</div>
+        <h2 class="reveal" style="--d:1">控制器是意图，Pawn 是身体</h2>
+        <p class="lead reveal" style="--d:2">按 W 不是直接推模型：输入先到 Controller，再由它控制的 Pawn 去移动。</p>
+        <div class="possess-map reveal" style="--d:3">
+          <div class="possess-row">
+            <span class="who">人类玩家</span>
+            <span class="possess-node c">PlayerController</span><span class="possess-arrow">→</span>
+            <span class="possess-label">possess</span><span class="possess-arrow">→</span>
+            <span class="possess-node a">Character</span>
+            <span class="part-chips"><i>胶囊</i><i>Movement</i><i>SkeletalMesh</i><i>CameraBoom</i></span>
+          </div>
+          <div class="possess-row">
+            <span class="who">AI</span>
+            <span class="possess-node g">AIController</span><span class="possess-arrow">→</span>
+            <span class="possess-label">possess</span><span class="possess-arrow">→</span>
+            <span class="possess-node a">Enemy Character</span>
+            <span class="part-chips"><i>Tick 追人</i><i>近身攻击</i></span>
+          </div>
+        </div>
+        <div class="grid g3 reveal" style="--d:4;margin-top:14px">
+          <div class="card tight"><h3>Controller</h3><p class="small muted" style="margin:0">非实体 Actor，没有模型；处理输入或 AI 意图。Pawn 死了，它还可以重新占有新的 Pawn。</p></div>
+          <div class="card tight"><h3>Pawn / Character</h3><p class="small muted" style="margin:0">真正在关卡里动、撞、挨打的身体。Character 自带胶囊、CharacterMovement 和骨骼网格。</p></div>
+          <div class="card tight"><h3>HUD / Camera</h3><p class="small muted" style="margin:0">跟着 PlayerController 走，属于“这个玩家看什么”，不是身体的一部分。</p></div>
+        </div>
+        <p class="small muted reveal" style="--d:5;margin-top:12px">重生时换的是 <b style="color:#e2e8f0">Pawn</b>，不是 Controller；所以“玩家身份”能跨死亡保留。</p>
+      </div>
+      <aside class="notes">用玩家和敌人各走一遍：人类输入进 PlayerController，AI 意图进 AIController；两者都通过 possess 控制 Pawn。强调 Controller 没有身体，死亡后换的是 Pawn。</aside>
+    </section>
+
+    <section class="slide" data-section="框架" data-title="改东西先找对门">
+      <div class="slide-inner">
+        <div class="kicker reveal">本局映射</div>
+        <h2 class="reveal" style="--d:1">在这个项目里，改东西先找对门</h2>
+        <p class="lead reveal" style="--d:2">同一个需求，放错类就会越写越乱。用这张表定位，再去看代码。</p>
+        <table class="decision-table reveal" style="--d:3">
+          <thead><tr><th>我想改…</th><th>先去哪</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>开局刷几个怪、什么时候判胜</td><td class="dest">GameMode</td><td>规则与流程</td></tr>
+            <tr><td>剩余人数、是否结束</td><td class="dest">GameState</td><td>大家都能看到的状态</td></tr>
+            <tr><td>HUD 显示什么</td><td class="dest">HUD / UMG</td><td>只读 GameState，不自己存比分</td></tr>
+            <tr><td>按键开火、R 重开</td><td class="dest">PlayerController</td><td>输入映射绑定</td></tr>
+            <tr><td>移动、相机、开火、死亡</td><td class="dest">Character</td><td>玩家的身体和行为</td></tr>
+            <tr><td>扣血、受伤、死亡广播</td><td class="dest">HealthComponent</td><td>玩家和小怪共用</td></tr>
+            <tr><td>敌人追人</td><td class="dest">Enemy Character</td><td>本课用 Tick；完整项目放 AIController + 行为树</td></tr>
+            <tr><td>跨关卡存档、设置</td><td class="dest">GameInstance / SaveGame</td><td>本课不用，先知道在哪</td></tr>
+          </tbody>
+        </table>
+        <div class="card tight reveal" style="--d:4;margin-top:12px">
+          <div class="row" style="gap:10px">
+            <span class="chip amber">本课简化</span>
+            <span class="small muted">PlayerState 省掉：单人、没有跨局玩家数据。</span>
+            <span class="small muted">AIController 省掉：敌人用 Tick 直线追，先把一局跑通。</span>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">现场指工程：GameMode 负责刷怪和胜负，GameState 给 HUD 读数，PlayerController 管输入，Character 管身体，HealthComponent 管血。PlayerState 和 AIController 知道完整项目放哪就行。</aside>
+    </section>
+
+    <section class="slide" data-section="框架" data-title="从一局开始，到一局结束">
+      <div class="slide-inner">
+        <div class="kicker reveal">生命周期</div>
+        <h2 class="reveal" style="--d:1">从一局开始，到一局结束</h2>
+        <p class="lead reveal" style="--d:2">先规则，后身体；先进场，再 Tick；离开时收尾。</p>
+        <div class="life five reveal" style="--d:3">
+          <div class="life-node"><span class="hook">InitGame</span><b>规则先就位</b><small>GameMode 搭台，创建 GameState / PlayerState。</small></div>
+          <div class="life-node"><span class="hook">PostLogin</span><b>玩家加入</b><small>创建 PlayerController，RestartPlayer 生成并占有 Pawn。</small></div>
+          <div class="life-node"><span class="hook">BeginPlay</span><b>对象进场</b><small>每个 Actor 进入游戏时跑一次，做初始化。</small></div>
+          <div class="life-node loop"><span class="hook">Tick / 回调</span><b>开始运转</b><small>持续变化走 Tick；输入、碰撞走回调。</small></div>
+          <div class="life-node"><span class="hook">EndPlay</span><b>离开收尾</b><small>解绑委托、清定时器；玩家离开走 Logout。</small></div>
+        </div>
+        <div class="grid g3 reveal" style="--d:4;margin-top:20px">
+          <div class="card tight"><h3>顺序</h3><p class="small muted" style="margin:0">GameMode 的 InitGame 早于普通 Actor 的 BeginPlay。</p></div>
+          <div class="card tight"><h3>BeginPlay 不等于全部就绪</h3><p class="small muted" style="margin:0">别假设别的 Actor 一定已经初始化完；需要时用事件确认。</p></div>
+          <div class="card tight"><h3>Tick 不是默认答案</h3><p class="small muted" style="margin:0">能放事件或定时器，就别每帧扫；必须 Tick 时乘 DeltaTime。</p></div>
+        </div>
+      </div>
+      <aside class="notes">生命周期分两段：一局怎么开始（InitGame、PostLogin），对象怎么进场（BeginPlay），进场后怎么跑（Tick/回调），最后怎么收（EndPlay/Logout）。用打印演示一遍最直观。</aside>
     </section>
 
     <section class="slide" data-section="蓝图与 C++" data-title="蓝图和 C++ 是同一个类的两种写法">
