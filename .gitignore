@@ -20,6 +20,12 @@ DerivedDataCache/
 Intermediate/
 Saved/
 *.sln
+*.slnx
 *.suo
 *.opensdf
 *.sdf
+
+# Unreal local/user-specific files
+.vsconfig
+DefaultEditorPerProjectUserSettings.ini
+Content/Developers/
