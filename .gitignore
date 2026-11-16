@@ -1,0 +1,25 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vs/
+.idea/
+.vscode/
+
+# Local tooling
+.agents/
+.aws/
+.codex/
+.gh/
+.github_token
+
+# Unreal generated files (if a project is added later)
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+*.sln
+*.suo
+*.opensdf
+*.sdf

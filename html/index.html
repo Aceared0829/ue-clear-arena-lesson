@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第一节课 · 用虚幻引擎做一局《清场》</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<svg class="defs" aria-hidden="true">
+  <defs>
+    <symbol id="ue-mark" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <path d="M19 17v19c0 8.5 5.4 14 13 14s13-5.5 13-14V17" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+    </symbol>
+    <marker id="arr-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#fb7185"/></marker>
+    <marker id="arr-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#34d399"/></marker>
+    <marker id="arr-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#60a5fa"/></marker>
+    <marker id="arr-cyan" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#22d3ee"/></marker>
+    <marker id="arr-violet" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#a78bfa"/></marker>
+    <marker id="arr-amber" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#fbbf24"/></marker>
+  </defs>
+</svg>
+
+<div class="deck">
+  <header class="topbar">
+    <div class="brand">
+      <svg class="ue-logo sm"><use href="#ue-mark"/></svg>
+      <span>UNREAL ENGINE</span>
+      <i>第一节课</i>
+    </div>
+    <div class="progress"><span id="progressBar"></span></div>
+    <div class="meta"><span id="sectionLabel"></span><span id="counter">01 / 30</span></div>
+  </header>
+
+  <main id="slides">
+
+    <section class="slide cover active" data-section="开场" data-title="用虚幻引擎做一局《清场》">
+      <div class="slide-inner cover-grid">
+        <div>
+          <div class="logo-lockup reveal">
+            <svg class="ue-logo"><use href="#ue-mark"/></svg>
+            <div><b>UNREAL ENGINE</b><span>5.8.4 · 第一节课</span></div>
+          </div>
+          <h1 class="reveal" style="--d:1">用虚幻引擎<br>做一局<span class="grad">《清场》</span></h1>
+          <p class="lead reveal" style="--d:2">从编辑器界面到 C++ 源码，一节课走完一局第三人称小游戏。</p>
+          <div class="chips reveal" style="--d:3">
+            <span class="chip cyan">90 分钟</span>
+            <span class="chip">大课演示</span>
+            <span class="chip">零 C++ 基础</span>
+            <span class="chip violet">AI Native 现场开发</span>
+          </div>
+        </div>
+        <div class="hero-visual reveal" style="--d:2" aria-hidden="true">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+          <div class="cross"></div>
+          <div class="orb-dot"></div>
+          <div class="orb"><i></i></div>
+        </div>
+      </div>
+      <aside class="notes">开场别讲历史。直接说：90 分钟后，你们会看到一局能跑、能打、能赢的游戏，以及它对应的源码。</aside>
+    </section>
+
+    <section class="slide" data-section="路线" data-title="90 分钟路线">
+      <div class="slide-inner">
+        <div class="kicker reveal">今天的路线</div>
+        <h2 class="reveal" style="--d:1">90 分钟，把一局游戏从界面带到源码</h2>
+        <p class="lead reveal" style="--d:2">前 40 分钟打基础，中间 20 分钟讲框架和读法，最后 30 分钟现场生成、读码收口。</p>
+        <div class="timeline reveal" style="--d:3">
+          <div class="tl-item"><span class="t">06–24</span><b>界面 + 坐标系</b><small>先能在编辑器里找到东西</small></div>
+          <div class="tl-item"><span class="t">24–40</span><b>射线 + Tick</b><small>打中什么，什么时候跑</small></div>
+          <div class="tl-item"><span class="t">40–52</span><b>Gameplay 框架</b><small>五个类，五个问题</small></div>
+          <div class="tl-item"><span class="t">52–60</span><b>蓝图与 C++</b><small>同一个类的两种写法</small></div>
+          <div class="tl-item"><span class="t">60–84</span><b>AI Native</b><small>四个任务，现场生成</small></div>
+          <div class="tl-item"><span class="t">84–90</span><b>读码 + 收尾</b><small>把生成的代码对上号</small></div>
+        </div>
+      </div>
+      <aside class="notes">把节奏说清楚：前 40 分钟打基础，后 30 分钟现场生成。每个时间段只做一件事，别拖。</aside>
+    </section>
+
+    <section class="slide" data-section="目标" data-title="最终形态：清场">
+      <div class="slide-inner">
+        <div class="kicker reveal">最终形态</div>
+        <h2 class="reveal" style="--d:1">一局完整的《清场》</h2>
+        <div class="two reveal" style="--d:2">
+          <div class="arena" aria-hidden="true">
+            <div class="floor"></div>
+            <div class="crate" style="left:18%;top:26%"></div>
+            <div class="crate" style="left:68%;top:58%"></div>
+            <div class="crate" style="left:44%;top:70%"></div>
+            <div class="enemy" style="left:24%;top:38%"></div>
+            <div class="enemy" style="left:72%;top:28%"></div>
+            <div class="enemy" style="left:61%;top:64%"></div>
+            <div class="enemy" style="left:33%;top:62%"></div>
+            <div class="enemy" style="left:80%;top:48%"></div>
+            <div class="player" style="left:48%;top:46%"></div>
+            <div class="crosshair"></div>
+            <div class="hud-mock">
+              <div class="hp"><i></i></div>
+              <div class="count">剩余 5</div>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="card">
+              <span class="num">核心循环</span>
+              <ul class="list">
+                <li>移动、跳跃、瞄准</li>
+                <li>准星点射，小怪两枪倒</li>
+                <li>被小怪追着打，血量下降</li>
+                <li>清完 5 个胜利，血量归零失败</li>
+                <li>按 R 重开</li>
+              </ul>
+            </div>
+            <div class="grid g4">
+              <div class="stat">5<small>小怪</small></div>
+              <div class="stat">100<small>玩家血量</small></div>
+              <div class="stat">25<small>单发伤害</small></div>
+              <div class="stat">2<small>枪一个</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">先把目标亮出来。后面每个知识点都服务于这一局：坐标、射线、Tick、血量和胜负。</aside>
+    </section>
+
+    <section class="slide" data-section="界面" data-title="编辑器先认四块">
+      <div class="slide-inner">
+        <div class="kicker reveal">界面</div>
+        <h2 class="reveal" style="--d:1">编辑器先认四块</h2>
+        <p class="lead reveal" style="--d:2">今天只用到这四个面板，其它的先当不存在。</p>
+        <div class="editor-mock reveal" style="--d:3" aria-hidden="true">
+          <div class="panel viewport"><span>Viewport</span><b>视口</b><em class="badge">看</em></div>
+          <div class="panel outliner"><span>Outliner</span><b>大纲</b><em class="badge">选</em></div>
+          <div class="panel details"><span>Details</span><b>细节</b><em class="badge">改</em></div>
+          <div class="panel content"><span>Content Browser</span><b>内容浏览器</b><em class="badge">找</em></div>
+        </div>
+      </div>
+      <aside class="notes">打开工程，先用大纲点一个箱子，让大家看细节面板的数字跟着变。不要先讲蓝图。</aside>
+    </section>
+
+    <section class="slide" data-section="界面" data-title="点一下，改的是关卡里的对象">
+      <div class="slide-inner">
+        <div class="kicker reveal">界面</div>
+        <h2 class="reveal" style="--d:1">点一下，改的是关卡里的那个对象</h2>
+        <div class="grid g3 reveal" style="--d:2">
+          <div class="card"><span class="num">01</span><h3>大纲里选中</h3><p class="small muted">点名字，视口里出现选中框。</p></div>
+          <div class="card"><span class="num">02</span><h3>视口里拖 Gizmo</h3><p class="small muted">红绿蓝三个箭头，对应三个轴。</p></div>
+          <div class="card"><span class="num">03</span><h3>细节面板改数值</h3><p class="small muted">Location / Rotation / Scale 实时变。</p></div>
+        </div>
+        <div class="card reveal" style="--d:3;margin-top:20px">
+          <div class="row">
+            <span class="chip cyan">Play / PIE</span>
+            <span class="muted small">玩一下，按 Esc 停下，回到编辑状态。</span>
+          </div>
+          <p class="small" style="margin-top:10px">现在改的是<b>关卡里的这个实例</b>；类本身在内容浏览器里。这个区别后面会反复用到。</p>
+        </div>
+      </div>
+      <aside class="notes">强调“实例”和“类”的区别。视口里拖的是位置，不是模型本身。</aside>
+    </section>
+
+    <section class="slide" data-section="必备知识" data-title="UE 的坐标系：左手系">
+      <div class="slide-inner">
+        <div class="kicker reveal">坐标系</div>
+        <h2 class="reveal" style="--d:1">UE 的坐标系：左手系</h2>
+        <div class="two reveal" style="--d:2">
+          <svg class="diagram" viewBox="0 0 560 440" role="img" aria-label="UE 左手坐标系：X 向前、Y 向右、Z 向上">
+            <polygon points="280,250 440,330 280,410 120,330" fill="rgba(59,130,246,.06)" stroke="rgba(148,163,184,.2)" stroke-width="1"/>
+            <path d="M280 250 L280 330 M200 290 L360 370 M360 290 L200 370" stroke="rgba(148,163,184,.12)" stroke-width="1"/>
+            <line x1="280" y1="330" x2="280" y2="76" stroke="#60a5fa" stroke-width="4" marker-end="url(#arr-blue)"/>
+            <line x1="280" y1="330" x2="108" y2="406" stroke="#fb7185" stroke-width="4" marker-end="url(#arr-red)"/>
+            <line x1="280" y1="330" x2="452" y2="406" stroke="#34d399" stroke-width="4" marker-end="url(#arr-green)"/>
+            <rect x="266" y="262" width="28" height="68" rx="14" fill="rgba(34,211,238,.12)" stroke="#22d3ee" stroke-width="2"/>
+            <circle cx="280" cy="262" r="14" fill="rgba(34,211,238,.18)" stroke="#22d3ee" stroke-width="2"/>
+            <circle cx="280" cy="330" r="5" fill="#e2e8f0"/>
+            <text x="292" y="72" fill="#93c5fd" font-size="19" font-weight="600">Z 上</text>
+            <text x="54" y="424" fill="#fda4af" font-size="19" font-weight="600">X 前</text>
+            <text x="464" y="424" fill="#6ee7b7" font-size="19" font-weight="600">Y 右</text>
+            <text x="292" y="368" fill="#94a3b8" font-size="14">原点</text>
+            <text x="300" y="296" fill="#67e8f9" font-size="13">角色</text>
+          </svg>
+          <div>
+            <ul class="list">
+              <li><b style="color:#fda4af">X</b> 朝前：角色面朝的方向</li>
+              <li><b style="color:#6ee7b7">Y</b> 朝右：从角色左手边到右手边</li>
+              <li><b style="color:#93c5fd">Z</b> 朝上：跳跃、高度</li>
+              <li>单位是厘米：角色约 180，地板一格 100</li>
+              <li>和数学课常见的 Y 朝上不同，先把这张图记住</li>
+            </ul>
+            <div class="card tight" style="margin-top:18px">
+              <p class="small" style="margin:0"><b>判断方法：</b>看角色脚下的箭头，红色指向哪，哪就是它的前方。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">在视口里沿 X 拖一下，强调 X 是朝前，不是屏幕左右。Y 才是左右。</aside>
+    </section>
+
+    <section class="slide" data-section="必备知识" data-title="一个物体在场景里的三件事">
+      <div class="slide-inner">
+        <div class="kicker reveal">坐标系</div>
+        <h2 class="reveal" style="--d:1">一个物体在场景里的三件事</h2>
+        <div class="grid g3 reveal" style="--d:2">
+          <div class="card"><span class="num">Location</span><h3>位置</h3><p class="small muted">X / Y / Z，单位厘米。决定它站在哪。</p><div class="stat" style="font-size:1.3rem;margin-top:12px">0, 0, 0</div></div>
+          <div class="card"><span class="num">Rotation</span><h3>旋转</h3><p class="small muted">Pitch / Yaw / Roll，单位度。决定它朝哪。</p><div class="stat" style="font-size:1.3rem;margin-top:12px">0°, 0°, 0°</div></div>
+          <div class="card"><span class="num">Scale</span><h3>缩放</h3><p class="small muted">三轴独立缩放。决定它多大。</p><div class="stat" style="font-size:1.3rem;margin-top:12px">1.0, 1.0, 1.0</div></div>
+        </div>
+        <div class="card reveal" style="--d:3;margin-top:20px">
+          <div class="row" style="justify-content:space-between">
+            <div><h3 style="margin-bottom:4px">世界坐标 vs 局部坐标</h3><p class="small muted" style="margin:0">父物体转 90°，子物体跟着转。局部坐标是“相对父物体”的。</p></div>
+            <div class="flow"><span class="node c">父物体</span><span class="arr">→</span><span class="node">子物体</span><span class="arr">↺</span><span class="node v">一起转</span></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">用父子物体演示：把箱子挂到另一个箱子下面，转父物体，子物体跟着动。</aside>
+    </section>
+
+    <section class="slide" data-section="必备知识" data-title="Pitch / Yaw / Roll">
+      <div class="slide-inner">
+        <div class="kicker reveal">坐标系</div>
+        <h2 class="reveal" style="--d:1">Pitch / Yaw / Roll：三个轴，三种转法</h2>
+        <div class="grid g3 reveal" style="--d:2">
+          <div class="card" style="text-align:center">
+            <svg class="diagram mini" viewBox="0 0 260 220">
+              <circle cx="120" cy="110" r="32" fill="rgba(34,211,238,.1)" stroke="#22d3ee" stroke-width="2"/>
+              <path d="M120 110 L158 110" stroke="#22d3ee" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="162" cy="110" r="4" fill="#22d3ee"/>
+              <path d="M178 68 A56 56 0 0 1 178 152" fill="none" stroke="#fb7185" stroke-width="3" marker-end="url(#arr-red)"/>
+              <text x="130" y="192" text-anchor="middle" fill="#e2e8f0" font-size="18" font-weight="600">Pitch</text>
+              <text x="130" y="212" text-anchor="middle" fill="#94a3b8" font-size="13">点头</text>
+            </svg>
+          </div>
+          <div class="card" style="text-align:center">
+            <svg class="diagram mini" viewBox="0 0 260 220">
+              <circle cx="130" cy="110" r="32" fill="rgba(52,211,153,.1)" stroke="#34d399" stroke-width="2"/>
+              <path d="M130 110 L168 110" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="172" cy="110" r="4" fill="#34d399"/>
+              <path d="M172 110 A52 52 0 1 1 90 122" fill="none" stroke="#fb7185" stroke-width="3" marker-end="url(#arr-red)"/>
+              <text x="130" y="192" text-anchor="middle" fill="#e2e8f0" font-size="18" font-weight="600">Yaw</text>
+              <text x="130" y="212" text-anchor="middle" fill="#94a3b8" font-size="13">摇头</text>
+            </svg>
+          </div>
+          <div class="card" style="text-align:center">
+            <svg class="diagram mini" viewBox="0 0 260 220">
+              <circle cx="130" cy="110" r="32" fill="rgba(167,139,250,.1)" stroke="#a78bfa" stroke-width="2"/>
+              <path d="M98 110 L162 110" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/>
+              <path d="M102 88 A46 46 0 0 1 158 88" fill="none" stroke="#fb7185" stroke-width="3" marker-end="url(#arr-red)"/>
+              <text x="130" y="192" text-anchor="middle" fill="#e2e8f0" font-size="18" font-weight="600">Roll</text>
+              <text x="130" y="212" text-anchor="middle" fill="#94a3b8" font-size="13">歪头</text>
+            </svg>
+          </div>
+        </div>
+        <p class="lead reveal" style="--d:3;text-align:center;margin-top:18px">点头是 Pitch，摇头是 Yaw，歪头是 Roll。</p>
+      </div>
+      <aside class="notes">用手腕做三个动作，让学生跟着做一次。比背单词快。</aside>
+    </section>
+
+    <section class="slide" data-section="必备知识" data-title="射线检测：起点 + 方向">
+      <div class="slide-inner">
+        <div class="kicker reveal">射线检测</div>
+        <h2 class="reveal" style="--d:1">从一点朝一个方向，问「打到了什么」</h2>
+        <div class="two reveal" style="--d:2">
+          <svg class="diagram" viewBox="0 0 680 380" role="img" aria-label="射线从起点沿方向命中目标，返回命中点和法线">
+            <rect x="52" y="186" width="54" height="34" rx="6" fill="rgba(34,211,238,.12)" stroke="#22d3ee" stroke-width="2"/>
+            <circle cx="112" cy="203" r="7" fill="#22d3ee"/>
+            <text x="40" y="250" fill="#67e8f9" font-size="15">起点</text>
+            <rect x="500" y="110" width="46" height="120" rx="22" fill="rgba(251,113,133,.12)" stroke="#fb7185" stroke-width="2"/>
+            <text x="498" y="270" fill="#fda4af" font-size="15">目标</text>
+            <line x1="118" y1="203" x2="500" y2="170" stroke="#22d3ee" stroke-width="2.5" stroke-dasharray="8 7"/>
+            <line x1="500" y1="170" x2="648" y2="150" stroke="rgba(34,211,238,.28)" stroke-width="2" stroke-dasharray="4 8"/>
+            <circle cx="500" cy="170" r="7" fill="#fff" stroke="#22d3ee" stroke-width="3"/>
+            <path d="M500 170 L500 94" stroke="#34d399" stroke-width="2.5" marker-end="url(#arr-green)"/>
+            <text x="512" y="92" fill="#6ee7b7" font-size="15">法线</text>
+            <text x="282" y="198" fill="#67e8f9" font-size="14">方向</text>
+            <text x="470" y="158" fill="#e2e8f0" font-size="14" text-anchor="end">命中点</text>
+            <path d="M130 310 L500 310" stroke="rgba(148,163,184,.4)" stroke-width="1" stroke-dasharray="4 4"/>
+            <path d="M130 304 L130 316 M500 304 L500 316" stroke="rgba(148,163,184,.4)" stroke-width="1"/>
+            <text x="315" y="302" text-anchor="middle" fill="#94a3b8" font-size="13">距离</text>
+          </svg>
+          <div class="stack">
+            <div class="card tight"><span class="num">输入</span><p style="margin:0"><b>起点</b> + <b>方向</b>。方向通常是单位向量。</p></div>
+            <div class="card tight"><span class="num">输出</span><p style="margin:0"><b>打中了谁</b>、命中点、距离、法线。</p></div>
+            <div class="card tight" style="border-color:rgba(34,211,238,.35)"><span class="num">一句话</span><p style="margin:0">两个输入，一个结果。所有射线检测都是这一件事。</p></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">用激光笔从眼睛指向屏幕一点，告诉大家：射线就是这条线，起点是眼睛，方向是手指的方向。</aside>
+    </section>
+
+    <section class="slide" data-section="必备知识" data-title="线、球、通道">
+      <div class="slide-inner">
+        <div class="kicker reveal">射线检测</div>
+        <h2 class="reveal" style="--d:1">线、球、通道：只测该测的东西</h2>
+        <div class="grid g3 reveal" style="--d:2">
+          <div class="card">
+            <span class="num">Line Trace</span>
+            <h3>一条线</h3>
+            <svg class="diagram mini" viewBox="0 0 260 150" style="margin:8px auto">
+              <line x1="20" y1="100" x2="210" y2="60" stroke="#22d3ee" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-cyan)"/>
+              <rect x="170" y="38" width="36" height="86" rx="18" fill="rgba(251,113,133,.1)" stroke="#fb7185" stroke-width="2"/>
+              <circle cx="190" cy="66" r="5" fill="#fff"/>
+            </svg>
+            <p class="small muted" style="margin:0">一个点扫过去，最干净，适合点射。</p>
+          </div>
+          <div class="card">
+            <span class="num">Sphere Trace</span>
+            <h3>一条有粗细的线</h3>
+            <svg class="diagram mini" viewBox="0 0 260 150" style="margin:8px auto">
+              <line x1="20" y1="100" x2="180" y2="64" stroke="#a78bfa" stroke-width="18" stroke-opacity=".18"/>
+              <line x1="20" y1="100" x2="180" y2="64" stroke="#a78bfa" stroke-width="2" marker-end="url(#arr-violet)"/>
+              <circle cx="180" cy="64" r="26" fill="rgba(167,139,250,.12)" stroke="#a78bfa" stroke-width="2"/>
+              <rect x="196" y="38" width="36" height="86" rx="18" fill="rgba(251,113,133,.1)" stroke="#fb7185" stroke-width="2"/>
+            </svg>
+            <p class="small muted" style="margin:0">有半径，擦边也能中，适合近战或粗判定。</p>
+          </div>
+          <div class="card">
+            <span class="num">Trace Channel</span>
+            <h3>通道决定“撞到什么”</h3>
+            <ul class="list small">
+              <li><b>Visibility</b>：场景里看得见的东西</li>
+              <li><b>Camera</b>：只挡镜头的东西</li>
+              <li>碰撞预设：Block / Overlap / Ignore</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card reveal" style="--d:3;margin-top:18px">
+          <div class="flow" style="justify-content:center">
+            <span class="node c">准星</span><span class="arr">→</span>
+            <span class="node">相机</span><span class="arr">→</span>
+            <span class="node g">Visibility</span><span class="arr">→</span>
+            <span class="node r">敌人</span>
+          </div>
+          <p class="small muted" style="text-align:center;margin:10px 0 0">这局游戏就走这一条链，别加自定义通道。</p>
+        </div>
+      </div>
+      <aside class="notes">只讲 Visibility 和 Camera。自定义通道留给下一节课。</aside>
+    </section>
+
+    <section class="slide" data-section="必备知识" data-title="Tick：每帧都跑，还是发生了才跑">
+      <div class="slide-inner">
+        <div class="kicker reveal">游戏循环</div>
+        <h2 class="reveal" style="--d:1">每帧都跑，还是发生了才跑？</h2>
+        <div class="lane reveal" style="--d:2">
+          <div class="label">Tick<small>每帧都跑</small></div>
+          <div class="track ticks"></div>
+        </div>
+        <div class="lane reveal" style="--d:3">
+          <div class="label">事件<small>发生了才跑</small></div>
+          <div class="track events">
+            <span class="ev" style="left:18%"></span>
+            <span class="ev" style="left:47%"></span>
+            <span class="ev" style="left:76%"></span>
+          </div>
+        </div>
+        <div class="grid g3 reveal" style="--d:4;margin-top:16px">
+          <div class="card tight"><h3>持续变化 → Tick</h3><p class="small muted" style="margin:0">敌人追人、冷却倒计时、每帧更新朝向。</p></div>
+          <div class="card tight"><h3>响应 → 回调</h3><p class="small muted" style="margin:0">按键、受伤、碰撞、进出触发区。</p></div>
+          <div class="card tight" style="border-color:rgba(34,211,238,.35)"><h3>原则</h3><p class="small" style="margin:0">能在事件里做，就别放 Tick。</p></div>
+        </div>
+      </div>
+      <aside class="notes">问一句：敌人追人应该放哪？停两秒再答。答案是 Tick，因为它是持续变化。</aside>
+    </section>
+
+    <section class="slide" data-section="必备知识" data-title="DeltaTime：按秒算，不按帧算">
+      <div class="slide-inner">
+        <div class="kicker reveal">游戏循环</div>
+        <h2 class="reveal" style="--d:1">DeltaTime：让速度按秒算，不按帧算</h2>
+        <p class="lead reveal" style="--d:2">同样跑 1 秒，帧率不同，帧数就不同。乘上 DeltaTime，距离才一样。</p>
+        <div class="reveal" style="--d:3;margin-top:18px">
+          <div class="row" style="gap:16px;margin-bottom:8px"><span class="tiny" style="color:#67e8f9">60 fps</span><span class="muted small">每帧 16.7 ms</span></div>
+          <div class="dt-track"></div>
+          <div class="row" style="gap:16px;margin:18px 0 8px"><span class="tiny" style="color:#c4b5fd">30 fps</span><span class="muted small">每帧 33.3 ms</span></div>
+          <div class="dt-track slow"></div>
+          <div class="row" style="justify-content:space-between;margin-top:10px"><span class="tiny muted">0 s</span><span class="tiny muted">1 s · 都是 200 cm</span></div>
+        </div>
+        <div class="grid g2 reveal" style="--d:4;margin-top:18px">
+          <div class="card tight"><span class="num">写法</span><pre class="code" style="border:0;padding:6px 0;background:transparent">Distance = Speed * DeltaTime;</pre></div>
+          <div class="card tight" style="border-color:rgba(251,113,133,.35)"><h3 style="color:#fda4af">不乘会怎样</h3><p class="small muted" style="margin:0">帧率高一倍，跑得就快一倍。同一台机器换个场景，手感就变了。</p></div>
+        </div>
+      </div>
+      <aside class="notes">现场把帧率限制到 30，跑同一段路，对比一下。这个演示比公式直观。</aside>
+    </section>
+
+    <section class="slide framework" data-section="框架" data-title="Gameplay 框架：五个类，五个问题">
+      <div class="slide-inner">
+        <div class="kicker reveal">Gameplay 框架</div>
+        <h2 class="reveal" style="--d:1">五个类，回答五个问题</h2>
+        <p class="lead reveal" style="--d:2">不背继承树。每个类只记一句话：它负责回答什么。</p>
+        <svg class="diagram reveal" style="--d:3;margin-top:8px" viewBox="0 0 1000 470" role="img" aria-label="Gameplay 框架：GameMode、GameState、PlayerController、Character、PlayerState 的关系">
+          <rect x="350" y="30" width="300" height="100" rx="14" fill="rgba(34,211,238,.07)" stroke="rgba(34,211,238,.55)" stroke-width="1.5"/>
+          <text x="500" y="70" text-anchor="middle" fill="#67e8f9" font-size="21" font-weight="600">GameMode</text>
+          <text x="500" y="100" text-anchor="middle" fill="#94a3b8" font-size="15">这一局怎么玩</text>
+          <rect x="700" y="30" width="260" height="100" rx="14" fill="rgba(167,139,250,.07)" stroke="rgba(167,139,250,.55)" stroke-width="1.5"/>
+          <text x="830" y="70" text-anchor="middle" fill="#c4b5fd" font-size="21" font-weight="600">GameState</text>
+          <text x="830" y="100" text-anchor="middle" fill="#94a3b8" font-size="15">这一局现在怎样</text>
+          <rect x="30" y="300" width="280" height="100" rx="14" fill="rgba(52,211,153,.07)" stroke="rgba(52,211,153,.55)" stroke-width="1.5"/>
+          <text x="170" y="340" text-anchor="middle" fill="#6ee7b7" font-size="21" font-weight="600">PlayerController</text>
+          <text x="170" y="370" text-anchor="middle" fill="#94a3b8" font-size="15">谁在操作</text>
+          <rect x="350" y="300" width="300" height="100" rx="14" fill="rgba(251,191,36,.07)" stroke="rgba(251,191,36,.55)" stroke-width="1.5"/>
+          <text x="500" y="340" text-anchor="middle" fill="#fcd34d" font-size="21" font-weight="600">Character</text>
+          <text x="500" y="370" text-anchor="middle" fill="#94a3b8" font-size="15">被控制的身体</text>
+          <rect x="700" y="300" width="260" height="100" rx="14" fill="rgba(148,163,184,.04)" stroke="rgba(148,163,184,.35)" stroke-width="1.5" stroke-dasharray="7 6"/>
+          <text x="830" y="340" text-anchor="middle" fill="#94a3b8" font-size="21" font-weight="600">PlayerState</text>
+          <text x="830" y="370" text-anchor="middle" fill="#64748b" font-size="15">跨局玩家数据 · 本课不用</text>
+          <line x1="652" y1="80" x2="694" y2="80" stroke="#22d3ee" stroke-width="2" marker-end="url(#arr-cyan)"/>
+          <text x="673" y="66" text-anchor="middle" fill="#67e8f9" font-size="12">写状态</text>
+          <line x1="312" y1="350" x2="344" y2="350" stroke="#34d399" stroke-width="2" marker-end="url(#arr-green)"/>
+          <text x="328" y="336" text-anchor="middle" fill="#6ee7b7" font-size="12">占有</text>
+          <line x1="500" y1="134" x2="500" y2="294" stroke="rgba(34,211,238,.55)" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#arr-cyan)"/>
+          <text x="514" y="220" fill="#67e8f9" font-size="12">生成 / 规则</text>
+          <line x1="652" y1="350" x2="694" y2="350" stroke="#a78bfa" stroke-width="2" marker-end="url(#arr-violet)"/>
+          <text x="673" y="336" text-anchor="middle" fill="#c4b5fd" font-size="12">上报</text>
+        </svg>
+      </div>
+      <aside class="notes">五个类只记五个问题，不背继承树。指到图上：规则、状态、操作、身体、跨局数据。</aside>
+    </section>
+
+    <section class="slide" data-section="框架" data-title="这局游戏里，谁是谁">
+      <div class="slide-inner">
+        <div class="kicker reveal">框架</div>
+        <h2 class="reveal" style="--d:1">在这局《清场》里，谁是谁</h2>
+        <div class="grid g3 reveal" style="--d:2">
+          <div class="card"><span class="num">GameMode</span><h3>规则</h3><p class="small muted" style="margin:0">开局刷 5 个怪；剩余 0 判胜；玩家死亡判负。</p></div>
+          <div class="card"><span class="num">GameState</span><h3>这一局的状态</h3><p class="small muted" style="margin:0">剩余人数、是否结束；HUD 从这里读。</p></div>
+          <div class="card"><span class="num">PlayerController</span><h3>输入与 HUD</h3><p class="small muted" style="margin:0">按键映射、创建 HUD、R 重开。</p></div>
+          <div class="card"><span class="num">Character</span><h3>玩家身体</h3><p class="small muted" style="margin:0">移动、相机、开火、死亡。</p></div>
+          <div class="card"><span class="num">Enemy</span><h3>小怪</h3><p class="small muted" style="margin:0">直线追、近身攻击、被打死消失。</p></div>
+          <div class="card"><span class="num">HealthComponent</span><h3>血量</h3><p class="small muted" style="margin:0">玩家和小怪共用；扣血、广播、死亡。</p></div>
+        </div>
+        <p class="small muted reveal" style="--d:3;margin-top:16px">PlayerState 这节不用：单人、没有跨局要保留的玩家数据。</p>
+      </div>
+      <aside class="notes">指到工程里：GameMode 是哪个蓝图，Character 是哪个蓝图。让学生把名字和类对上。</aside>
+    </section>
+
+    <section class="slide" data-section="框架" data-title="我的代码什么时候跑">
+      <div class="slide-inner">
+        <div class="kicker reveal">生命周期</div>
+        <h2 class="reveal" style="--d:1">我的代码什么时候跑？</h2>
+        <div class="life reveal" style="--d:2">
+          <div class="life-node"><b>BeginPlay</b><small>进入游戏时跑一次，做初始化。</small></div>
+          <div class="life-node loop"><b>Tick</b><small>每帧跑，适合持续变化。</small></div>
+          <div class="life-node"><b>输入回调</b><small>玩家按键时才跑。</small></div>
+          <div class="life-node"><b>EndPlay</b><small>离开游戏时跑一次，做收尾。</small></div>
+        </div>
+        <div class="card reveal" style="--d:3;margin-top:26px">
+          <p style="margin:0;text-align:center;font-size:clamp(1rem,1.5vw,1.2rem)">初始化在 <b style="color:#67e8f9">BeginPlay</b>，持续变化在 <b style="color:#c4b5fd">Tick</b>，响应在 <b style="color:#fcd34d">回调</b>，收尾在 <b style="color:#6ee7b7">EndPlay</b>。</p>
+        </div>
+      </div>
+      <aside class="notes">用打印演示：BeginPlay 只出现一次，Tick 一直刷。学生看到日志就懂了。</aside>
+    </section>
+
+    <section class="slide" data-section="蓝图与 C++" data-title="蓝图和 C++ 是同一个类的两种写法">
+      <div class="slide-inner">
+        <div class="kicker reveal">蓝图与 C++</div>
+        <h2 class="reveal" style="--d:1">同一个类的两种写法</h2>
+        <div class="two top reveal" style="--d:2">
+          <div class="card">
+            <span class="num">蓝图</span>
+            <h3>节点连线</h3>
+            <div class="flow" style="margin-top:14px">
+              <span class="node c">Event BeginPlay</span><span class="arr">→</span>
+              <span class="node">Print String</span>
+            </div>
+            <p class="small muted" style="margin-top:14px">适合快速搭逻辑、调参数，看得见。</p>
+          </div>
+          <div class="card">
+            <span class="num">C++</span>
+            <h3>类声明</h3>
+            <pre class="code"><span class="kw">UCLASS</span>()
+<span class="kw">class</span> <span class="ty">AClearArenaCharacter</span> : <span class="kw">public</span> ACharacter
+{
+    <span class="ty">GENERATED_BODY</span>()
+
+    <span class="ty">UPROPERTY</span>(EditAnywhere)
+    <span class="kw">float</span> MaxHealth = 100.f;
+
+    <span class="ty">UFUNCTION</span>()
+    <span class="kw">void</span> OnDied();
+};</pre>
+          </div>
+        </div>
+        <div class="grid g3 reveal" style="--d:3;margin-top:18px">
+          <div class="card tight"><h3><span style="color:#c4b5fd">UCLASS</span></h3><p class="small muted" style="margin:0">告诉引擎：这是一个可认识的类。</p></div>
+          <div class="card tight"><h3><span style="color:#c4b5fd">UPROPERTY</span></h3><p class="small muted" style="margin:0">变量进编辑器、参与回收。</p></div>
+          <div class="card tight"><h3><span style="color:#c4b5fd">UFUNCTION</span></h3><p class="small muted" style="margin:0">函数能被蓝图或引擎调用。</p></div>
+        </div>
+        <p class="small muted reveal" style="--d:4;margin-top:14px">前缀：<b>A</b> 是 Actor，<b>U</b> 是 UObject，<b>F</b> 是普通结构体。对象由引擎回收，不用手动 delete。</p>
+      </div>
+      <aside class="notes">并排打开蓝图和对应 C++，指出同一个类名。让学生看到“这两个是一回事”。</aside>
+    </section>
+
+    <section class="slide" data-section="蓝图与 C++" data-title="零基础读 C++：只看四个地方">
+      <div class="slide-inner">
+        <div class="kicker reveal">蓝图与 C++</div>
+        <h2 class="reveal" style="--d:1">零基础读 C++：只看四个地方</h2>
+        <div class="grid g2 reveal" style="--d:2">
+          <div class="card"><span class="num">01 · 类名</span><pre class="code" style="background:transparent;border:0;padding:0">class AClearArenaCharacter : public ACharacter</pre><p class="small muted" style="margin:8px 0 0">它继承谁，大概就知道它是什么。</p></div>
+          <div class="card"><span class="num">02 · 变量</span><pre class="code" style="background:transparent;border:0;padding:0">UPROPERTY(EditAnywhere)
+float MaxHealth = 100.f;</pre><p class="small muted" style="margin:8px 0 0">UPROPERTY 上面的，能在编辑器里看到。</p></div>
+          <div class="card"><span class="num">03 · 函数</span><pre class="code" style="background:transparent;border:0;padding:0">UFUNCTION()
+void OnDied();</pre><p class="small muted" style="margin:8px 0 0">函数名说明它干什么，先不用读实现。</p></div>
+          <div class="card"><span class="num">04 · 时机</span><pre class="code" style="background:transparent;border:0;padding:0">BeginPlay() / Tick() / Fire()</pre><p class="small muted" style="margin:8px 0 0">先找它什么时候跑，再读它做了什么。</p></div>
+        </div>
+        <div class="card reveal" style="--d:3;margin-top:18px">
+          <div class="row" style="justify-content:space-between">
+            <span class="small"><b>头文件</b> = 目录：这个类有什么</span>
+            <span class="small"><b>cpp</b> = 正文：具体怎么做</span>
+            <span class="small"><b>指针</b> = 遥控器：指着一个对象，不是对象本身</span>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">只认四个地方，别逐行讲语法。学生今天的目标是“指认”，不是“默写”。</aside>
+    </section>
+
+    <section class="slide" data-section="蓝图与 C++" data-title="只追一条链路">
+      <div class="slide-inner">
+        <div class="kicker reveal">读源码</div>
+        <h2 class="reveal" style="--d:1">只追一条链路，就够读懂这局</h2>
+        <p class="lead reveal" style="--d:2">从按下开火，到血条变化。今天所有代码都挂在这条线上。</p>
+        <div class="card reveal" style="--d:3;margin-top:22px">
+          <div class="flow" style="justify-content:center;row-gap:14px">
+            <span class="node c">按下开火</span><span class="arr">→</span>
+            <span class="node c">Fire()</span><span class="arr">→</span>
+            <span class="node">Deproject</span><span class="arr">→</span>
+            <span class="node">LineTrace</span><span class="arr">→</span>
+            <span class="node a">ApplyDamage</span><span class="arr">→</span>
+            <span class="node r">HealthComponent</span><span class="arr">→</span>
+            <span class="node v">OnHealthChanged</span><span class="arr">→</span>
+            <span class="node v">HUD</span>
+          </div>
+        </div>
+        <div class="grid g3 reveal" style="--d:4;margin-top:18px">
+          <div class="card tight"><h3>输入层</h3><p class="small muted" style="margin:0">按键 → 函数。先知道谁触发。</p></div>
+          <div class="card tight"><h3>逻辑层</h3><p class="small muted" style="margin:0">射线、伤害、血量。数据怎么变。</p></div>
+          <div class="card tight"><h3>表现层</h3><p class="small muted" style="margin:0">委托 → HUD。屏幕怎么变。</p></div>
+        </div>
+      </div>
+      <aside class="notes">这条链是今天读源码的唯一路线。每生成一个任务，就回到这条链上指出位置。</aside>
+    </section>
+
+    <section class="slide" data-section="AI Native" data-title="AI Native 现场开发流程">
+      <div class="slide-inner">
+        <div class="kicker reveal">AI Native</div>
+        <h2 class="reveal" style="--d:1">不是让 AI 替你想，是让它替你敲</h2>
+        <p class="lead reveal" style="--d:2">一次只做一件事。每一步都能编译、能验收、能回滚。</p>
+        <div class="grid g3 reveal" style="--d:3;margin-top:20px">
+          <div class="card"><span class="num">01</span><h3>说需求</h3><p class="small muted" style="margin:0">目标、文件、约束、验收标准，一次说清。</p></div>
+          <div class="card"><span class="num">02</span><h3>生成</h3><p class="small muted" style="margin:0">让它只改指定文件，不许顺手重构。</p></div>
+          <div class="card"><span class="num">03</span><h3>看 diff</h3><p class="small muted" style="margin:0">改了哪些文件，有没有越界。</p></div>
+          <div class="card"><span class="num">04</span><h3>编译</h3><p class="small muted" style="margin:0">报错原样喂回去，不猜。</p></div>
+          <div class="card"><span class="num">05</span><h3>验收</h3><p class="small muted" style="margin:0">按事先写好的标准试一遍。</p></div>
+          <div class="card"><span class="num">06</span><h3>提交</h3><p class="small muted" style="margin:0">一个任务一个 commit，失败可回滚。</p></div>
+        </div>
+        <div class="card reveal" style="--d:4;margin-top:18px;text-align:center">
+          <p style="margin:0"><b style="color:#67e8f9">AI 写</b> · <b style="color:#c4b5fd">老师审</b> · <b style="color:#6ee7b7">学生指认</b></p>
+        </div>
+      </div>
+      <aside class="notes">先写验收标准，再让 AI 生成；不要反过来。生成时安静等，结果出来再讲。</aside>
+    </section>
+
+    <section class="slide" data-section="AI Native" data-title="生成之后，必须人工看这五处">
+      <div class="slide-inner">
+        <div class="kicker reveal">AI Native</div>
+        <h2 class="reveal" style="--d:1">生成之后，必须人工看这五处</h2>
+        <div class="grid g2 reveal" style="--d:2">
+          <div class="warn">射线有没有 <b>忽略自己</b>，通道是不是 Visibility。</div>
+          <div class="warn">伤害是不是走 <b>ApplyDamage</b>，有没有直接改别人的血。</div>
+          <div class="warn">委托有没有 <b>重复绑定</b>，死亡会不会触发两次。</div>
+          <div class="warn">Tick 里有没有 <b>不必要的开销</b>，能不能改成事件。</div>
+          <div class="warn">有没有 <b>编造的 API</b>。编译不过往往就是它。</div>
+          <div class="warn">有没有 <b>改到别的类</b>。越界的改动一律退回。</div>
+        </div>
+        <div class="card reveal" style="--d:3;margin-top:20px">
+          <p class="small" style="margin:0"><b>看不懂就停。</b>AI 生成的代码，读不懂就不算完成；先让它解释，再决定留不留。</p>
+        </div>
+      </div>
+      <aside class="notes">这五处是今天的审查清单。每生成一个任务，就按这张表过一遍。</aside>
+    </section>
+
+    <section class="slide" data-section="AI Native" data-title="基础工程里有什么">
+      <div class="slide-inner">
+        <div class="kicker reveal">基础工程</div>
+        <h2 class="reveal" style="--d:1">课前已经准备好的，和现场要生成的</h2>
+        <div class="two top reveal" style="--d:2">
+          <div class="card" style="border-color:rgba(52,211,153,.35)">
+            <span class="num" style="color:#6ee7b7">已预置 · 能跑</span>
+            <ul class="list green small">
+              <li>UE 5.8.4 C++ 工程、第三人称模板</li>
+              <li>场地、墙、箱子、5 个刷怪点</li>
+              <li>移动、相机、Enhanced Input</li>
+              <li>Idle / Run / Jump / Fall 状态机</li>
+              <li>HUD 布局：血条、人数、准星、提示</li>
+              <li>七个类的骨架，方法留空</li>
+              <li><code>base</code> 标签，随时可回</li>
+            </ul>
+          </div>
+          <div class="card" style="border-color:rgba(251,191,36,.35)">
+            <span class="num" style="color:#fcd34d">现场生成 · 增量</span>
+            <ul class="list amber small">
+              <li>任务 1：HealthComponent 扣血与委托</li>
+              <li>任务 2：Fire 射线与 ApplyDamage</li>
+              <li>任务 3：Enemy 追击与攻击</li>
+              <li>任务 4：GameMode 胜负 + HUD 绑定</li>
+            </ul>
+            <p class="small muted" style="margin:14px 0 0">基础工程能跑，现场才有东西可增量。</p>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">强调基础工程是能跑的：能移动、能跳、能开火（只打日志）。现场只加逻辑。</aside>
+    </section>
+
+    <section class="slide" data-section="任务" data-title="任务 1 · 血量组件">
+      <div class="slide-inner">
+        <div class="row reveal" style="justify-content:space-between;margin-bottom:14px">
+          <div><div class="kicker" style="margin-bottom:6px">任务 1 / 4</div><h2 style="margin:0">血量组件</h2></div>
+          <span class="chip cyan">6 min</span>
+        </div>
+        <div class="task reveal" style="--d:2">
+          <div class="prompt-wrap">
+            <span class="prompt-tag">提示词</span>
+            <button class="copy" data-target="p1">复制</button>
+            <div class="prompt" id="p1">在 ClearArena 项目里实现 UHealthComponent：
+- MaxHealth 默认 100，CurrentHealth 初始等于 MaxHealth
+- BeginPlay 绑定 Owner 的 OnTakeAnyDamage
+- 受伤后扣 CurrentHealth，广播 OnHealthChanged(Current, Max)
+- 归零广播 OnDied，只触发一次
+- 玩家和小怪共用，不写 UI，不改其他类</div>
+          </div>
+          <div class="stack">
+            <div class="card tight"><span class="num">审查</span><ul class="list small"><li>委托签名对不对</li><li>绑定时机是不是 BeginPlay</li><li>死亡会不会触发两次</li></ul></div>
+            <div class="card tight"><span class="num">验收</span><p class="small" style="margin:0">日志能看到扣血；血量归零只出现一次 Died。</p></div>
+            <div class="row"><span class="chip green">step1-health</span></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">提示词投屏，生成时安静等。结果出来先看 diff，再讲委托。</aside>
+    </section>
+
+    <section class="slide" data-section="任务" data-title="任务 2 · 射击与射线">
+      <div class="slide-inner">
+        <div class="row reveal" style="justify-content:space-between;margin-bottom:14px">
+          <div><div class="kicker" style="margin-bottom:6px">任务 2 / 4</div><h2 style="margin:0">射击与射线</h2></div>
+          <span class="chip cyan">6 min</span>
+        </div>
+        <div class="task reveal" style="--d:2">
+          <div class="prompt-wrap">
+            <span class="prompt-tag">提示词</span>
+            <button class="copy" data-target="p2">复制</button>
+            <div class="prompt" id="p2">在 AClearArenaCharacter::Fire 里实现第三人称点射：
+- 取屏幕中心（准星）位置，DeprojectScreenPositionToWorld 得到起点和方向
+- 从相机沿方向 LineTraceByChannel，通道 Visibility，距离 5000
+- AddIgnoredActor(this)，不要打到自己
+- 命中挂 UHealthComponent 的 Actor，调用 ApplyDamage，伤害 25
+- DrawDebugLine 画 1 秒，方便验证
+不要加武器模型，不要改动画</div>
+          </div>
+          <div class="stack">
+            <div class="card tight"><span class="num">审查</span><ul class="list small"><li>通道是不是 Visibility</li><li>有没有忽略自己</li><li>伤害是否走 ApplyDamage</li></ul></div>
+            <div class="card tight"><span class="num">验收</span><p class="small" style="margin:0">准星指哪打哪；小怪两枪倒；不误伤自己。</p></div>
+            <div class="row"><span class="chip green">step2-fire</span></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">这一页把坐标系和射线合起来：屏幕坐标 → 世界方向 → 射线。演示时用调试线确认打点。</aside>
+    </section>
+
+    <section class="slide" data-section="任务" data-title="任务 3 · 敌人">
+      <div class="slide-inner">
+        <div class="row reveal" style="justify-content:space-between;margin-bottom:14px">
+          <div><div class="kicker" style="margin-bottom:6px">任务 3 / 4</div><h2 style="margin:0">敌人</h2></div>
+          <span class="chip cyan">6 min</span>
+        </div>
+        <div class="task reveal" style="--d:2">
+          <div class="prompt-wrap">
+            <span class="prompt-tag">提示词</span>
+            <button class="copy" data-target="p3">复制</button>
+            <div class="prompt" id="p3">实现 AClearArenaEnemy：
+- Tick 里朝玩家移动，速度 300，乘 DeltaTime
+- 距离 200 内，每 1.5 秒对玩家 ApplyDamage 10
+- 自己血量归零时通知 GameMode，然后销毁
+- 不用导航、行为树、AIController
+- 玩家为空时站着不动
+不要改玩家类</div>
+          </div>
+          <div class="stack">
+            <div class="card tight"><span class="num">审查</span><ul class="list small"><li>Tick 里有没有重活</li><li>有没有乘 DeltaTime</li><li>攻击冷却是否生效</li></ul></div>
+            <div class="card tight"><span class="num">验收</span><p class="small" style="margin:0">小怪会追、近身会打、被打死会消失。</p></div>
+            <div class="row"><span class="chip green">step3-enemy</span></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">AI 常见错误：忘了 DeltaTime、每帧都攻击、死亡触发多次。现场盯这三处。</aside>
+    </section>
+
+    <section class="slide" data-section="任务" data-title="任务 4 · 胜负与 HUD">
+      <div class="slide-inner">
+        <div class="row reveal" style="justify-content:space-between;margin-bottom:14px">
+          <div><div class="kicker" style="margin-bottom:6px">任务 4 / 4</div><h2 style="margin:0">胜负与 HUD</h2></div>
+          <span class="chip cyan">6 min</span>
+        </div>
+        <div class="task reveal" style="--d:2">
+          <div class="prompt-wrap">
+            <span class="prompt-tag">提示词</span>
+            <button class="copy" data-target="p4">复制</button>
+            <div class="prompt" id="p4">实现 AClearArenaGameMode、AClearArenaGameState 和 HUD 绑定：
+- 开局在 5 个 TargetPoint 各生成 1 个 Enemy，记录剩余数
+- 敌人死亡剩余数减 1，减到 0 判胜
+- 玩家 OnDied 判负
+- GameState 存 RemainingEnemies、bGameOver，提供变更委托
+- HUD 绑定血条、剩余数、胜负提示；R 重开
+- 单人，不做网络同步</div>
+          </div>
+          <div class="stack">
+            <div class="card tight"><span class="num">审查</span><ul class="list small"><li>计数会不会重复扣</li><li>胜负会不会触发多次</li><li>HUD 有没有解绑</li></ul></div>
+            <div class="card tight"><span class="num">验收</span><p class="small" style="margin:0">清完 5 个胜利；血量归零失败；R 能重开。</p></div>
+            <div class="row"><span class="chip green">step4-win</span></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">最后一个任务把前面三个串起来。生成后直接跑一局，按验收清单过。</aside>
+    </section>
+
+    <section class="slide" data-section="收尾" data-title="改完代码为什么不生效">
+      <div class="slide-inner">
+        <div class="kicker reveal">编译与调试</div>
+        <h2 class="reveal" style="--d:1">改完代码为什么不生效？</h2>
+        <div class="grid g3 reveal" style="--d:2">
+          <div class="card"><span class="num">01</span><h3>没编译</h3><p class="small muted" style="margin:0">改的是源码，跑的还是旧模块。</p></div>
+          <div class="card"><span class="num">02</span><h3>Live Coding 改不了结构</h3><p class="small muted" style="margin:0">加成员变量、改继承，通常要重启编辑器。</p></div>
+          <div class="card"><span class="num">03</span><h3>看错输出</h3><p class="small muted" style="margin:0">日志窗口、输出日志、屏幕打印，先确认看的是哪一处。</p></div>
+        </div>
+        <div class="card reveal" style="--d:3;margin-top:18px">
+          <div class="flow" style="justify-content:center">
+            <span class="node c">改代码</span><span class="arr">→</span>
+            <span class="node">编译</span><span class="arr">→</span>
+            <span class="node a">看输出</span><span class="arr">→</span>
+            <span class="node g">运行验证</span>
+          </div>
+          <p class="small muted" style="text-align:center;margin:12px 0 0">演示：伤害 25 → 50，重新编译，两枪变一枪。</p>
+        </div>
+      </div>
+      <aside class="notes">故意改 25 到 50，编译，演示一枪一个。让学生看到“改 → 编译 → 结果”的完整链路。</aside>
+    </section>
+
+    <section class="slide" data-section="收尾" data-title="现场验收">
+      <div class="slide-inner">
+        <div class="kicker reveal">验收</div>
+        <h2 class="reveal" style="--d:1">一局完整跑通，才算做完</h2>
+        <div class="grid g2 reveal" style="--d:2">
+          <div class="card tight"><div class="check">能跑、能跳，镜头不穿墙</div></div>
+          <div class="card tight"><div class="check">准星命中，小怪两枪倒</div></div>
+          <div class="card tight"><div class="check">被小怪打，血条立刻掉</div></div>
+          <div class="card tight"><div class="check">清完 5 个，显示胜利</div></div>
+          <div class="card tight"><div class="check">血量归零，显示失败</div></div>
+          <div class="card tight"><div class="check">按 R 能重开</div></div>
+        </div>
+        <div class="card reveal" style="--d:3;margin-top:18px">
+          <p class="small muted" style="margin:0 0 8px">卡住就切标签，不硬修：</p>
+          <div class="flow">
+            <span class="node">base</span><span class="arr">→</span>
+            <span class="node g">step1-health</span><span class="arr">→</span>
+            <span class="node g">step2-fire</span><span class="arr">→</span>
+            <span class="node g">step3-enemy</span><span class="arr">→</span>
+            <span class="node g">step4-win</span>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">按清单逐条过。过不了就切标签，课堂时间比现场修 bug 值钱。</aside>
+    </section>
+
+    <section class="slide" data-section="收尾" data-title="今天要带走的五件事">
+      <div class="slide-inner">
+        <div class="kicker reveal">收口</div>
+        <h2 class="reveal" style="--d:1">今天真正要带走的</h2>
+        <div class="stack reveal" style="--d:2;gap:10px;margin-top:8px">
+          <div class="card tight"><div class="row"><span class="stat" style="font-size:1.1rem;color:#67e8f9">01</span><span><b>左手系</b><span class="muted small"> · X 前、Y 右、Z 上，单位厘米</span></span></div></div>
+          <div class="card tight"><div class="row"><span class="stat" style="font-size:1.1rem;color:#67e8f9">02</span><span><b>射线</b><span class="muted small"> · 起点 + 方向，返回命中了谁、在哪、多远</span></span></div></div>
+          <div class="card tight"><div class="row"><span class="stat" style="font-size:1.1rem;color:#67e8f9">03</span><span><b>Tick 与事件</b><span class="muted small"> · 持续变化每帧跑，响应发生了才跑，速度乘 DeltaTime</span></span></div></div>
+          <div class="card tight"><div class="row"><span class="stat" style="font-size:1.1rem;color:#67e8f9">04</span><span><b>Gameplay 框架</b><span class="muted small"> · GameMode / GameState / Controller / Character / PlayerState</span></span></div></div>
+          <div class="card tight"><div class="row"><span class="stat" style="font-size:1.1rem;color:#67e8f9">05</span><span><b>AI 生成要审查</b><span class="muted small"> · 看 diff、编译、验收、提交，四步缺一不可</span></span></div></div>
+        </div>
+        <p class="lead reveal" style="--d:3;text-align:center;margin-top:18px">会读，比会写更重要。</p>
+      </div>
+      <aside class="notes">收口只讲这五条。不要再展开新概念，留时间给提问。</aside>
+    </section>
+
+    <section class="slide" data-section="课后" data-title="课后：改三个数，看三次结果">
+      <div class="slide-inner">
+        <div class="kicker reveal">课后</div>
+        <h2 class="reveal" style="--d:1">改三个数，看三次结果</h2>
+        <div class="grid g3 reveal" style="--d:2">
+          <div class="card"><span class="num">01</span><h3>伤害 25 → 50</h3><p class="small muted" style="margin:0">编译后一枪一个。</p></div>
+          <div class="card"><span class="num">02</span><h3>血量 100 → 200</h3><p class="small muted" style="margin:0">能多挨几下。</p></div>
+          <div class="card"><span class="num">03</span><h3>小怪 5 → 3</h3><p class="small muted" style="margin:0">胜负条件不变。</p></div>
+        </div>
+        <div class="card reveal" style="--d:3;margin-top:20px">
+          <span class="num">阅读顺序</span>
+          <div class="flow">
+            <span class="node c">Character::Fire</span><span class="arr">→</span>
+            <span class="node r">HealthComponent</span><span class="arr">→</span>
+            <span class="node v">GameMode</span><span class="arr">→</span>
+            <span class="node">HUD</span>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">课后只改三个数，别加功能。改完重新编译，记录变化。</aside>
+    </section>
+
+    <section class="slide" data-section="结束" data-title="下一节课见">
+      <div class="slide-inner" style="text-align:center;align-items:center">
+        <svg class="ue-logo reveal" style="width:72px;height:72px;margin-bottom:18px"><use href="#ue-mark"/></svg>
+        <h1 class="reveal" style="--d:1">下一节课见</h1>
+        <p class="lead reveal" style="--d:2;margin:0 auto">把工程跑起来，改三个数。剩下的，交给下一局。</p>
+        <div class="chips reveal" style="--d:3;justify-content:center">
+          <span class="chip cyan">Q &amp; A</span>
+          <span class="chip">UE 5.8.4</span>
+          <span class="chip violet">清场 · 第一课</span>
+        </div>
+      </div>
+      <aside class="notes">留 2 分钟提问。没有问题的話，提醒课后任务和工程位置。</aside>
+    </section>
+
+  </main>
+
+  <footer class="bottombar">
+    <div class="hint"><span>← →</span> 翻页 · <span>F</span> 全屏 · <span>O</span> 目录 · <span>N</span> 备注</div>
+    <div>UNREAL ENGINE · 第一节课</div>
+  </footer>
+
+  <div class="nav-btns">
+    <button class="nav-btn" id="prevBtn" type="button" aria-label="上一页">‹</button>
+    <button class="nav-btn" id="nextBtn" type="button" aria-label="下一页">›</button>
+  </div>
+
+  <div class="notes-panel" id="notesPanel" aria-live="polite"></div>
+
+  <div class="overview" id="overview">
+    <h3>目录 · O 关闭</h3>
+    <div class="ov-grid" id="ovGrid"></div>
+  </div>
+</div>
+
+<script src="deck.js"></script>
+</body>
+</html>
