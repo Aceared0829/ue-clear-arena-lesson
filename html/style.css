@@ -567,6 +567,8 @@ pre.code .cm{color:#64748b}
 pre.code .kw{color:#c4b5fd}
 pre.code .ty{color:#67e8f9}
 
+.bp-shot{width:100%;height:auto;display:block;margin-top:14px;border-radius:10px;border:1px solid rgba(148,163,184,.18)}
+
 .compact pre.code{font-size:clamp(.7rem,.8vw,.82rem);line-height:1.5;padding:12px 14px;border-radius:10px}
 .compact .decision-table{font-size:.66rem;border-spacing:0 3px}
 .compact .card.tight{padding:10px 12px}
