@@ -1,0 +1,2390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>导向课 · 虚幻 C++ 进阶之路</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* ===== 密度基线 ===== */
+.slide-inner{max-width:1480px;justify-content:center;gap:2px}
+h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
+.kicker{margin-bottom:11px;font-size:.68rem}
+.lead{font-size:clamp(1rem,1.3vw,1.18rem);line-height:1.55;max-width:96ch;color:#a9bcd2}
+.list li{font-size:clamp(.8rem,.96vw,.9rem);line-height:1.44}
+.list.small li{font-size:.79rem;line-height:1.4}
+.card.tight{padding:13px 15px}
+.card h3{font-size:.98rem;margin-bottom:.28em}
+.card .num{font-size:.56rem;margin-bottom:4px}
+.big-line{margin-top:26px;padding-top:8px;font-size:clamp(1.05rem,1.65vw,1.42rem);line-height:1.45}
+.big-line b{background:linear-gradient(100deg,#67e8f9,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ===== 阶梯 ===== */
+.ladder{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:end;gap:9px;margin-top:18px}
+.ladder .step{position:relative;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(20,30,50,.9),rgba(10,16,29,.7));padding:13px;min-height:var(--h,110px);display:flex;flex-direction:column;justify-content:flex-end;gap:4px}
+.ladder .step::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;border-radius:12px 12px 0 0;background:linear-gradient(90deg,var(--cyan),var(--violet))}
+.ladder .step.c2::after{background:linear-gradient(90deg,#38bdf8,#60a5fa)}
+.ladder .step.c3::after{background:linear-gradient(90deg,#a78bfa,#c4b5fd)}
+.ladder .step.c4::after{background:linear-gradient(90deg,#fbbf24,#fcd34d)}
+.ladder .step.c5::after{background:linear-gradient(90deg,#fb7185,#fda4af)}
+.ladder .no{position:absolute;top:10px;right:11px;font-family:var(--mono);font-size:.6rem;color:#5b6b82;letter-spacing:.1em}
+.ladder .lvl{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;color:#67e8f9}
+.ladder .step.c2 .lvl{color:#93c5fd}.ladder .step.c3 .lvl{color:#c4b5fd}.ladder .step.c4 .lvl{color:#fcd34d}.ladder .step.c5 .lvl{color:#fda4af}
+.ladder b{font-size:clamp(.95rem,1.15vw,1.1rem);font-weight:650;color:#e8eef9;line-height:1.25}
+.ladder small{font-size:.58rem;color:#475569;font-family:var(--mono)}
+.ladder p{margin:.25em 0 0;font-size:.78rem;line-height:1.38;color:#8fa4bd}
+
+/* ===== 五级并排卡 ===== */
+.lv-grid{display:grid;gap:7px;grid-template-columns:repeat(5,minmax(0,1fr));margin-top:10px}
+.lv{border:1px solid var(--line);border-radius:11px;padding:9px 10px;background:rgba(15,23,42,.6);display:flex;flex-direction:column;gap:4px;position:relative}
+.lv::before{content:"";position:absolute;inset:0 auto 0 0;width:2px;border-radius:11px 0 0 11px;background:var(--cyan)}
+.lv.c2::before{background:#60a5fa}.lv.c3::before{background:#a78bfa}.lv.c4::before{background:#fbbf24}.lv.c5::before{background:#fb7185}
+.lv .tag{font-family:var(--mono);font-size:.54rem;letter-spacing:.1em;color:#67e8f9}
+.lv.c2 .tag{color:#93c5fd}.lv.c3 .tag{color:#c4b5fd}.lv.c4 .tag{color:#fcd34d}.lv.c5 .tag{color:#fda4af}
+.lv b{font-size:.95rem;color:#e8eef9;line-height:1.25}
+.lv .orig{font-family:var(--mono);font-size:.5rem;color:#475569}
+.lv ul{margin:3px 0 0;padding-left:1em;font-size:.79rem;line-height:1.4;color:#93a6bd}
+.lv li{margin-bottom:1px}
+.lv .flag{margin-top:auto;font-size:.75rem;color:#a5f3fc;border-top:1px dashed rgba(148,163,184,.2);padding-top:4px;line-height:1.32}
+.axis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.62rem;color:#5b6b82;margin-top:12px;letter-spacing:.1em}
+
+/* ===== 通用矩阵/表格 ===== */
+.mtx{width:100%;border-collapse:separate;border-spacing:0 6px;margin-top:12px;font-size:.9rem}
+.mtx th{text-align:left;font-family:var(--mono);font-size:.53rem;letter-spacing:.1em;color:#64748b;padding:0 9px 3px;font-weight:500}
+.mtx td{padding:10px 13px;background:rgba(15,23,42,.55);border-top:1px solid rgba(148,163,184,.08);border-bottom:1px solid rgba(148,163,184,.08);color:#a9bcd2;line-height:1.38;vertical-align:top}
+.mtx tr td:first-child{border-left:1px solid rgba(148,163,184,.08);border-radius:6px 0 0 6px;color:#e8eef9;font-weight:500}
+.mtx tr td:last-child{border-right:1px solid rgba(148,163,184,.08);border-radius:0 6px 6px 0}
+.mtx .ok{color:#6ee7b7}.mtx .no{color:#fda4af}.mtx .mid{color:#fcd34d}
+.mtx code{font-size:.92em}
+.mtx.tight td{padding:6px 9px;font-size:.8rem}
+.mtx.tight tr td:first-child{white-space:nowrap}
+
+/* ===== 卡片阵列 ===== */
+.mgrid{display:grid;gap:10px;margin-top:14px}
+.mg-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.mg-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.mg-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.mg-5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.mi{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:rgba(15,23,42,.55)}
+.mi .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:#67e8f9}
+.mi b{display:block;font-size:.92rem;margin:.16em 0 .26em;color:#e8eef9;line-height:1.28}
+.mi p{margin:0;font-size:.78rem;line-height:1.45;color:#8fa4bd}
+.mi.v .k{color:#c4b5fd}.mi.g .k{color:#6ee7b7}.mi.a .k{color:#fcd34d}.mi.r .k{color:#fda4af}
+
+/* ===== 图区 ===== */
+.diagram{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:linear-gradient(180deg,rgba(15,23,42,.62),rgba(8,12,21,.5));margin-top:12px}
+.diagram .cap{font-family:var(--mono);font-size:.62rem;letter-spacing:.13em;color:#5b6b82;margin-bottom:10px}
+.ascii{font-family:var(--mono);font-size:clamp(.72rem,1.02vw,.98rem);line-height:1.62;color:#7f93ac;white-space:pre;overflow-x:auto;margin:0}
+.ascii b{color:#67e8f9;font-weight:500}
+.ascii i{color:#c4b5fd;font-style:normal}
+.ascii u{color:#fcd34d;text-decoration:none}
+.ascii s{color:#fda4af;text-decoration:none}
+.ascii g{color:#6ee7b7}
+.tree{font-family:var(--mono);font-size:clamp(.56rem,.72vw,.68rem);line-height:1.5;color:#7f93ac;white-space:pre;overflow-x:auto;margin:0}
+.tree b{color:#67e8f9}.tree i{color:#c4b5fd;font-style:normal}.tree u{color:#fcd34d;text-decoration:none}.tree g{color:#6ee7b7}
+
+/* ===== 管道 ===== */
+.pipe{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.pipe .st{border:1px solid var(--line);border-radius:9px;padding:8px 9px;background:rgba(15,23,42,.7)}
+.pipe .st .n{font-family:var(--mono);font-size:.52rem;color:#67e8f9;letter-spacing:.09em}
+.pipe .st b{display:block;font-size:.78rem;margin:.16em 0 .2em}
+.pipe .st small{font-size:.64rem;color:#7f93ac;line-height:1.32;display:block}
+.pipe .st.err{border-color:rgba(251,113,133,.4);background:rgba(251,113,133,.05)}
+.pipe .st.err .n{color:#fda4af}
+.pipe-note{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin-top:5px}
+.pipe-note span{font-size:.6rem;line-height:1.3;color:#fda4af;border-top:1px solid rgba(251,113,133,.22);padding-top:4px}
+
+/* ===== 链与节点 ===== */
+.chain{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.node2{border:1px solid var(--line);border-radius:7px;padding:4px 8px;font-family:var(--mono);font-size:.64rem;background:#0a1220;color:#cbd5e1;white-space:nowrap}
+.node2.c{border-color:rgba(34,211,238,.4);color:#a5f3fc}
+.node2.g{border-color:rgba(52,211,153,.4);color:#a7f3d0}
+.node2.v{border-color:rgba(167,139,250,.4);color:#c4b5fd}
+.node2.a{border-color:rgba(251,191,36,.4);color:#fcd34d}
+.node2.r{border-color:rgba(251,113,133,.4);color:#fecdd3}
+.chain .ar{color:#374151;font-family:var(--mono);font-size:.66rem}
+
+/* ===== 嵌套圈 ===== */
+.nest{display:grid;gap:5px;border:1px solid rgba(34,211,238,.3);border-radius:11px;padding:10px;background:rgba(34,211,238,.035)}
+.nest .ring{border:1px dashed var(--line-strong);border-radius:8px;padding:8px}
+.nest .ring .rl{font-family:var(--mono);font-size:.53rem;letter-spacing:.09em;color:#67e8f9;margin-bottom:4px}
+.nest .ring.v{border-color:rgba(167,139,250,.34)}.nest .ring.v .rl{color:#c4b5fd}
+.nest .ring.a{border-color:rgba(251,191,36,.34)}.nest .ring.a .rl{color:#fcd34d}
+.nest p{margin:0;font-size:.72rem;line-height:1.42;color:#8fa4bd}
+
+/* ===== 环 ===== */
+.loop{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.loop .q{border:1px solid var(--line);border-radius:11px;padding:12px 13px;background:rgba(15,23,42,.6)}
+.loop .q .n{font-family:var(--mono);font-size:.53rem;color:#67e8f9;letter-spacing:.09em}
+.loop .q b{display:block;font-size:.95rem;margin:.15em 0 .25em}
+.loop .q p{margin:0;font-size:.79rem;line-height:1.38;color:#8fa4bd}
+.loop-bar{height:1px;background:linear-gradient(90deg,rgba(34,211,238,.7),rgba(167,139,250,.7));margin:8px 0 0;position:relative}
+.loop-bar::after{content:"↻ 回到第一步，但起点更高";position:absolute;right:0;top:-8px;background:#080c15;padding:0 7px;font-family:var(--mono);font-size:.53rem;color:#c4b5fd}
+
+/* ===== 杂项 ===== */
+.two-col-dense{display:grid;grid-template-columns:1.04fr .96fr;gap:clamp(14px,1.9vw,26px);align-items:start;margin-top:12px}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(13px,1.7vw,22px);margin-top:12px}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(11px,1.5vw,18px);margin-top:12px}
+.hd{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.64rem;letter-spacing:.11em;color:#67e8f9;margin-bottom:8px}
+.hd.v{color:#c4b5fd}.hd.g{color:#6ee7b7}.hd.a{color:#fcd34d}.hd.r{color:#fda4af}
+.tick{font-size:.88rem;line-height:1.5;color:#a9bcd2;display:flex;gap:8px;align-items:flex-start}
+.tick::before{content:"›";color:#67e8f9;font-family:var(--mono);flex:none}
+.tick.v::before{color:#c4b5fd}.tick.a::before{color:#fcd34d}.tick.r::before{color:#fda4af}.tick.g::before{color:#6ee7b7}
+.tickset{display:grid;gap:4px;margin-top:5px}
+.tag2{font-family:var(--mono);font-size:.54rem;letter-spacing:.07em;padding:.22em .55em;border-radius:4px;border:1px solid var(--line-strong);color:#94a3b8}
+.tag2.c{color:#a5f3fc;border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.06)}
+.tag2.v{color:#c4b5fd;border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.06)}
+.tag2.g{color:#a7f3d0;border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.06)}
+.tag2.a{color:#fcd34d;border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.06)}
+.tag2.r{color:#fda4af;border-color:rgba(251,113,133,.4);background:rgba(251,113,133,.06)}
+.tagset{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.pre2{font-family:var(--mono);font-size:clamp(.74rem,.96vw,.92rem);line-height:1.62;color:#c9d8ea;background:#060a11;border:1px solid rgba(148,163,184,.16);border-radius:9px;padding:10px 12px;margin:0;overflow-x:auto;white-space:pre}
+.pre2 .cm{color:#64748b}.pre2 .kw{color:#c4b5fd}.pre2 .ty{color:#67e8f9}.pre2 .st{color:#a7f3d0}.pre2 .nb{color:#fcd34d}
+.diff{display:flex;flex-direction:column;gap:5px;margin-top:10px}
+.diff-row{display:grid;grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);gap:8px;align-items:center}
+.diff-row .old,.diff-row .new{border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-family:var(--mono);font-size:clamp(.62rem,.8vw,.76rem);line-height:1.35}
+.diff-row .old{background:rgba(251,113,133,.05);border-color:rgba(251,113,133,.22);color:#fecdd3;text-decoration:line-through;text-decoration-color:rgba(251,113,133,.4)}
+.diff-row .new{background:rgba(52,211,153,.055);border-color:rgba(52,211,153,.24);color:#a7f3d0}
+.diff-row .arw{font-family:var(--mono);text-align:center;color:#374151}
+.stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px;max-width:620px}
+.stat-strip div{border-left:2px solid rgba(34,211,238,.5);padding-left:10px}
+.stat-strip b{display:block;font-family:var(--mono);font-size:clamp(1.1rem,1.9vw,1.55rem);color:#67e8f9;letter-spacing:-.02em;line-height:1.1}
+.stat-strip small{font-size:.6rem;color:#64748b;letter-spacing:.06em}
+.redline{color:#fda4af;font-weight:600}
+.capability{margin-top:18px;border:1px dashed rgba(34,211,238,.38);border-radius:11px;padding:12px 15px;background:rgba(34,211,238,.045);font-size:.9rem;line-height:1.5;color:#cfe6f3}
+.capability b{color:#a5f3fc}
+
+
+.mtx td s{color:#e9a3ad;text-decoration:none;opacity:.9}
+.mtx td s::before{content:"× ";color:#fb7185;font-weight:700}
+.mtx td code{background:rgba(34,211,238,.09)}
+.ascii s{color:#e9a3ad}
+.ratio{display:flex;height:38px;border-radius:9px;overflow:hidden;border:1px solid var(--line);margin-top:10px;font-family:var(--mono);font-size:.64rem}
+.ratio span{display:flex;align-items:center;justify-content:center;height:100%}
+.ratio .bp{flex:0 0 80%;background:rgba(34,211,238,.16);color:#a5f3fc}
+.ratio .cpp{flex:1;background:rgba(167,139,250,.2);color:#ddd6fe}
+.stack{display:flex;flex-direction:column;gap:8px}
+
+/* ===== 大屏等比放大（1080p / 4K 投影）===== */
+@media (min-width:1500px){
+  html{font-size:18px}
+  .slide-inner{max-width:1640px}
+  .slide{padding-left:clamp(40px,5vw,120px);padding-right:clamp(40px,5vw,120px)}
+}
+@media (min-width:1820px){
+  html{font-size:20px}
+  .slide-inner{max-width:1880px}
+  .ascii{font-size:clamp(.82rem,1vw,1.05rem)}
+}
+@media (min-width:2400px){
+  html{font-size:24px}
+  .slide-inner{max-width:2200px}
+}
+
+
+/* ===== 课程位置三联卡 ===== */
+.where-flow{display:grid;grid-template-columns:1fr 36px 1fr 36px 1fr;align-items:center;gap:0;margin-top:18px}
+.where-card{position:relative;border:1px solid var(--line);border-radius:14px;padding:20px 21px 19px;background:linear-gradient(180deg,rgba(20,30,50,.82),rgba(9,14,25,.7));overflow:hidden}
+.where-card::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--violet))}
+.where-card.w2::before{background:linear-gradient(90deg,#38bdf8,#60a5fa)}
+.where-card.w3::before{background:linear-gradient(90deg,#34d399,#6ee7b7)}
+.where-card .idx{font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;color:#5b6b82}
+.where-card .nm{font-size:1.14rem;font-weight:650;color:#e8eef9;margin:.22em 0 .55em}
+.where-card .nm span{font-size:.66rem;font-weight:400;color:#64748b;margin-left:5px}
+.where-card ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+.where-card li{position:relative;padding-left:14px;font-size:.92rem;line-height:1.45;color:#a9bcd2}
+.where-card li::before{content:"";position:absolute;left:0;top:.5em;width:5px;height:5px;border-radius:50%;background:rgba(34,211,238,.85);box-shadow:0 0 8px rgba(34,211,238,.7)}
+.where-card.w2 li::before{background:rgba(96,165,250,.9);box-shadow:0 0 8px rgba(96,165,250,.75)}
+.where-card.w3 li::before{background:rgba(52,211,153,.9);box-shadow:0 0 8px rgba(52,211,153,.75)}
+.where-card .tagline{margin-top:14px;padding-top:11px;border-top:1px dashed rgba(148,163,184,.2);font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;color:#67e8f9}
+.where-card.w2 .tagline{color:#93c5fd}
+.where-card.w3 .tagline{color:#6ee7b7}
+.where-card.now{border-color:rgba(34,211,238,.5);box-shadow:0 0 0 1px rgba(34,211,238,.14),0 14px 40px rgba(34,211,238,.09)}
+.where-card.now::after{content:"现在";position:absolute;top:11px;right:12px;font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;color:#0a1220;background:linear-gradient(100deg,#67e8f9,#a5f3fc);padding:2px 7px;border-radius:4px;font-weight:700}
+.where-arrow{display:grid;place-items:center;color:#374151;font-family:var(--mono);font-size:1rem}
+
+/* ===== 封面 ===== */
+.cover-title{font-size:clamp(3rem,6.6vw,6.1rem);line-height:1.02;letter-spacing:-.04em;margin:.1em 0 .12em}
+.cover-sub{display:flex;align-items:center;gap:14px;margin:0 0 18px}
+.cover-sub .en{font-family:var(--mono);font-size:.66rem;letter-spacing:.34em;color:#5b6b82;white-space:nowrap}
+.cover-sub .ln{flex:1;max-width:230px;height:1px;background:linear-gradient(90deg,rgba(103,232,249,.55),transparent)}
+.slide.cover .slide-inner{min-height:calc(100vh - 200px)}
+
+
+/* ===== 境界全景（P04） ===== */
+.lv-pano{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:10px;align-items:end}
+.lv-col:nth-child(1){min-height:212px}
+.lv-col:nth-child(2){min-height:232px}
+.lv-col:nth-child(3){min-height:252px}
+.lv-col:nth-child(4){min-height:272px}
+.lv-col:nth-child(5){min-height:292px}
+.lv-col{border:1px solid var(--line);border-radius:12px;padding:13px 13px 12px;background:linear-gradient(180deg,rgba(19,28,46,.78),rgba(9,14,25,.62));display:flex;flex-direction:column;gap:9px;position:relative;overflow:hidden}
+.lv-col::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,var(--cyan),#67e8f9)}
+.lv-col.c2::before{background:linear-gradient(90deg,#38bdf8,#60a5fa)}
+.lv-col.c3::before{background:linear-gradient(90deg,#a78bfa,#c4b5fd)}
+.lv-col.c4::before{background:linear-gradient(90deg,#fbbf24,#fcd34d)}
+.lv-col.c5::before{background:linear-gradient(90deg,#fb7185,#fda4af)}
+.lv-col .top{display:flex;align-items:baseline;justify-content:space-between;gap:6px}
+.lv-col .lvl{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:#67e8f9}
+.lv-col.c2 .lvl{color:#93c5fd}.lv-col.c3 .lvl{color:#c4b5fd}.lv-col.c4 .lvl{color:#fcd34d}.lv-col.c5 .lvl{color:#fda4af}
+.lv-col .no{font-family:var(--mono);font-size:.54rem;color:#3f4a5c}
+.lv-col h3{margin:0;font-size:.95rem;color:#e8eef9;line-height:1.2}
+.lv-col .orig{font-family:var(--mono);font-size:.53rem;color:#4a5568;margin-top:-6px}
+.lv-col .kw{display:flex;flex-wrap:wrap;gap:4px}
+.lv-col .kw span{font-size:.63rem;padding:2px 6px;border-radius:4px;border:1px solid rgba(148,163,184,.22);color:#94a3b8;background:rgba(15,23,42,.6);white-space:nowrap}
+.lv-col .out{font-size:.76rem;line-height:1.42;color:#8fa4bd;margin-top:auto;padding-top:8px;border-top:1px dashed rgba(148,163,184,.18)}
+.lv-col .bar{height:4px;border-radius:3px;background:rgba(148,163,184,.14);overflow:hidden;margin-top:2px}
+.lv-col .bar i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,#22d3ee,#67e8f9)}
+.lv-col.c2 .bar i{background:linear-gradient(90deg,#38bdf8,#60a5fa)}
+.lv-col.c3 .bar i{background:linear-gradient(90deg,#a78bfa,#c4b5fd)}
+.lv-col.c4 .bar i{background:linear-gradient(90deg,#fbbf24,#fcd34d)}
+.lv-col.c5 .bar i{background:linear-gradient(90deg,#fb7185,#fda4af)}
+.lv-col .tm{font-family:var(--mono);font-size:.58rem;color:#5b6b82;display:flex;justify-content:space-between}
+.lv-col{justify-content:flex-start}
+.lv-col .out{margin-top:0}
+.lv-col .next{margin-top:auto;font-size:.7rem;line-height:1.4;color:#8fa4bd;padding:7px 8px;border-radius:6px;background:rgba(148,163,184,.055);border:1px solid rgba(148,163,184,.13)}
+.lv-col .next i{display:block;font-family:var(--mono);font-style:normal;font-size:.55rem;letter-spacing:.1em;color:#67e8f9;margin-bottom:3px}
+.lv-col.c2 .next i{color:#93c5fd}
+.lv-col.c3 .next i{color:#c4b5fd}
+.lv-col.c4 .next i{color:#fcd34d}
+.lv-col.c5 .next i{color:#fda4af}
+.lv-col .bar{margin-top:8px}
+
+
+/* ===== 规格行（替代 ASCII 文本图） ===== */
+.spec{display:flex;flex-direction:column;gap:4px;margin:0}
+.spec .sr{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:baseline;padding:6px 10px;border-radius:8px;background:rgba(15,23,42,.45);border-left:2px solid rgba(148,163,184,.22)}
+.spec .sr .lbl{font-family:var(--mono);font-size:.72rem;color:#7f93ac;white-space:nowrap;letter-spacing:.02em}
+.spec .sr .txt{font-size:.82rem;line-height:1.45;color:#a9bcd2}
+.spec .sr .txt b{color:#e8eef9}
+.spec .sr.note{grid-template-columns:1fr;background:none;border-left:0;padding:2px 2px 2px 0}
+.spec .sr.note .txt{color:#8fa4bd;font-size:.8rem}
+.spec .sr.pos{background:rgba(52,211,153,.05);border-left-color:rgba(52,211,153,.55)}
+.spec .sr.pos .lbl{color:#6ee7b7}
+.spec .sr.neg{background:rgba(251,113,133,.05);border-left-color:rgba(251,113,133,.5)}
+.spec .sr.neg .lbl{color:#fda4af}
+.spec .sr.cau{background:rgba(251,191,36,.05);border-left-color:rgba(251,191,36,.5)}
+.spec .sr.cau .lbl{color:#fcd34d}
+.spec .sr.hi{background:rgba(34,211,238,.06);border-left-color:rgba(34,211,238,.55)}
+.spec .sr.hi .lbl{color:#67e8f9}
+.spec .txt b{color:#e8eef9}
+.spec .txt i{color:#c4b5fd;font-style:normal}
+.spec .txt u{color:#fcd34d;text-decoration:none}
+.spec .txt g{color:#6ee7b7}
+.spec .txt s{color:#e9a3ad}
+.spec .txt code{font-size:.94em}
+.spec .sr.plain{background:none;border-left:0;padding-left:0}
+
+
+/* 三列：标签 → 结论 */
+.spec3 .sr{grid-template-columns:auto 1fr auto}
+.spec .sr .res{font-size:.78rem;color:#a5f3fc;white-space:nowrap;font-family:var(--mono)}
+.spec .sr .arw{color:#374151;font-family:var(--mono);font-size:.8rem;justify-self:center}
+
+/* 步骤序号 */
+.steps{display:flex;flex-direction:column;gap:5px;margin:0;padding:0;list-style:none;counter-reset:st}
+.steps li{position:relative;padding:7px 11px 7px 34px;border-radius:8px;background:rgba(15,23,42,.45);font-size:.83rem;line-height:1.45;color:#a9bcd2}
+.steps li::before{counter-increment:st;content:counter(st);position:absolute;left:9px;top:7px;width:17px;height:17px;border-radius:5px;background:rgba(34,211,238,.14);border:1px solid rgba(34,211,238,.42);color:#67e8f9;font-family:var(--mono);font-size:.58rem;display:grid;place-items:center}
+
+/* 时间轴（替代 ▓░） */
+.tl-map{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:5px;margin-top:10px}
+.tl-map .seg{border-radius:7px;padding:7px 6px 8px;background:rgba(15,23,42,.6);border:1px solid rgba(148,163,184,.14);position:relative;overflow:hidden}
+.tl-map .seg .k{font-family:var(--mono);font-size:.56rem;color:#67e8f9;letter-spacing:.08em}
+.tl-map .seg .n{display:block;font-size:.72rem;color:#cbd5e1;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-map .seg .t{font-family:var(--mono);font-size:.6rem;color:#64748b;margin-top:3px;display:block}
+.tl-map .seg .fb{position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#22d3ee,#a78bfa);opacity:.85}
+.tl-map .seg.big{background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.34)}
+.tl-legend{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.58rem;color:#5b6b82;margin-top:8px}
+@media (max-width:1080px){
+  .tl-map{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+@media (max-width:1080px){.lv-pano{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:680px){.lv-pano{grid-template-columns:1fr}}
+
+@media (max-width:1080px){
+  .where-flow{grid-template-columns:1fr}
+  .where-arrow{height:20px;transform:rotate(90deg)}
+}
+
+@media (max-width:1080px){
+  .lv-grid,.pipe,.pipe-note,.mg-5,.mg-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mg-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cols,.cols3,.two-col-dense{grid-template-columns:1fr}
+  .ladder{grid-template-columns:repeat(2,1fr)}
+  .lv{min-height:0}
+}
+@media (max-width:680px){
+  .mg-2,.mg-3,.mg-4,.mg-5,.lv-grid,.pipe,.pipe-note{grid-template-columns:1fr}
+  .loop{grid-template-columns:1fr}
+  .mtx{font-size:.66rem}
+}
+</style>
+</head>
+<body>
+
+<svg class="defs" aria-hidden="true"><defs>
+  <marker id="arr-cyan" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#22d3ee"/></marker>
+</defs></svg>
+
+<div class="deck">
+  <header class="topbar">
+    <div class="brand">
+      <img class="ue-logo sm" src="assets/ue-logo.png" alt="Unreal Engine">
+      <span>UNREAL ENGINE</span>
+      <i>导向课 · C++ 进阶之路</i>
+    </div>
+    <div class="progress"><span id="progressBar"></span></div>
+    <div class="meta"><span id="sectionLabel"></span><span id="counter">01 / 53</span></div>
+  </header>
+
+  <main id="slides">
+
+    <!-- 01 -->
+    <section class="slide cover active" data-section="开场" data-title="虚幻 C++ 进阶之路">
+      <div class="slide-inner cover-grid">
+        <div>
+          <div class="logo-lockup reveal">
+            <img class="ue-logo" src="assets/ue-logo.png" alt="Unreal Engine">
+            <div><b>UNREAL ENGINE</b><span>5.8.4 · 导向课 · C++ 进阶之路</span></div>
+          </div>
+          <h1 class="reveal cover-title" style="--d:1">虚幻 C++<br><span class="grad">进阶之路</span></h1>
+          <div class="cover-sub reveal" style="--d:2">
+            <span class="en">A MAP, NOT A MANUAL</span>
+            <span class="ln"></span>
+          </div>
+          <p class="lead reveal" style="--d:3">一张地图，不是一本手册。<br>五个境界、5W1H、六块要点、八个坑、四步闭环——听完能给自己排一条半年的路线。</p>
+        </div>
+        <div class="hero-visual reveal" style="--d:2" aria-hidden="true">
+          <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+          <div class="cross"></div><div class="orb-dot"></div><div class="orb"><i></i></div>
+        </div>
+      </div>
+      <aside class="notes">别讲履历、别讲引擎历史。第一句话：这节课不写一行代码。今天只做一件事——把 C++ 这条路画成一张你能带走的图。105 分钟是完整版，讲不完按 ★ 取舍，60 分钟也能讲完。</aside>
+    </section>
+
+    <!-- 02 -->
+    <section class="slide" data-section="开场" data-title="今天不讲语法">
+      <div class="slide-inner">
+        <div class="kicker reveal">开场 · 预期管理</div>
+        <h2 class="reveal" style="--d:1">今天不讲语法</h2>
+        <p class="lead reveal" style="--d:2">这一节不教你写代码，只告诉你代码该写在哪一层、为什么这么写、什么时候该动手。</p>
+
+        <div class="reveal" style="--d:3;display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:12px">
+          <div class="card" style="margin:0;border-color:rgba(52,211,153,.26);background:linear-gradient(180deg,rgba(20,44,40,.42),rgba(9,16,26,.72))">
+            <div class="hd g">带走 —— 五个能立刻用的东西</div>
+            <div class="tickset">
+              <div class="tick g">你在哪个境界，以及凭什么这么判断</div>
+              <div class="tick g">这条路有多长，中间压着几级台阶</div>
+              <div class="tick g">先学什么、后学什么，顺序错了会怎样</div>
+              <div class="tick g">怎么判断自己学会了——四条自测标志</div>
+              <div class="tick g">答案去哪儿找：源码、工具、方法论</div>
+            </div>
+          </div>
+          <div class="card" style="margin:0;border-color:rgba(251,113,133,.22);background:linear-gradient(180deg,rgba(46,22,30,.42),rgba(9,16,26,.72))">
+            <div class="hd r">留到别处 —— 不在今天的范围</div>
+            <div class="tickset">
+              <div class="tick r">指针、模板、语法细节</div>
+              <div class="tick r">宏展开后的完整代码</div>
+              <div class="tick r">API 清单与参数含义</div>
+              <div class="tick r">某个功能的具体实现步骤</div>
+              <div class="tick r">Gameplay 框架的完整生命周期</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="where-flow reveal" style="--d:4">
+          <div class="where-card now">
+            <div class="idx">STAGE 01</div>
+            <div class="nm">导向课<span>今天</span></div>
+            <ul>
+              <li>我该学什么？</li>
+              <li>按什么顺序？</li>
+            </ul>
+            <div class="tagline">→ 地图</div>
+          </div>
+          <div class="where-arrow">›</div>
+          <div class="where-card w2">
+            <div class="idx">STAGE 02</div>
+            <div class="nm">第一节课</div>
+            <ul>
+              <li>一局游戏怎么跑起来</li>
+              <li>编辑器到框架，一次走通</li>
+            </ul>
+            <div class="tagline">→ 地形</div>
+          </div>
+          <div class="where-arrow">›</div>
+          <div class="where-card w3">
+            <div class="idx">STAGE 03</div>
+            <div class="nm">实战课</div>
+            <ul>
+              <li>动手做出来</li>
+              <li>出问题怎么查</li>
+            </ul>
+            <div class="tagline">→ 走路</div>
+          </div>
+        </div>
+        <p class="tiny muted reveal" style="--d:5;margin-top:14px">三节课各管一件事：<b style="color:#a5f3fc">先看地图、再看地形、最后自己走</b>。今天只发地图，不发工具。</p>
+      </div>
+      <aside class="notes">学生最怕「又是一节念 PPT 的课」。先把能带走什么说清楚：带走一条路线，不是一堆名词。想学写代码去上实战课，这节课负责让你知道该上哪些课、按什么顺序上。底下三张卡是全场的坐标：先看地图，再看地形，最后自己走路。</aside>
+    </section>
+
+    <!-- 03 -->
+    <section class="slide" data-section="开场" data-title="今天回答六个问题">
+      <div class="slide-inner">
+        <div class="kicker reveal">开场 · 结构</div>
+        <h2 class="reveal" style="--d:1">今天回答六个问题</h2>
+        <p class="lead reveal" style="--d:2">5W1H，六个问题，六段内容。迷路了就先回到这张表。</p>
+        <table class="mtx reveal" style="--d:3">
+          <thead><tr><th style="width:90px">问题</th><th style="width:130px">回答什么</th><th>落点</th><th style="width:80px">时长</th></tr></thead>
+          <tbody>
+            <tr><td><code>WHAT</code></td><td>是什么</td><td>虚幻 C++ 包含六块，不只是语言；学会有四个标志</td><td>9 min</td></tr>
+            <tr><td><code>WHY</code></td><td>为什么</td><td>引擎为什么开放 C++；蓝图在失去什么；三层怎么分工</td><td>12 min</td></tr>
+            <tr><td><code>WHO</code></td><td>谁</td><td>四类人真的需要，其余人优先级不同</td><td>3 min</td></tr>
+            <tr><td><code>WHEN</code></td><td>什么时候</td><td>蓝图入手还是直接 C++；什么算「蓝图学明白了」</td><td>7 min</td></tr>
+            <tr><td><code>WHICH</code></td><td>学哪些</td><td>六块要点 + 八个坑，从 Core 到 GC 全部点到</td><td>24 min</td></tr>
+            <tr><td><code>HOW</code></td><td>怎么学</td><td>四步闭环、模仿什么、怎么积累、用什么工具</td><td>10 min</td></tr>
+          </tbody>
+        </table>
+        <p class="big-line reveal" style="--d:4">再往后是三段收束：<b>觉悟</b>、<b>源码方法论</b>、<b>收尾行动</b>。</p>
+      </div>
+      <aside class="notes">这页当目录用，也当锚点。讲的时候报一声「现在回答第几个 W」，学生就不会迷路。</aside>
+    </section>
+
+    <!-- 04 -->
+    <section class="slide" data-section="地图" data-title="五个境界">
+      <div class="slide-inner">
+        <div class="kicker reveal">地图 · 全貌</div>
+        <h2 class="reveal" style="--d:1">五个境界：从会用到造工具</h2>
+        <p class="lead reveal" style="--d:2">每条路上的每一级都能落在这五格上。括号里是旧叫法；这是<b>能力刻度</b>，不是职级，也不是鄙视链。</p>
+        <div class="lv-pano reveal" style="--d:3">
+          <div class="lv-col">
+            <div class="top"><span class="lvl">L1 炼气</span><span class="no">新手村</span></div>
+            <h3>学习引擎</h3><span class="orig">Learn the Engine</span>
+            <div class="kw"><span>编辑器</span><span>蓝图</span><span>动画</span><span>AI</span><span>UMG</span><span>材质</span></div>
+            <div class="next"><i>跨到筑基</i>开始用一个 C++ 类替掉一段蓝图</div>
+            <div class="out">产出：能独立做出一个小游戏</div>
+            <div class="bar"><i style="width:18%"></i></div>
+            <div class="tm"><span>入门</span><span>3–12 个月</span></div>
+          </div>
+          <div class="lv-col c2">
+            <div class="top"><span class="lvl">L2 筑基</span><span class="no">核心骨干</span></div>
+            <h3>掌握引擎</h3><span class="orig">Master the Engine</span>
+            <div class="kw"><span>函数库</span><span>模块分工</span><span>插件</span><span>Hot Path</span></div>
+            <div class="next"><i>跨到金丹</i>挑一个模块，把它的源码读完一遍</div>
+            <div class="out">产出：知道什么该写 C++，什么留给蓝图</div>
+            <div class="bar"><i style="width:38%"></i></div>
+            <div class="tm"><span>能上手做项目</span><span>1–3 年</span></div>
+          </div>
+          <div class="lv-col c3">
+            <div class="top"><span class="lvl">L3 金丹</span><span class="no">江湖高手</span></div>
+            <h3>懂得引擎</h3><span class="orig">Understand the Engine</span>
+            <div class="kw"><span>源码</span><span>Slate</span><span>渲染扩展</span><span>Hack</span></div>
+            <div class="next"><i>跨到元婴</i>做一次能拿出数据的性能或流程改造</div>
+            <div class="out">产出：任何模块都有信心翻到源码并改</div>
+            <div class="bar"><i style="width:58%"></i></div>
+            <div class="tm"><span>团队技术支柱</span><span>3–6 年</span></div>
+          </div>
+          <div class="lv-col c4">
+            <div class="top"><span class="lvl">L4 元婴</span><span class="no">坐镇大神</span></div>
+            <h3>超越引擎</h3><span class="orig">Outgrow the Engine</span>
+            <div class="kw"><span>重写模块</span><span>性能改造</span><span>工具链</span><span>流程</span></div>
+            <div class="next"><i>跨到化神</i>造一个别人也在用的工具或规范</div>
+            <div class="out">产出：引擎只是手里的工具之一</div>
+            <div class="bar"><i style="width:78%"></i></div>
+            <div class="tm"><span>决定技术方向</span><span>6 年以上</span></div>
+          </div>
+          <div class="lv-col c5">
+            <div class="top"><span class="lvl">L5 化神</span><span class="no">行业大佬</span></div>
+            <h3>创造引擎</h3><span class="orig">Create the Engine</span>
+            <div class="kw"><span>引擎架构</span><span>生产力工具</span><span>行业影响</span></div>
+            <div class="next"><i>终点</i>没有下一级，只有下一个问题</div>
+            <div class="out">产出：作品改变一批人的工作方式</div>
+            <div class="bar"><i style="width:100%"></i></div>
+            <div class="tm"><span>定义问题</span><span>没有时间表</span></div>
+          </div>
+        </div>
+        <div class="axis reveal" style="--d:4"><span>← 会用工具（绝大多数人停在这半边）</span><span>能改工具 →</span><span>造工具 →</span></div>
+
+        <div class="reveal" style="--d:5;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
+          <div class="card tight" style="margin:0;border-color:rgba(34,211,238,.3)">
+            <b style="font-size:.86rem">为什么用「境界」这种叫法</b>
+            <p class="small muted" style="margin:.4em 0 0">因为它天生带三件事：<b style="color:#a5f3fc">可以并级、可以跳、没有官方认证</b>。比「初级/中级/高级」诚实得多——那套分级总让人误以为在排队。</p>
+          </div>
+          <div class="card tight" style="margin:0;border-color:rgba(251,191,36,.28)">
+            <b style="font-size:.86rem">时间量级怎么看</b>
+            <p class="small muted" style="margin:.4em 0 0">按全职投入估算，<b style="color:#fcd34d">不是承诺，也不是门槛</b>。带项目、有人带、只做一个模块，都能大幅压缩；反过来，一年只碰两次引擎，就别按这个表算。</p>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">先给整段路，再逐级展开。三条常被误解的点：① 这是能力刻度不是职级；② 大多数人一辈子停在筑基、金丹，很正常；③ 借用修仙的壳是为了好记——炼气是入门，化神是传说，中间三段才是常态。时间量级只是参考，别当成承诺。下面那排卡片不用逐条念，讲清「每一级都有一个典型产出」就够了。</aside>
+    </section>
+
+    <!-- 05 -->
+    <section class="slide" data-section="地图" data-title="炼气 · 学习引擎">
+      <div class="slide-inner">
+        <div class="kicker reveal">地图 · L1 炼气（原「新手村」）</div>
+        <h2 class="reveal" style="--d:1">炼气 · 学习引擎：直接写 C++ 也行，但要带着问题写</h2>
+        <div class="reveal" style="--d:2;display:grid;grid-template-columns:.8fr 1.55fr 1.15fr;gap:10px;margin-top:10px">
+          <div class="lv"><span class="tag">L1</span><b>炼气</b><span class="orig">新手村</span>
+            <ul><li>编辑器：视口 / 大纲 / 细节 / 内容浏览器</li><li>蓝图连得出来、跑得起来</li><li>插件下载与配置</li></ul>
+            <div class="flag">能做一个小独立游戏</div>
+          </div>
+          <div class="lv" style="background:rgba(34,211,238,.05);border-color:rgba(34,211,238,.3)">
+            <span class="tag">这一级真正要练的</span>
+            <table class="mtx tight" style="margin-top:2px">
+              <tr><td>动画</td><td>动画蓝图、混合空间、状态机、Montage 与通知</td></tr>
+              <tr><td>AI</td><td>行为树、黑板、导航网格、AIPerception</td></tr>
+              <tr><td>材质</td><td>PBR 参数、材质实例、动态材质参数</td></tr>
+              <tr><td>UMG</td><td>控件树、绑定、事件、动画与输入模式</td></tr>
+              <tr><td>网络</td><td>复制概念、Owner、RPC 三种类型的手感</td></tr>
+              <tr><td>粒子</td><td>Niagara 系统与发射器、参数暴露</td></tr>
+            </table>
+          </div>
+          <div class="lv">
+            <span class="tag">常见卡点与破法</span>
+            <div class="tickset">
+              <div class="tick">会连但不会拆 → 讲给别人听，讲不清就是没拆开</div>
+              <div class="tick">只会照教程做 → 关掉教程，做第二个变体</div>
+              <div class="tick">场景一复杂就乱 → 数据表 / 数据资产，别把数值写死在节点里</div>
+              <div class="tick a">只追语法不看结构 → 代码能跑，但没人敢接手</div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal" style="--d:3;display:grid;grid-template-columns:1fr 1.32fr;gap:12px;margin-top:12px">
+          <div class="diagram" style="margin-top:0">
+            <div class="cap">L1 的能力边界</div>
+<div class="spec">
+            <div class="sr pos"><span class="lbl"><g>能做到</g></span><span class="txt">原型 · 表现 · 规则 · 界面 · 小规模联机</span></div>
+            <div class="sr neg"><span class="lbl"><s>做不到</s></span><span class="txt">定制引擎行为 · 优化热点 · 读别人的插件</span></div>
+            <div class="sr hi"><span class="lbl"><b>判断标准</b></span><span class="txt">给一个新需求，一天内做出「能玩」的版本</span></div>
+          </div>
+          </div>
+          <div class="card" style="border-color:rgba(34,211,238,.34);margin:0">
+            <div class="hd">急着写 C++ 没错 —— 但请带着这四个问题写</div>
+            <table class="mtx tight" style="margin-top:4px">
+              <tr><td>① 它在谁手里活着</td><td>谁创建、谁持有、谁在什么时机销毁？GC 凭什么不回收它</td></tr>
+              <tr><td>② 它该写在哪一层</td><td>Actor / UObject / 组件 / 函数库——选错层，代码就散</td></tr>
+              <tr><td>③ 它为什么这么写</td><td>宏、模块、反射不是语法糖，是引擎的规矩，问一次为什么</td></tr>
+              <tr><td>④ 换个人能改吗</td><td>命名、分层、注释；能跑只是及格，能被人接手才算会</td></tr>
+            </table>
+            <p class="tiny muted" style="margin:6px 0 0">提前学 C++ 完全可行，引擎源码就是最好的教材。但「先写通再补原理」的账，早晚要还——差别只是现在想，还是三个月后返工。</p>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">这一页的态度要讲明：炼气期直接写 C++ 完全可以，甚至鼓励——引擎源码就是最好的教材，早动手早开窍。真正要拦住的不是「写」，而是「只写不想」。这四个问题是提前写 C++ 的人必须先挂在墙上的：谁持有它、写在哪一层、为什么这么写、换个人能不能改。今天不要求答对，但要求每写一段都问一次。</aside>
+    </section>
+
+    <!-- 06 -->
+    <section class="slide" data-section="地图" data-title="筑基 · 掌握引擎">
+      <div class="slide-inner">
+        <div class="kicker reveal">地图 · L2 筑基（原「核心骨干」）</div>
+        <h2 class="reveal" style="--d:1">筑基 · 掌握引擎：开始分工</h2>
+        <div class="cols reveal" style="--d:2">
+          <div class="card">
+            <div class="hd">动手 —— 哪些模块交给 C++</div>
+            <table class="mtx tight">
+              <tr><td>函数库</td><td>BlueprintCallable 静态函数库，把重复逻辑收进 C++</td></tr>
+              <tr><td>计算逻辑</td><td>伤害公式、属性结算、路径与寻路辅助</td></tr>
+              <tr><td>战斗</td><td>武器基类、命中判定、连招状态机</td></tr>
+              <tr><td>AI</td><td>自定义 Task / Service / Decorator，替代一堆蓝图节点</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="hd v">动脑 —— 这一级真正在练的</div>
+            <table class="mtx tight">
+              <tr><td>分工框架</td><td>什么必须 C++、什么留在蓝图，边界画在哪</td></tr>
+              <tr><td>函数库</td><td>把项目里的通用能力沉淀成可复用模块</td></tr>
+              <tr><td>插件</td><td>把功能做成插件，跨项目复用</td></tr>
+              <tr><td>专攻方向</td><td>Gameplay / 渲染 / 工具 / 网络，选一条深挖</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">这一级的门槛：三种认知层次</div>
+<pre class="ascii">  <s>只懂 Actor</s>   ── 知道怎么摆、怎么挂组件、怎么在关卡里用
+       │  再往下走一层
+  <u>懂 Object</u>     ── 知道 UObject 才是万物之基，Actor 只是「能进世界的 Object」
+       │  再往下走一层
+  <b>懂 Asset</b>      ── 知道资产是「存在磁盘上的对象」，有引用关系、有加载时机</pre>
+        </div>
+        <div class="capability reveal" style="--d:4">能力标志 <b>知道这段逻辑该写在哪一层</b> —— 不是「C++ 还是蓝图」，是 C++ / 脚本 / 蓝图 三选一。</div>
+      </div>
+      <aside class="notes">红字是这一级的门槛，不是骂人：会用 Actor 不等于理解 UObject 的世界。核心词是「分工」——什么时候该写 C++，才是这一级真正要过的关。三层认知的顺序不能跳。</aside>
+    </section>
+
+    <!-- 07 -->
+    <section class="slide" data-section="地图" data-title="金丹 · 懂得引擎">
+      <div class="slide-inner">
+        <div class="kicker reveal">地图 · L3 金丹（原「江湖高手」）</div>
+        <h2 class="reveal" style="--d:1">金丹 · 懂得引擎：知道去哪儿找</h2>
+        <div class="mgrid mg-2 reveal" style="--d:2">
+          <div class="mi"><span class="k">研究</span><b>模块的机制与原理</b><p>不只看接口签名，而是看它为什么这样设计、约束从哪来</p></div>
+          <div class="mi"><span class="k">实现</span><b>在 C++ 层写支撑类</b><p>工具类、策略类、子系统——给团队搭骨架，而不是填功能</p></div>
+          <div class="mi v"><span class="k">扩展</span><b>引擎层扩展</b><p>Slate 自定义控件、编辑器扩展、改造渲染管线</p></div>
+          <div class="mi a"><span class="k">维护</span><b>改引擎 / Hack / 修 bug</b><p>改得动，也合得回去；知道哪条路以后升级会疼</p></div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">从「会用接口」到「明白机制」的五个问题</div>
+<div class="spec">
+            <div class="sr "><span class="lbl">1</span><span class="txt">这个类型为什么存在？删掉它会怎样？</span></div>
+            <div class="sr "><span class="lbl">2</span><span class="txt">谁创建它、谁持有它、谁负责销毁？</span></div>
+            <div class="sr "><span class="lbl">3</span><span class="txt">它跟哪些模块耦合？耦合点在哪一行？</span></div>
+            <div class="sr "><span class="lbl">4</span><span class="txt">性能开销在哪？是每帧、每次调用、还是只在初始化？</span></div>
+            <div class="sr "><span class="lbl">5</span><span class="txt">如果我要扩展它，最小侵入点在哪儿？</span></div>
+          </div>
+        </div>
+        <div class="capability reveal" style="--d:4">能力标志 <b>任何模块都有信心翻到源码并扩展</b> —— 缺的只是时间，不是勇气。</div>
+      </div>
+      <aside class="notes">「信心」比「会」重要：知道去哪儿找，比背下来有用。这一级的人拿到陌生模块，第一反应是打开源码，不是发帖问。</aside>
+    </section>
+
+    <!-- 08 -->
+    <section class="slide" data-section="地图" data-title="元婴 · 超越引擎">
+      <div class="slide-inner">
+        <div class="kicker reveal">地图 · L4 元婴（原「坐镇大神」）</div>
+        <h2 class="reveal" style="--d:1">元婴 · 超越引擎：引擎只是工具之一</h2>
+        <table class="mtx reveal" style="--d:2">
+          <thead><tr><th style="width:120px">动作</th><th>具体在做什么</th><th style="width:220px">判断标准</th></tr></thead>
+          <tbody>
+            <tr><td>重写模块</td><td>觉得现成方案不够用，自己设计一套，而且确实更好</td><td>性能或可维护性有量化的提升</td></tr>
+            <tr><td>优化引擎</td><td>为项目定制引擎侧改造：内存、加载、渲染、构建</td><td>团队日常开发变快，而不是演示变快</td></tr>
+            <tr><td>改造流程</td><td>把改造沉淀成工具链、CI、自动化检查</td><td>新人入职两周就能上手</td></tr>
+            <tr><td>技术决策</td><td>知道什么时候不该用引擎的某块，甚至不该用引擎</td><td>能说出放弃的理由，不只是「不会」</td></tr>
+          </tbody>
+        </table>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">三个层次的区别（同一件事：做一个功能）</div>
+<div class="spec">
+            <div class="sr neg"><span class="lbl">炼气</span><span class="txt"><s>把功能做出来</s>        我要一个能跑的版本</span></div>
+            <div class="sr cau"><span class="lbl">金丹</span><span class="txt"><u>把功能做对</u>          符合引擎的写法，别人接手能看懂</span></div>
+            <div class="sr hi"><span class="lbl">元婴</span><span class="txt"><b>把功能做成能力</b>      别人也能用它快速做出同样的事</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">这一级不是目标，是<b>结果</b>——先把一堆没人愿意解决的问题解决掉。</p>
+      </div>
+      <aside class="notes">一页带过，别让学生以为这是目标。能到这一级的人，往往是先解决了一堆没人愿意解决的问题。真正稀缺的不是技术，是「知道什么不该做」。</aside>
+    </section>
+
+    <!-- 09 -->
+    <section class="slide" data-section="地图" data-title="化神 · 创造引擎">
+      <div class="slide-inner">
+        <div class="kicker reveal">地图 · L5 化神（原「行业大佬」）</div>
+        <h2 class="reveal" style="--d:1">化神 · 创造引擎：造工具的人</h2>
+        <div class="mgrid mg-3 reveal" style="--d:2">
+          <div class="mi"><span class="k">01</span><b>清楚整体结构</b><p>知道引擎各子系统的边界、依赖方向、演进路线</p></div>
+          <div class="mi v"><span class="k">02</span><b>站行业高度造工具</b><p>解决的不是一个项目的问题，是一类项目的问题</p></div>
+          <div class="mi a"><span class="k">03</span><b>作品影响行业</b><p>别人因为你的工具，改变了工作方式</p></div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">四级跃迁的本质变化</div>
+<div class="spec">
+            <div class="sr "><span class="lbl">炼气 → 筑基</span><span class="txt">从「会用」到「会选」        选工具</span></div>
+            <div class="sr "><span class="lbl">筑基 → 金丹</span><span class="txt">从「会选」到「懂原理」      拆工具</span></div>
+            <div class="sr "><span class="lbl">金丹 → 元婴</span><span class="txt">从「懂原理」到「能重做」    改工具</span></div>
+            <div class="sr hi"><span class="lbl">元婴 → 化神</span><span class="txt">从「能重做」到「定义问题」  <b>造工具</b></span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">境界的尽头不是技术，是<b>判断力</b>——知道什么该做、什么不该做。</p>
+      </div>
+      <aside class="notes">同上，快速带过。落点一句：这一级拼的不是代码量，是判断力。很多人卡在元婴不是技术不够，是不敢做减法。</aside>
+    </section>
+
+    <!-- 10 -->
+    <section class="slide" data-section="地图" data-title="境界怎么用">
+      <div class="slide-inner">
+        <div class="kicker reveal">地图 · 使用说明</div>
+        <h2 class="reveal" style="--d:1">境界怎么用</h2>
+        <div class="cols reveal" style="--d:2">
+          <div class="card">
+            <div class="hd">三条使用说明</div>
+            <div class="tickset">
+              <div class="tick"><b>可以并级</b> —— 你可能还在筑基，但某个模块已经是金丹</div>
+              <div class="tick"><b>可以跳</b> —— 被人带过一遍，某块直接越级</div>
+              <div class="tick"><b>不是排队</b> —— 没人给你发证书，也没人检查你第几级</div>
+            </div>
+          </div>
+          <div class="card" style="border-color:rgba(34,211,238,.32)">
+            <div class="hd">自测方法：给每个模块单独打分</div>
+            <table class="mtx tight">
+              <tr><td>Gameplay</td><td class="ok">金丹</td></tr>
+              <tr><td>渲染</td><td class="mid">筑基</td></tr>
+              <tr><td>UMG</td><td class="ok">金丹</td></tr>
+              <tr><td>网络</td><td class="no">炼气</td></tr>
+              <tr><td>工具链</td><td class="mid">筑基</td></tr>
+            </table>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:3">知道自己<b>缺哪一块</b>，比知道自己<b>第几级</b>有用。</p>
+        <p class="tiny muted reveal" style="--d:4;margin-top:6px">所以接下来那张六块要点，比你现在的段位更重要——它才是打分表。</p>
+      </div>
+      <aside class="notes">这是防抬杠页。学生一定会问「我算哪个境界」，把问题换成「我缺哪块」。别在课上给任何人评级，给了就是给自己找麻烦。</aside>
+    </section>
+
+    <!-- 11 -->
+    <section class="slide" data-section="框架" data-title="5W1H">
+      <div class="slide-inner">
+        <div class="kicker reveal">框架</div>
+        <h2 class="reveal" style="--d:1">5W1H：六个问题，六段内容</h2>
+        <div class="mgrid mg-3 reveal" style="--d:2">
+          <div class="mi"><span class="k">WHAT</span><b>是什么</b><p>六块拼图 · 学会的四个标志 · 三条误区</p></div>
+          <div class="mi"><span class="k">WHY</span><b>为什么</b><p>引擎为什么开放 · 你为什么学 · 蓝图够不够 · 配比</p></div>
+          <div class="mi"><span class="k">WHO</span><b>谁</b><p>四类真的需要的人</p></div>
+          <div class="mi v"><span class="k">WHEN</span><b>什么时候</b><p>三个前置 · 什么算学会蓝图</p></div>
+          <div class="mi v"><span class="k">WHICH</span><b>学哪些</b><p>六块要点 · 八个坑</p></div>
+          <div class="mi v"><span class="k">HOW</span><b>怎么学</b><p>四步闭环 · 模仿 · 积累 · 工具</p></div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">全场结构（12 段 · 53 页 · 105 分钟）</div>
+<pre class="ascii">  A 开场 <u>5′</u>   B 地图 <u>10′</u>   C 框架 <u>2′</u>   D What <u>9′</u>   E Why <u>12′</u>   F Who <u>3′</u>
+  ▓▓▓░░░░░░░░░░░▓▓░░░░░░░░░░░░░░▓▓▓▓░░░░░░░░░░▓▓▓▓▓▓░░░░░▓▓░
+  G When <u>7′</u>   H Which <u>24′</u>                I How <u>10′</u>  J 觉悟 <u>8′</u>  K 源码 <u>10′</u>  L 收尾 <u>5′</u>
+  ▓▓▓░░░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░▓▓▓▓▓▓░░▓▓▓▓░░░▓▓▓▓▓░░░▓▓░░</pre>
+        </div>
+      </div>
+      <aside class="notes">当目录用，也当「迷路回来看」的锚点。H 段最长（24 分钟），也是全场最该保留的部分——如果时间被压，压缩 A 和 K，H 不要压。</aside>
+    </section>
+
+    <!-- 12 -->
+    <section class="slide" data-section="What" data-title="旧教程还能照抄吗">
+      <div class="slide-inner">
+        <div class="kicker reveal">What · 先解雷</div>
+        <h2 class="reveal" style="--d:1">旧教程还能照抄吗</h2>
+        <p class="lead reveal" style="--d:2">地图没变，路修过。网上有一半教程是 UE4 的，直接抄会编译不过，或者写出今天不该有的结构。</p>
+        <div class="cols reveal" style="--d:3">
+          <div>
+            <table class="mtx tight">
+              <thead><tr><th style="width:130px">主题</th><th>UE4 写法</th><th style="width:170px">UE5 写法</th></tr></thead>
+              <tbody>
+                <tr><td>输入</td><td><s>BindAxis / BindAction</s></td><td class="ok">Enhanced Input</td></tr>
+                <tr><td>对象成员</td><td><s>裸指针 + UPROPERTY</s></td><td class="ok">TObjectPtr&lt;&gt;</td></tr>
+                <tr><td>全局服务</td><td><s>Manager / GameInstance</s></td><td class="ok">USubsystem 家族</td></tr>
+                <tr><td>坐标数值</td><td><s>FVector 是 float</s></td><td class="ok">LWC · double</td></tr>
+                <tr><td>范本</td><td><s>第一人称模板</s></td><td class="ok">Lyra + Game Features</td></tr>
+                <tr><td>热更</td><td><s>Hot Reload</s></td><td class="ok">Live Coding</td></tr>
+                <tr><td>编辑器</td><td><s>VS + Visual Assist</s></td><td class="ok">Rider / VS Code</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="stack">
+            <div class="card tight"><b>为什么会有这么多差异</b><p class="small muted" style="margin:.35em 0 0">UE4 是 2014 年的设计，UE5 在 2020 年后逐步替换。Epic 保留了向后兼容，所以旧代码还能编，但新项目不该照着写。</p></div>
+            <div class="card tight"><b>同类替换（认识名字即可）</b><p class="small muted" style="margin:.35em 0 0">StateTree 部分替代行为树 · MetaSounds 替代 Sound Cue · Chaos 替代 PhysX · World Partition 替代 Level Streaming</p></div>
+            <div class="card tight" style="border-color:rgba(251,191,36,.3)"><b>见到旧教程怎么办</b><p class="small muted" style="margin:.35em 0 0">先认版本：看发布日期、看有没有 Enhanced Input、看有没有 TObjectPtr。三样都没有，就是 4.x 的。</p></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">看到旧教程不用慌，先认出它用的是<b>哪套</b>。</p>
+      </div>
+      <aside class="notes">这页是给学生「解雷」的。课上一律按 5.8 讲，但不假装旧写法不存在——旧项目里到处都是，能认出来比骂它有用。判断版本的三招（发布日期 / Enhanced Input / TObjectPtr）是这页最实用的东西。</aside>
+    </section>
+
+    <!-- 13 -->
+    <section class="slide" data-section="What" data-title="虚幻 C++ ≠ C++">
+      <div class="slide-inner">
+        <div class="kicker reveal">What</div>
+        <h2 class="reveal" style="--d:1">虚幻 C++ ≠ C++</h2>
+        <p class="lead reveal" style="--d:2">C++ 只是地基，剩下五块是「引擎的规矩」。很多人学不下去，是只学了第一块。</p>
+        <div class="mgrid mg-3 reveal" style="--d:3">
+          <div class="mi"><span class="k">01 · 基础</span><b>标准 C++</b><p>语法、指针、类、模板、RAII——唯一能在书上学的部分</p></div>
+          <div class="mi"><span class="k">02 · 约定</span><b>引擎的 C++ 框架</b><p>Actor / Component / Gameplay 的写法约定，命名与生命周期</p></div>
+          <div class="mi v"><span class="k">03 · 构建</span><b>模块与插件（UBT）</b><p>代码怎么被组织、被编译、被链接到目标平台</p></div>
+          <div class="mi v"><span class="k">04 · 生成</span><b>反射与代码生成（UHT）</b><p>宏为什么不是注释，generated.h 里到底是什么</p></div>
+          <div class="mi g"><span class="k">05 · 日常</span><b>Core 的库</b><p>FString / TArray / TMap / UE_LOG / 智能指针 / 委托</p></div>
+          <div class="mi a"><span class="k">06 · 桥梁</span><b>与蓝图交互</b><p>UPROPERTY / UFUNCTION / 函数库 / 反射调用</p></div>
+        </div>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">六块与常见报错的对应关系——报错就是线索</div>
+<div class="spec">
+            <div class="sr neg"><span class="lbl"><s>unresolved external / undefined symbol</s></span><span class="txt">→  第 3 块（模块依赖没连上）</span></div>
+            <div class="sr neg"><span class="lbl"><s>xxx is not a member of ...</s></span><span class="txt">→  第 3 块（头文件没包含或模块没公开）</span></div>
+            <div class="sr neg"><span class="lbl"><s>Missing generated.h / UHT error</s></span><span class="txt">→  第 4 块（反射标记写错）</span></div>
+            <div class="sr neg"><span class="lbl"><s>object becomes nullptr after a while</s></span><span class="txt">→  第 5 块（GC 参考文献没标 UPROPERTY）</span></div>
+            <div class="sr neg"><span class="lbl"><s>blueprint can't find variable</s></span><span class="txt">→  第 6 块（缺 UPROPERTY 或 BlueprintReadWrite）</span></div>
+          </div>
+        </div>
+        <p class="tiny muted reveal" style="--d:5;margin-top:8px">UE5 这些年加的 Subsystem、Enhanced Input、StateTree，不是第七块，是这六块在应用层的新补丁。</p>
+      </div>
+      <aside class="notes">关键一句：C++ 只是地基，剩下五块是引擎的规矩。很多人学到一半放弃，不是因为 C++ 难，是因为只学了第一块，剩下的靠猜。这张「报错 → 第几块」的表是最实用的，学生遇到错能自己对号。</aside>
+    </section>
+
+    <!-- 14 -->
+    <section class="slide" data-section="What" data-title="学会的四条标志">
+      <div class="slide-inner">
+        <div class="kicker reveal">What · 自测表</div>
+        <h2 class="reveal" style="--d:1">学会的四条标志</h2>
+        <p class="lead reveal" style="--d:2">反过来当自测表：四条一条都没有，说明还没入门，不是笨。</p>
+        <table class="mtx reveal" style="--d:3">
+          <thead><tr><th style="width:140px">标志</th><th>具体要求</th><th style="width:230px">怎么检验</th><th style="width:110px">对应块</th></tr></thead>
+          <tbody>
+            <tr><td>① 看懂错误</td><td>能分辨编译错误 / 链接错误 / 运行崩溃，知道各自大致方向</td><td>给一条 undefined symbol，能说出三个可能原因</td><td>第 3 块</td></tr>
+            <tr><td>② 认得套路</td><td>看到 CreateDefaultSubobject / UPROPERTY / AddDynamic 不陌生</td><td>能默写一个带组件的 Actor 头文件骨架</td><td>第 4、6 块</td></tr>
+            <tr><td>③ 懂内存</td><td>理解 UObject 由 GC 管，知道什么时候会变空</td><td>能解释「为什么我的指针突然没了」</td><td>第 5 块</td></tr>
+            <tr><td>④ 能定位</td><td>能在引擎源码里找到自己要的那段，并读懂大意</td><td>从一个 UI 按钮找到它的 C++ 实现</td><td>全部</td></tr>
+          </tbody>
+        </table>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">三类错误的区分方法</div>
+<div class="spec">
+            <div class="sr hi"><span class="lbl"><b>编译错误</b></span><span class="txt">语法 / 类型 / 缺头文件         → 改代码，几十秒就有反馈</span></div>
+            <div class="sr neg"><span class="lbl"><s>链接错误</s></span><span class="txt">undefined symbol / LNK2019     → 改 Build.cs，加模块名</span></div>
+            <div class="sr cau"><span class="lbl"><u>运行崩溃</u></span><span class="txt">访问空对象 / 数组越界 / GC 提前回收 → 断点 + 调用栈</span></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">这四条比任何考试都准。特别是第一条——很多人以为是「我 C++ 不行」，其实是模块没加、头文件没包含。三类错误的区分是这页的核心。</aside>
+    </section>
+
+    <!-- 15 -->
+    <section class="slide" data-section="What" data-title="它不是什么">
+      <div class="slide-inner">
+        <div class="kicker reveal">What · 拆门槛</div>
+        <h2 class="reveal" style="--d:1">它不是什么</h2>
+        <div class="cols3 reveal" style="--d:2">
+          <div class="card no">
+            <div class="hd r">× 误区一</div>
+            <p style="margin:.2em 0;font-size:.92rem"><b>不是「背完 C++ 语法」</b></p>
+            <p class="small muted" style="margin:.4em 0 0">语法书看完也写不出一行引擎代码。引擎要的是「知道写在哪」。</p>
+          </div>
+          <div class="card no">
+            <div class="hd r">× 误区二</div>
+            <p style="margin:.2em 0;font-size:.92rem"><b>不是「以后只写 C++」</b></p>
+            <p class="small muted" style="margin:.4em 0 0">蓝图仍然是最好的表现层工具。真正的目标是「两个都会用」。</p>
+          </div>
+          <div class="card no">
+            <div class="hd r">× 误区三</div>
+            <p style="margin:.2em 0;font-size:.92rem"><b>不是「记住几千个 API」</b></p>
+            <p class="small muted" style="margin:.4em 0 0">记不住很正常，找得到就行。编辑器补全比十年前好太多。</p>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">真实的门槛顺序（很多人搞反了）</div>
+<div class="spec">
+            <div class="sr neg"><span class="lbl"><s>以为的顺序</s></span><span class="txt">学语法 → 背 API → 才能写代码 → 才能做项目</span></div>
+            <div class="sr "><span class="lbl"><b>实际的顺序</b></span><span class="txt">看懂一个功能 → 照着改 → 改了有效果 → 知道为什么 → 能自己设计</span></div>
+            <div class="sr cau"><span class="lbl"><u>卡住的人</u></span><span class="txt">停在「学语法」，因为看不到语法跟项目的联系</span></div>
+            <div class="sr pos"><span class="lbl"><g>走通的人</g></span><span class="txt">从「改一个数值」开始，先有反馈，再要原理</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">门槛不在记忆量，在于<b>知不知道该写在哪</b>。</p>
+      </div>
+      <aside class="notes">提前拆掉心里的门槛。学生最常问「要背多少 API」，答案是零。真实的学习顺序是反过来的：先改、再有反馈、再要原理。</aside>
+    </section>
+
+    <!-- 16 -->
+    <section class="slide" data-section="Why" data-title="为什么引擎要开放 C++">
+      <div class="slide-inner">
+        <div class="kicker reveal">Why · 引擎侧</div>
+        <h2 class="reveal" style="--d:1">为什么引擎要开放 C++</h2>
+        <div class="two-col-dense reveal" style="--d:2">
+          <div>
+            <table class="mtx tight">
+              <thead><tr><th style="width:110px">理由</th><th>具体是什么</th></tr></thead>
+              <tbody>
+                <tr><td>性能</td><td>原话说了三遍——直接编译成机器码，没有解释层</td></tr>
+                <tr><td>可优化</td><td>能优化到自己真正想优化的那一行，而不是等别人开放接口</td></tr>
+                <tr><td>强类型</td><td>大项目里重构不容易崩，编译器帮你查一半错</td></tr>
+                <tr><td>开放性</td><td>可定制、可扩展、可替换——从渲染到构建</td></tr>
+                <tr><td>迭代快</td><td>不用等接口层补齐，团队自己就能往下做</td></tr>
+                <tr><td>生态</td><td>第三方中间件几乎都是 C/C++，接得进来</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="stack">
+            <div class="card" style="border-color:rgba(167,139,250,.32)">
+              <p style="margin:0;font-size:clamp(.92rem,1.25vw,1.05rem);line-height:1.5"><b class="grad">它还相信开发者。</b></p>
+              <p class="small muted" style="margin:.5em 0 0">进了这个自由区，就得自己负责。给你一把能直接动刀的工具，代价是你要懂刀在干什么。</p>
+            </div>
+            <div class="card tight"><b>对比：如果引擎不开放 C++</b>
+              <p class="small muted" style="margin:.35em 0 0">所有定制都要等官方排期 → 项目被卡的永远是同一类需求 → 引擎只能服务「最大公约数」的项目。</p>
+            </div>
+            <div class="card tight"><b>代价是什么</b>
+              <p class="small muted" style="margin:.35em 0 0">学习曲线、版本升级成本、团队能力门槛。这三条，就是这门课存在的理由。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">别只讲性能：真正的原因是引擎不可能替所有项目做完决定。它给你一把可以直接动刀的工具，代价是你要懂刀在干什么。生态这一条别漏——接第三方 SDK 时你就明白为什么非得是 C++。</aside>
+    </section>
+
+    <!-- 17 -->
+    <section class="slide" data-section="Why" data-title="为什么你要学">
+      <div class="slide-inner">
+        <div class="kicker reveal">Why · 你这一侧</div>
+        <h2 class="reveal" style="--d:1">为什么你要学</h2>
+        <div class="mgrid mg-2 reveal" style="--d:2">
+          <div class="mi"><span class="k">01 · 能力</span><b>扩展功能能直达底层</b><p>蓝图做不了的需求，C++ 能做。定制、接 SDK、改引擎行为</p></div>
+          <div class="mi"><span class="k">02 · 性能</span><b>能优化真正的热点</b><p>不是猜哪里慢，而是量出来再改。Unreal Insights 能告诉你在哪</p></div>
+          <div class="mi v"><span class="k">03 · 理解</span><b>能调试，也能读懂引擎</b><p>断点进得去，才知道它怎么跑。看懂源码 = 拿着教材学</p></div>
+          <div class="mi a"><span class="k">04 · 职业</span><b>初级到中级的分水岭</b><p>大项目总得有一门「Hold 得住」的语言。招聘上写不写，是两个价位</p></div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">学与不学，三年后的差别（同一批入行的人）</div>
+<div class="spec">
+            <div class="sr neg"><span class="lbl"><s>只做蓝图</s></span><span class="txt"><g>会 C++</g></span></div>
+            <div class="sr "><span class="lbl">第 1 年</span><span class="txt">能独立做小项目 ✓                 能独立做小项目 ✓</span></div>
+            <div class="sr "><span class="lbl">第 2 年</span><span class="txt">功能越做越多，但开始难维护      能重构、能写工具 ✓</span></div>
+            <div class="sr "><span class="lbl">第 3 年</span><span class="txt">卡在「需求做不了」              能做别人做不了的需求 ✓</span></div>
+            <div class="sr "><span class="lbl">天花板 ≈ 项目复杂度</span><span class="txt">天花板 ≈ 自己想停在哪</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">理解了 <b>why</b>，才解决得了 <b>how</b>。</p>
+      </div>
+      <aside class="notes">补一句现实理由：招聘上写「熟悉 C++」和不写，是两个价位的岗位。这条别展开成鸡汤，点到为止。三年对比图很扎心，但它是真的。</aside>
+    </section>
+
+    <!-- 18 -->
+    <section class="slide" data-section="Why" data-title="蓝图正在失去什么">
+      <div class="slide-inner">
+        <div class="kicker reveal">Why · 边界</div>
+        <h2 class="reveal" style="--d:1">蓝图正在失去什么</h2>
+        <p class="lead reveal" style="--d:2">说句不客气的话：AI 时代下，蓝图的作用在变小。它没死，但它的护城河只剩一条。</p>
+        <div class="mgrid mg-3 reveal" style="--d:3">
+          <div class="mi r"><span class="k">硬伤 01 · 版本管理</span><b>二进制资产，合并不了</b>
+            <p>蓝图是 .uasset，本质是二进制。两个人改同一个蓝图，只能靠「你先提交我后改」，或者干脆分文件。代码能 merge、能 diff、能 review，蓝图不行。</p>
+          </div>
+          <div class="mi r"><span class="k">硬伤 02 · 性能</span><b>虚拟机解释执行</b>
+            <p>蓝图跑在 VM 上，逐节点解释。同一个逻辑，C++ 常常快一个数量级。热点逻辑放蓝图，是项目后期最常见的性能债。</p>
+          </div>
+          <div class="mi r"><span class="k">硬伤 03 · AI 时代</span><b>AI 写不动节点图</b>
+            <p>AI 最擅长的是文本：C++、Python、Lua、C#。对着二进制节点图，它既读不懂也改不了——这一步直接把蓝图挡在了 AI 工作流外面。</p>
+          </div>
+        </div>
+        <div class="reveal" style="--d:4;display:grid;grid-template-columns:1.15fr 1fr;gap:12px;margin-top:12px">
+          <div class="diagram" style="margin-top:0">
+            <div class="cap">蓝图现在的唯一不可替代项</div>
+<div class="spec">
+            <div class="sr "><span class="lbl"><b>编辑器生态</b></span><span class="txt">美术、TA、策划、音频——不写代码的人，只能在这里干活</span></div>
+            <div class="sr note"><span class="txt">材质、动画、Niagara、UMG 可视化预览，都是它的延伸</span></div>
+            <div class="sr neg"><span class="lbl"><s>如果没有这套生态</s></span><span class="txt">蓝图早被脚本语言取代了 —— 这就是为什么 Epic 还要死守它</span></div>
+            <div class="sr pos"><span class="lbl"><g>它依然值得学</g></span><span class="txt">因为「让非程序也能改」，这件事暂时没有第二个解</span></div>
+          </div>
+          </div>
+          <div class="card" style="margin:0;border-color:rgba(251,191,36,.32)">
+            <div class="hd a">一句话概括蓝图的处境</div>
+            <p style="margin:.2em 0;font-size:.92rem;line-height:1.55">它<b>不是被 C++ 打败的</b>，是被「版本控制 + 性能 + AI」三件事同时挤压。</p>
+            <div class="tickset" style="margin-top:6px">
+              <div class="tick a">对程序：蓝图从「主力」退成「胶水与调参层」</div>
+              <div class="tick a">对非程序：蓝图仍是唯一入口，短期不会变</div>
+              <div class="tick g">对你的选择：会蓝图不亏，但别把它当终点</div>
+            </div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:5">真正的问题不是「用不用蓝图」，是<b>你还有没有别的选项</b>。</p>
+      </div>
+      <aside class="notes">这页要有态度，但别变成踩蓝图。三条硬伤按顺序讲：版本管理（最痛，团队越大越痛）→ 性能（最常见的技术债）→ AI（最新的一条，也是最致命的长期趋势）。落点讲清：蓝图不会被淘汰，因为编辑器生态还在；但它的定位已经从「主战场」退到「非程序入口 + 调参层」。程序如果只会蓝图，就等于只会一个正在收缩的战场。</aside>
+    </section>
+
+    <!-- 19 -->
+    <section class="slide" data-section="Why" data-title="三层分工：C++ / 脚本 / 蓝图">
+      <div class="slide-inner">
+        <div class="kicker reveal">Why · 分工</div>
+        <h2 class="reveal" style="--d:1">配比早就不是 80 / 20 了</h2>
+        <p class="lead reveal" style="--d:2">过去流行的「20% C++ / 80% 蓝图」已经不够用了。现在的常见做法是三层：<b style="color:#a5f3fc">C++ 内核 · 脚本玩法 · 蓝图调参</b>。</p>
+        <div class="reveal" style="--d:3;display:grid;grid-template-columns:1.1fr 1fr;gap:12px;margin-top:10px">
+          <div class="diagram" style="margin-top:0">
+            <div class="cap">三层分工：为什么中间要多插一层脚本</div>
+<pre class="ascii">  <b>C++</b>     引擎侧 · 框架 · 基类 · 性能热点 · 第三方 SDK
+   │        <g>特点</g>  一步到位、可控、能 merge、AI 也写得动
+   ▼
+  <u>脚本</u>     玩法层：技能、AI 行为、关卡逻辑、活动配置
+   │        <g>为什么用</g>  纯文本、能 diff / merge / review
+   │                      热更新、不用重编译、AI 补代码最顺手
+   │                      Python / Lua / C# (Mono) / Verse 都有项目在用
+   ▼
+  <i>蓝图</i>     调参层：给非程序用的旋钮、UMG 布局、材质与特效参数
+            <g>定位</g>  从「写逻辑」退到「改数值 + 摆界面」</pre>
+          </div>
+          <div class="stack">
+            <table class="mtx tight">
+              <thead><tr><th style="width:92px">维度</th><th>蓝图</th><th>脚本</th><th>C++</th></tr></thead>
+              <tbody>
+                <tr><td>版本管理</td><td class="no">二进制</td><td class="ok">纯文本</td><td class="ok">纯文本</td></tr>
+                <tr><td>AI 协作</td><td class="no">读不懂</td><td class="ok">最好</td><td class="ok">好</td></tr>
+                <tr><td>性能</td><td class="no">最低</td><td class="mid">中等</td><td class="ok">最高</td></tr>
+                <tr><td>热更新</td><td class="no">难</td><td class="ok">容易</td><td class="no">不能</td></tr>
+                <tr><td>非程序可用</td><td class="ok">最好</td><td class="no">要学语法</td><td class="no">不行</td></tr>
+              </tbody>
+            </table>
+            <div class="card tight"><b>结论</b><p class="small muted" style="margin:.35em 0 0">这次要学的不是「C++ 抢蓝图的活」，而是<b style="color:#a5f3fc">学会选层</b>：写在哪一层，比用什么语言更重要。</p></div>
+          </div>
+        </div>
+        <div class="reveal" style="--d:4;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+          <div class="card tight" style="border-color:rgba(251,191,36,.3)"><b>为什么脚本能顶掉一大块蓝图</b>
+            <div class="tickset">
+              <div class="tick a">版本控制：文本 diff / merge / review，团队协作不再靠喊</div>
+              <div class="tick a">AI 协作：AI 能读、能改、能补测试，整条流水线跑得通</div>
+              <div class="tick a">热更新：不进引擎也能改玩法，运营活动不用等版本</div>
+            </div>
+          </div>
+          <div class="card tight"><b>但脚本不是万灵药</b>
+            <div class="tickset">
+              <div class="tick">接入成本高：要自己搭绑定层，UE 官方没有「开箱即用」的脚本方案</div>
+              <div class="tick">调试体验差：断点、profiler、蓝图那种可视化都没有现成的</div>
+              <div class="tick">团队门槛：非程序直接劝退，策划还是得回蓝图</div>
+            </div>
+          </div>
+        </div>
+        <p class="tiny muted reveal" style="--d:5;margin-top:8px">所以本课的重点不是「别用蓝图」，而是：<b>先掌握 C++ 这一层，再判断你的项目要不要插脚本。</b></p>
+      </div>
+      <aside class="notes">这页要讲清为什么 80/20 过时了。那个比例是 UE4 时代的经验值，那时没有 AI、团队也没那么在意合并冲突。现在很多项目在中间插一层脚本（Lua / Python / C# / Verse），动机就三个：版本控制、AI 协作、热更新。但别把它讲成银弹——脚本的接入成本、调试体验、团队门槛都要付代价。落点：先会 C++，再谈选层。</aside>
+    </section>
+
+    <!-- 20 -->
+    <section class="slide" data-section="Who" data-title="谁需要学">
+      <div class="slide-inner">
+        <div class="kicker reveal">Who</div>
+        <h2 class="reveal" style="--d:1">谁需要学：四类人，四个目标层级</h2>
+        <table class="mtx reveal" style="--d:2">
+          <thead><tr><th style="width:150px">岗位</th><th>为什么需要</th><th style="width:150px">该学到哪级</th><th style="width:200px">最该先补的块</th></tr></thead>
+          <tbody>
+            <tr><td>核心 Gameplay 程序</td><td>天天要写，框架与规则都在这层</td><td class="mid">金丹</td><td>GamePlay · 反射 · GC</td></tr>
+            <tr><td>需要扩引擎的人（TA / 渲染）</td><td>定制需求多，接口不够用</td><td class="mid">金丹以上</td><td>Module · 引擎源码 · Slate</td></tr>
+            <tr><td>引擎工具编写者</td><td>编辑器扩展、流水线、自动化</td><td class="mid">金丹</td><td>反射 · Slate · UBT</td></tr>
+            <tr><td>引擎部支持</td><td>别人的问题你得看得懂，还得答得对</td><td class="mid">筑基以上</td><td>六块全都要，但可以不深</td></tr>
+            <tr><td>策划 / 美术 / 音频</td><td>学了不亏，用来判断「能不能做」</td><td class="ok">筑基</td><td>Core 的库 + 蓝图互操作</td></tr>
+          </tbody>
+        </table>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">两个问题要分开问</div>
+<div class="spec">
+            <div class="sr "><span class="lbl"><b>问题一</b>：我是不是「必须学」的那类人？</span><span class="txt">→ 决定<b>要不要开始</b></span></div>
+            <div class="sr "><span class="lbl"><b>问题二</b>：我该学到哪一级？</span><span class="txt">→ 决定<b>学到哪停</b></span></div>
+            <div class="sr neg"><span class="lbl"><s>常见错误</s></span><span class="txt">把两个问题混成一个：「我不是程序，所以不用学」</span></div>
+            <div class="sr pos"><span class="lbl"><g>正确做法</g></span><span class="txt">不是程序，也要懂到能判断「这需求做不做得到」，到筑基就够</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">其余人学了也不亏，但<b>优先级不同</b>。</p>
+      </div>
+      <aside class="notes">大课学生来源杂，别制造焦虑。做美术的同学学到筑基就够了，做 Gameplay 的必须到金丹。把「你该学到哪一级」和「你是不是这类人」分开说，学生才不会给自己下错结论。</aside>
+    </section>
+
+    <!-- 21 -->
+    <section class="slide" data-section="When" data-title="什么时候开始学">
+      <div class="slide-inner">
+        <div class="kicker reveal">When · 路径选择</div>
+        <h2 class="reveal" style="--d:1">什么时候开始学：两条路都走得通</h2>
+        <p class="lead reveal" style="--d:2">「先玩明白蓝图再学 C++」不是必须的。<b style="color:#a5f3fc">直接 C++ 入门完全可以，甚至更快</b>——但要认下它的代价。</p>
+        <div class="reveal" style="--d:3;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
+          <div class="diagram" style="margin-top:0;border-color:rgba(52,211,153,.3)">
+            <div class="cap">路线 A：蓝图入手 —— 心智压力小，但容易停在舒适区</div>
+<div class="spec">
+            <div class="sr note"><span class="txt">蓝图做通 → 摸各模块 → 懂框架概念 → 再写 C++</span></div>
+            <div class="sr pos"><span class="lbl"><g>优点</g></span><span class="txt">门槛低、反馈快、不容易挫败</span></div>
+            <div class="sr note"><span class="txt">能先建立「引擎长什么样」的直觉</span></div>
+            <div class="sr neg"><span class="lbl"><s>代价</s></span><span class="txt">耗时间 —— 一层层往上爬，一年可能还在炼气</span></div>
+            <div class="sr note"><span class="txt">舒适区很舒服，舒服到不想往 C++ 走</span></div>
+            <div class="sr note"><span class="txt">蓝图的写法习惯，后面还要花力气改掉</span></div>
+          </div>
+          </div>
+          <div class="diagram" style="margin-top:0;border-color:rgba(34,211,238,.36)">
+            <div class="cap">路线 B：直接 C++ 入门 —— 难受，但爬得快</div>
+<div class="spec">
+            <div class="sr note"><span class="txt">直接写 C++ → 一边撞墙一边看引擎源码 → 回头补基础</span></div>
+            <div class="sr pos"><span class="lbl"><g>优点</g></span><span class="txt">修为涨得猛 —— 因为你在跟最难的那层打交道</span></div>
+            <div class="sr note"><span class="txt">一开始就建立「对象 / 模块 / 反射」的正确直觉</span></div>
+            <div class="sr note"><span class="txt">没有蓝图习惯要改，省一道返工</span></div>
+            <div class="sr neg"><span class="lbl"><s>代价</s></span><span class="txt">前期极容易放弃 —— 编译链、模块、GC 全是新概念</span></div>
+            <div class="sr note"><span class="txt">没人带的话，卡在一个报错上能卡一周</span></div>
+          </div>
+          </div>
+        </div>
+        <div class="reveal" style="--d:4;display:grid;grid-template-columns:1.05fr 1fr;gap:12px;margin-top:12px">
+          <table class="mtx tight">
+            <thead><tr><th style="width:120px">对比项</th><th>蓝图入手</th><th>直接 C++</th></tr></thead>
+            <tbody>
+              <tr><td>入门体感</td><td class="ok">轻松</td><td class="no">难受</td></tr>
+              <tr><td>前期成活率</td><td class="ok">高</td><td class="no">低（容易放弃）</td></tr>
+              <tr><td>长期成长速度</td><td class="mid">慢，且容易停</td><td class="ok">快</td></tr>
+              <tr><td>要改的旧习惯</td><td class="no">多</td><td class="ok">无</td></tr>
+              <tr><td>适合谁</td><td>不确定能不能坚持</td><td>目标明确、能扛住难受</td></tr>
+            </tbody>
+          </table>
+          <div class="stack">
+            <div class="card tight" style="border-color:rgba(34,211,238,.34)"><b>我的看法（讲者经验）</b>
+              <p class="small" style="margin:.35em 0 0">我自己就是 C++ 入门。前期确实痛苦，但过去之后进度快很多——因为一开始就在读引擎源码，而不是在读教程。</p>
+            </div>
+            <div class="card tight" style="border-color:rgba(251,191,36,.3)"><b>但别硬扛</b>
+              <div class="tickset">
+                <div class="tick a">连续两周毫无进展，就先退回蓝图做点能跑的东西，找回信心</div>
+                <div class="tick a">两条路不是单选，随时可以切换，没人扣你分</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:5">真正的分水岭不是「从哪入手」，是<b>你有没有一直往上走</b>。</p>
+      </div>
+      <aside class="notes">这页要讲得坦诚，不要照搬「必须先玩明白蓝图」的老说法。实话是：蓝图入手心智压力小，但真的很耗时间，而且舒适区很容易待住；直接 C++ 入门前期难受、容易放弃，可一旦过了那个坎，修为涨得非常快，因为你在跟最难的那层打交道。可以讲自己的经历：C++ 入门，前期痛苦但进度快很多。最后给个台阶：不用死磕，扛不住就先退回蓝图缓一缓，两条路随时能切。</aside>
+    </section>
+
+    <!-- 22 -->
+    <section class="slide" data-section="When" data-title="什么算「蓝图学明白了」">
+      <div class="slide-inner">
+        <div class="kicker reveal">When · 标准</div>
+        <h2 class="reveal" style="--d:1">什么算「蓝图学明白了」</h2>
+        <p class="lead reveal" style="--d:2">不是「能连出功能」，是「能拆得开」。这两者之间差着一整级。</p>
+        <table class="mtx reveal" style="--d:3">
+          <thead><tr><th style="width:140px">项</th><th>要求</th><th style="width:130px">没做到会怎样</th></tr></thead>
+          <tbody>
+            <tr><td>类型基础</td><td>类、结构、枚举、接口、委托都认得，知道各自适合什么</td><td class="no">数据结构乱选</td></tr>
+            <tr><td>职责划分</td><td>懂设计模式，能判断一段逻辑该放在哪个类</td><td class="no">巨型蓝图</td></tr>
+            <tr><td>重构能力</td><td>蓝图也要能重构：拆函数、拆组件、拆子类</td><td class="no">改一次崩一次</td></tr>
+            <tr><td>数据驱动</td><td>能用 DataTable / DataAsset 把数值从逻辑里剥出来</td><td class="no">策划改不了</td></tr>
+            <tr><td>工具组合</td><td>能组合引擎给的辅助工具：接口、事件分发、组件</td><td class="no">到处 Cast</td></tr>
+          </tbody>
+        </table>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">同一个需求，两种「做完」</div>
+<div class="spec">
+            <div class="sr note"><span class="txt">需求：三种敌人，各自有不同的移动方式和攻击方式</span></div>
+            <div class="sr neg"><span class="lbl"><s>能连出功能</s></span><span class="txt">一个 Enemy 蓝图，里面一堆 Branch：「如果是飞的... 如果是爬的...」</span></div>
+            <div class="sr pos"><span class="lbl"><g>能拆得开</g></span><span class="txt">动画/数值用数据驱动 + 移动组件拆成三个子类 + 攻击用接口 → 加第四种只加一份数据</span></div>
+            <div class="sr hi"><span class="lbl"><b>判断标准</b></span><span class="txt">加第四种敌人时，你要改几处？1 处 = 拆开了，5 处 = 没拆开</span></div>
+          </div>
+        </div>
+        <p class="tiny muted reveal" style="--d:5;margin-top:8px">最后一句：能做，不代表做原型时也要这么做。原型阶段该糙就糙。</p>
+      </div>
+      <aside class="notes">这页其实在立标准。很多学生以为「能做出功能」就够了，但工程上的分水岭是能不能把功能拆成能维护的几块。「加第四种敌人改几处」是个很好用的检验方法。</aside>
+    </section>
+
+    <!-- 23 -->
+    <section class="slide" data-section="Which" data-title="六块要点地图">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · 全景</div>
+        <h2 class="reveal" style="--d:1">六块要点：不是并列的</h2>
+        <p class="lead reveal" style="--d:2">前两块是日常，中间三块解释「为什么能这样写」，最后一块靠积累。学的时候按这个顺序，别平行用力。</p>
+        <div class="mgrid mg-3 reveal" style="--d:3">
+          <div class="mi g"><span class="k">日常 · 每天</span><b>Core</b><p>容器、字符串、智能指针、委托、数学类型——写代码的手感来源</p></div>
+          <div class="mi g"><span class="k">日常 · 每天</span><b>GamePlay</b><p>Actor 怎么组装、对象怎么组织、框架怎么用</p></div>
+          <div class="mi v"><span class="k">解释 · 为什么</span><b>Module（UBT-C#）</b><p>代码怎么被编译、被链接、依赖怎么连</p></div>
+          <div class="mi v"><span class="k">解释 · 为什么</span><b>反射（UHT）</b><p>宏怎么变成运行时的类型信息，蓝图怎么看见你的变量</p></div>
+          <div class="mi v"><span class="k">解释 · 为什么</span><b>CoreUObject（GC）</b><p>对象为什么不会被随手删掉，为什么会突然变空</p></div>
+          <div class="mi a"><span class="k">积累 · 靠项目</span><b>各模块的「地方习俗」</b><p>渲染、动画、AI、网络各有各的写法与套路</p></div>
+        </div>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">六块之间的依赖方向（箭头 = 「要理解它得先懂」）</div>
+<pre class="ascii">  <b>Core</b> ──────→ <b>GamePlay</b> ──────→ <u>地方习俗</u>
+   │                │                    ▲
+   │                ▼                    │
+   └────→ <i>Module</i> ──→ <i>反射</i> ──→ <i>CoreUObject / GC</i> ──┘
+
+  <s>学错顺序</s>  先啃渲染 → 卡在模板和内存模型 → 放弃
+  <g>正确顺序</g>  Core → GamePlay → Module → 反射 → GC → 模块习俗</pre>
+        </div>
+        <p class="tiny muted reveal" style="--d:5;margin-top:8px">这六块，就是上一页那张打分表的列。</p>
+      </div>
+      <aside class="notes">先给全景。学生最爱问「这么多怎么学」，答案是先学前两块，中间三块懂到能解释报错就行，最后一块靠时间。依赖方向这张图很重要——它解释了为什么不能从渲染开始。</aside>
+    </section>
+
+    <!-- 24 -->
+    <section class="slide" data-section="Which" data-title="Core · 要补的底子">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · Core</div>
+        <h2 class="reveal" style="--d:1">Core · 要补的底子</h2>
+        <p class="lead reveal" style="--d:2">原话是「很多人栽在这上面」。这六项里，前三项是必须，后三项是用到再补。</p>
+        <div class="two-col-dense reveal" style="--d:3">
+          <div>
+            <table class="mtx tight">
+              <thead><tr><th style="width:60px">序</th><th style="width:120px">要补什么</th><th>具体到哪个类</th></tr></thead>
+              <tbody>
+                <tr><td>01</td><td>C++ 基础</td><td>指针、引用、const、类与继承、构造析构、RAII</td></tr>
+                <tr><td>02</td><td>容器</td><td><code>TArray</code> <code>TSet</code> <code>TMap</code>，以及各自的迭代器失效规则</td></tr>
+                <tr><td>03</td><td>字符串</td><td><code>FString</code> <code>FName</code> <code>FText</code> 三者互转与适用场景</td></tr>
+                <tr><td>04</td><td>智能指针</td><td><code>TSharedPtr</code> <code>TSharedRef</code> <code>TWeakPtr</code> <code>TUniquePtr</code></td></tr>
+                <tr><td>05</td><td>委托与属性</td><td>单播/多播/动态委托、<code>TAttribute</code>、<code>TSubclassOf</code></td></tr>
+                <tr><td>06</td><td>多线程与设计模式</td><td>Task Graph、Async、线程安全；观察者/策略/工厂</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="stack">
+            <div class="diagram" style="margin-top:0">
+              <div class="cap">三个字符串：选错就有性能坑</div>
+<div class="spec">
+            <div class="sr "><span class="lbl"><b>FString</b></span><span class="txt">可变、可拼、可格式化    慢，用于显示与外部输入</span></div>
+            <div class="sr "><span class="lbl"><i>FName</i></span><span class="txt">不可变、全局唯一、比较 O(1)  用于资产名、标签、查找键</span></div>
+            <div class="sr cau"><span class="lbl"><u>FText</u></span><span class="txt">本地化、可复数、可格式化    用于所有玩家可见文本</span></div>
+            <div class="sr neg"><span class="lbl"><s>坑</s></span><span class="txt">用 FString 当 TMap 的 key 做高频查找</span></div>
+            <div class="sr pos"><span class="lbl"><g>解</g></span><span class="txt">换 FName —— 比较从逐字符变成比索引</span></div>
+          </div>
+            </div>
+            <div class="diagram" style="margin-top:0">
+              <div class="cap">容器遍历的两个经典坑</div>
+<pre class="ascii">  <s>坑一</s> for (auto&amp; E : Arr) if (cond) Arr.Remove(E);   → 迭代器失效
+  <g>解一</g> for (int32 i = Arr.Num()-1; i &gt;= 0; --i) ...
+
+  <s>坑二</s> 存指针到 TArray，元素搬移后指针失效
+  <g>解二</g> 存索引或 TWeakPtr，别存裸地址</pre>
+            </div>
+          </div>
+        </div>
+        <p class="tiny muted reveal" style="--d:4;margin-top:8px">现场能演示就演示这两个坑，各一分钟，比讲十分钟有用。</p>
+      </div>
+      <aside class="notes">现场演示两个坑：FName 比较是索引比较，跟 FString 语义完全不同；遍历 TArray 时往里加/删元素会崩。两个坑各一分钟，学生印象最深。</aside>
+    </section>
+
+    <!-- 25 -->
+    <section class="slide" data-section="Which" data-title="Core · 到什么程度">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · Core</div>
+        <h2 class="reveal" style="--d:1">到什么程度，去哪学</h2>
+        <div class="cols reveal" style="--d:2">
+          <div class="card ok">
+            <div class="hd g">够用线 —— 三项</div>
+            <div class="tickset">
+              <div class="tick g"><b>能看懂</b>：别人的代码、引擎源码，知道大意</div>
+              <div class="tick g"><b>能改</b>：照现有结构改出自己的版本</div>
+              <div class="tick g"><b>能查</b>：不确定的时候知道去哪儿找</div>
+              <div class="tick r" style="margin-top:4px"><b>不必</b>：背标准库、背模板元编程</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hd">来源 —— 两个够用</div>
+            <table class="mtx tight">
+              <tr><td>源码</td><td><code>Engine/Source/Runtime/Core/Public</code>，随便挑一个头文件开始读</td></tr>
+              <tr><td>参考</td><td>cppreference，查标准库语义，别读全部</td></tr>
+              <tr><td>不需要</td><td>大部头 C++ 教材、模板元编程专著（暂时）</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">UE5 的三个版本事实（必讲）</div>
+<div class="spec">
+            <div class="sr "><span class="lbl"><b>C++20</b></span><span class="txt">UE5.3 起默认，C++17 已弃用，C++11 是 UE4 时代</span></div>
+            <div class="sr hi"><span class="lbl"><b>LWC</b></span><span class="txt"><code>FVector</code> 默认 <code>double</code>；要单精度写 <code>FVector3f</code></span></div>
+            <div class="sr neg"><span class="lbl"><s>旧代码</s></span><span class="txt">仍要认得 C++11 写法 —— 大量插件和旧项目还是那套</span></div>
+            <div class="sr note"><span class="txt">另有 <code>int32</code>/<code>uint8</code> 这类引擎别名，别写成 int/char</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">指一个具体目录，比推荐一摞书有用。</p>
+      </div>
+      <aside class="notes">别推荐一摞书。指一个具体目录：Engine/Source/Runtime/Core/Public，从 Public 里随便挑一个头文件开始读，比看教程有用。LWC 这条一定要讲——学生写 FVector 传给 float 函数会莫名其妙精度丢失。</aside>
+    </section>
+
+    <!-- 26 -->
+    <section class="slide" data-section="Which" data-title="GamePlay · Actor 怎么组装">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · GamePlay</div>
+        <h2 class="reveal" style="--d:1">Actor 怎么组装：容器与能力</h2>
+        <p class="lead reveal" style="--d:2">Actor 是容器，组件是能力。这句记下来，后面全通。</p>
+        <div class="pipe reveal" style="--d:3">
+          <div class="st"><span class="n">01</span><b>创建 Actor</b><small>继承 + UCLASS；构造函数里别做重活</small></div>
+          <div class="st"><span class="n">02</span><b>挂 Component</b><small>CreateDefaultSubobject + SetupAttachment</small></div>
+          <div class="st"><span class="n">03</span><b>BeginPlay</b><small>初始化，此时世界已就绪</small></div>
+          <div class="st"><span class="n">04</span><b>Tick</b><small>每帧推进，注意开销与开关</small></div>
+          <div class="st"><span class="n">05</span><b>输入与碰撞</b><small>Enhanced Input + 委托回调</small></div>
+        </div>
+        <div class="two-col-dense reveal" style="--d:4">
+          <div class="diagram" style="margin-top:0">
+            <div class="cap">组装方式：继承 vs 组合</div>
+<pre class="ascii">  <s>继承优先（难维护）</s>
+  ACharacter
+   └ APlayerChar
+      └ AFlyingPlayerChar
+         └ AFlyingPlayerCharWithShield
+            └ ... 类爆炸
+
+  <g>组合优先（推荐）</g>
+  ACharacter
+   ├ FlightComponent      （飞行能力）
+   ├ ShieldComponent      （护盾能力）
+   └ HealthComponent      （生命能力）
+  换能力 = 换组件，不用改类</pre>
+          </div>
+          <div class="stack">
+            <div class="diagram" style="margin-top:0">
+              <div class="cap">生命周期顺序（简版）</div>
+<div class="spec">
+            <div class="sr note"><span class="txt">构造 → PostInitializeComponents → BeginPlay</span></div>
+            <div class="sr note"><span class="txt">→ Tick（每帧） → EndPlay → 销毁</span></div>
+            <div class="sr hi"><span class="lbl"><b>构造期</b></span><span class="txt">只挂组件、设默认值；不要查世界</span></div>
+            <div class="sr "><span class="lbl"><b>BeginPlay</b></span><span class="txt">世界已就绪：找对象、绑委托、开计时器</span></div>
+            <div class="sr "><span class="lbl"><b>EndPlay</b></span><span class="txt">解绑、清理、停计时器</span></div>
+          </div>
+            </div>
+            <div class="card tight"><b>一个高频错误</b><p class="small muted" style="margin:.35em 0 0">在构造函数里 <code>GetWorld()</code> 或 <code>FindPlayer</code>——那时世界可能还不存在。这类问题表现为「偶尔崩」，最难查。</p></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:5">组合优先：<b>能不继承就不继承，能挂组件就挂组件。</b></p>
+      </div>
+      <aside class="notes">呼应第一节课的面向对象：组合优先。学生最容易写一个巨型基类，然后在里面判断「我是不是玩家」。生命周期那张表是实用货——构造函数里查世界是新手最经典的崩法。</aside>
+    </section>
+
+    <!-- 27 -->
+    <section class="slide" data-section="Which" data-title="GamePlay · 对象怎么组织">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · GamePlay</div>
+        <h2 class="reveal" style="--d:1">对象怎么组织：四层结构</h2>
+        <div class="cols reveal" style="--d:2">
+          <div>
+            <table class="mtx tight">
+              <thead><tr><th style="width:130px">层</th><th>到底是什么</th><th style="width:120px">代码位置</th></tr></thead>
+              <tbody>
+                <tr><td>框架类</td><td>GameMode / GameState / PlayerController / Pawn / PlayerState / HUD</td><td><code>GameFramework/</code></td></tr>
+                <tr><td>自定义 UObject</td><td>纯逻辑对象，不进世界，没有 Transform</td><td>你自己定</td></tr>
+                <tr><td>数据对象</td><td>Config 类、DataTable 行、DataAsset、PrimaryDataAsset</td><td><code>Engine/Classes/Engine/</code></td></tr>
+                <tr><td>功能分层</td><td>UMG 的 UUserWidget、AI 的 AIController、动画的 AnimInstance</td><td>各模块目录</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="diagram" style="margin-top:0">
+            <div class="cap">谁持有谁（生命周期与复制关系）</div>
+<pre class="ascii">  <b>GameMode</b>（服务器，规则）
+    └ <b>GameState</b>（复制到所有端，状态）
+        └ <b>PlayerState</b>（复制，玩家数据）
+            └ <b>PlayerController</b>（本地输入）
+                └ <b>Pawn</b>（可被 Possess）
+                    ├ Character / CharacterMovement
+                    └ 各种 ActorComponent
+
+  <s>别做</s> 把数据塞 GameInstance 当万能仓库
+  <g>要做</g> 按生命周期选容器：跨关卡 GameInstance / 本局 GameState / 玩家 PlayerState</pre>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">UObject vs Actor vs Asset —— 三者到底差在哪</div>
+<div class="spec">
+            <div class="sr "><span class="lbl"><b>UObject</b></span><span class="txt">万物之基：有反射、受 GC 管、可序列化。不一定在世界里</span></div>
+            <div class="sr cau"><span class="lbl"><b>Actor</b></span><span class="txt">一种 UObject：<u>能进世界</u>，有 Transform、有 Tick、能复制</span></div>
+            <div class="sr cau"><span class="lbl"><b>Asset</b></span><span class="txt">一种 UObject：<u>存在磁盘上</u>，有包路径、按需加载</span></div>
+            <div class="sr neg"><span class="lbl"><s>只懂 Actor</s></span><span class="txt">→ 什么功能都想做成 Actor，凭空多出 Transform 和 Tick 开销</span></div>
+            <div class="sr pos"><span class="lbl"><g>懂 Object</g></span><span class="txt">→ 纯逻辑做成 UObject，只在需要进世界时才用 Actor</span></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">只点位置，不展开——框架细节是另一节课。这里给的是「不知道往哪写的时候，去哪儿翻」。最后那张 UObject/Actor/Asset 的对比，就是 P06 那句红字的答案，一定要讲透。</aside>
+    </section>
+
+    <!-- 28 -->
+    <section class="slide" data-section="Which" data-title="Module · 为什么要有 UBT">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · Module</div>
+        <h2 class="reveal" style="--d:1">为什么要有 UBT：一条编译链</h2>
+        <div class="cols reveal" style="--d:2">
+          <div class="card tight"><b>问题</b><p class="small muted" style="margin:.35em 0 0">引擎要支持 Windows / Mac / Linux / iOS / Android / 主机，每个平台的编译器、宏、链接方式都不同。</p></div>
+          <div class="card tight" style="border-color:rgba(34,211,238,.3)"><b>答案</b><p class="small muted" style="margin:.35em 0 0">自己造一套构建系统：用 C# 写描述，用一套工具链统管所有平台。这就是 UBT。</p></div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">从按 F5 到编辑器起来，中间发生了什么</div>
+<pre class="ascii">  <b>[1] UBT（C#）</b>          读 .Build.cs / .Target.cs，算出「要编哪些文件、用什么参数」
+        │                <u>只改 .cpp？走 Live Coding，跳过后面大半</u>
+        ▼
+  <b>[2] UHT（C++ 程序）</b>     扫所有 *.generated.h，生成反射代码（.gen.cpp）
+        │                <s>这一步报错 = 反射标记写错</s>
+        ▼
+  <b>[3] 平台编译器</b>         MSVC / Clang / 各主机 SDK，真正编译
+        │                <s>这一步报错 = 语法或头文件问题</s>
+        ▼
+  <b>[4] 链接器</b>             把 .obj 和库连成 .dll / .exe
+        │                <s>这一步报错 = 缺模块依赖</s>
+        ▼
+  <b>[5] 起 Editor</b>         加载模块，失败会弹「模块无法加载」</pre>
+        </div>
+        <div class="cols reveal" style="--d:4">
+          <div class="warn">改 <code>.cpp</code>：<b>Live Coding</b>（Ctrl+Alt+F11）热补，几秒完事</div>
+          <div class="warn">改头文件 / 改 <code>Build.cs</code>：必须停编辑器<b>整体重编译</b></div>
+        </div>
+        <p class="tiny muted reveal" style="--d:5;margin-top:8px">这就是「我明明改对了为什么不生效」的第二种根因——第一种是根本没编译成功。</p>
+      </div>
+      <aside class="notes">学生最常见的困惑「我明明改对了为什么不编译」，根因都在这条链上。这张图要慢慢讲：每一段对应一类报错，学生以后看到报错就知道卡在哪一段。Live Coding 的边界（能改什么、不能改什么）必须讲清。</aside>
+    </section>
+
+    <!-- 29 -->
+    <section class="slide" data-section="Which" data-title="Module · 依赖怎么连">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · Module</div>
+        <h2 class="reveal" style="--d:1">依赖怎么连：三组属性</h2>
+        <p class="lead reveal" style="--d:2"><code>Build.cs</code> 里的 <code>ModuleRules</code>，三组属性管三件事。</p>
+        <div class="mgrid mg-3 reveal" style="--d:3">
+          <div class="mi"><span class="k">PUBLIC</span><b>PublicDependencyModuleNames</b><p>我这个模块对外暴露的头文件里用到的依赖。会传染给依赖我的模块</p></div>
+          <div class="mi v"><span class="k">PRIVATE</span><b>PrivateDependencyModuleNames</b><p>只在自己内部用，不对外暴露。不外传</p></div>
+          <div class="mi a"><span class="k">DYNAMIC</span><b>DynamicallyLoadedModuleNames</b><p>运行时才加载，编译期不链接。用来做可选功能</p></div>
+        </div>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">常见依赖写法（照着抄就行）</div>
+<pre class="ascii">  <span class="kw">PublicDependencyModuleNames</span>.AddRange(<span class="kw">new string[]</span> {
+      <span class="st">"Core"</span>, <span class="st">"CoreUObject"</span>, <span class="st">"Engine"</span>, <span class="st">"InputCore"</span> });
+
+  <span class="cm">// 用到 UMG 控件</span>
+  <span class="kw">PrivateDependencyModuleNames</span>.AddRange(<span class="kw">new string[]</span> { <span class="st">"UMG"</span>, <span class="st">"Slate"</span>, <span class="st">"SlateCore"</span> });
+
+  <span class="cm">// 用到 AI 感知</span>
+  <span class="kw">PrivateDependencyModuleNames</span>.Add(<span class="st">"AIModule"</span>);
+
+  <span class="cm">// 用到 Enhanced Input</span>
+  <span class="kw">PublicDependencyModuleNames</span>.Add(<span class="st">"EnhancedInput"</span>);</pre>
+        </div>
+        <div class="cols reveal" style="--d:5">
+          <div class="card tight"><b>口诀</b><p class="small muted" style="margin:.35em 0 0">public 会传染，private 不外传。只在自己 .cpp 里用 → private；出现在自己的 .h 里 → public。</p></div>
+          <div class="warn">真实报错：<code>undefined symbol</code> 十有八九是少加了一个模块名。这个错新手会被卡好几天</div>
+        </div>
+      </div>
+      <aside class="notes">讲一个真实报错：改代码时突然一片红，链接时报 undefined symbol，八成是 Build.cs 少了模块名。判断规则一句话：出现在你自己的 .h 里 → public，只在 .cpp 里 → private。</aside>
+    </section>
+
+    <!-- 30 -->
+    <section class="slide" data-section="Which" data-title="Module · 头文件与包含">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · Module</div>
+        <h2 class="reveal" style="--d:1">头文件与包含：谁能看见谁</h2>
+        <p class="lead reveal" style="--d:2">最容易混的一组概念。记住一句：IncludePath 是「能看见」，Dependency 是「能用」。</p>
+        <div class="cols reveal" style="--d:3">
+          <div class="card">
+            <div class="hd">路径 —— 决定 include 怎么写</div>
+            <table class="mtx tight">
+              <tr><td>Public</td><td><code>PublicIncludePaths</code>；默认已含 <code>Public</code></td></tr>
+              <tr><td>Private</td><td><code>PrivateIncludePaths</code>；默认已含 <code>Private</code> 与 <code>Classes</code></td></tr>
+              <tr><td>影响</td><td>改它们 = 改「别人 include 你的写法」，别乱动</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="hd v">只包含不链接 —— 一种特殊关系</div>
+            <table class="mtx tight">
+              <tr><td>Public</td><td><code>PublicIncludePathModuleNames</code></td></tr>
+              <tr><td>Private</td><td><code>PrivateIncludePathModuleNames</code></td></tr>
+              <tr><td>含义</td><td>能 include 头文件、能用里面的类型声明，但<b>拿不到符号</b></td></tr>
+              <tr><td>用途</td><td>头文件里只用到指针/引用，不需要真的链接</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">三种关系，一张图分清</div>
+<pre class="ascii">  ┌─────────────────────────── 你的模块 ───────────────────────────┐
+  │                                                                │
+  │  <b>#include "Other/Header.h"</b>  ← 需要 IncludePath  「能看见」   │
+  │         │                                                      │
+  │         ├── 只用了 <i>class FOther*</i>（前向声明/指针）          │
+  │         │     → 只需 IncludePath，<u>不用</u> Dependency         │
+  │         │                                                      │
+  │         └── 调用了 <i>FOther::DoSomething()</i>                 │
+  │               → 必须加 Dependency「能用」，否则<s>链接不过</s>   │
+  └────────────────────────────────────────────────────────────────┘</pre>
+        </div>
+        <div class="warn reveal" style="--d:5">判断方法：<b>能 include 却链接不过</b>，就是这组配错了。补 Dependency，别去改 IncludePath。</div>
+      </div>
+      <aside class="notes">配圈图讲，不要念定义。一句话记忆：IncludePath 是「能看见」，Dependency 是「能用」。判断方法很实用：能 include 但链接不过，就是缺 Dependency，别去乱改 IncludePath。</aside>
+    </section>
+
+    <!-- 31 -->
+    <section class="slide" data-section="Which" data-title="Module · 第三方库、宏、平台">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · Module</div>
+        <h2 class="reveal" style="--d:1">第三方库、宏、平台</h2>
+        <p class="lead reveal" style="--d:2">接外部 SDK 的那天，一定要回来对一遍清单。</p>
+        <div class="mgrid mg-3 reveal" style="--d:3">
+          <div class="mi"><span class="k">LINK · 库文件</span><b>链接什么</b>
+            <p><code>PublicAdditionalLibraries</code><br><code>PublicSystemLibraryPaths</code><br><code>PublicDelayLoadDLLs</code><br><code>PrivateAdditionalLibraries</code></p>
+          </div>
+          <div class="mi v"><span class="k">DEFINE · 宏</span><b>编译期开关</b>
+            <p><code>PublicDefinitions</code>（传染）<br><code>PrivateDefinitions</code>（不外传）<br>平台宏：<code>PLATFORM_WINDOWS</code><br>配置宏：<code>UE_BUILD_SHIPPING</code></p>
+          </div>
+          <div class="mi a"><span class="k">TARGET · 平台</span><b>条件编译</b>
+            <p><code>Target.Platform</code>：Win64 / Android / IOS / Linux<br><code>Target.Configuration</code>：Debug / Development / Shipping<br>用于在 Build.cs 里写 if 分支</p>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">接一个第三方库的完整清单（照这张表做，一次连通）</div>
+<pre class="ascii">  1  放到 <b>ThirdParty/&lt;Name&gt;/</b>，分 include / lib / bin（按平台建子目录）
+  2  Build.cs 加 <u>PublicSystemLibraryPaths</u>（.lib 所在目录）
+  3  Build.cs 加 <b>PublicAdditionalLibraries</b>（.lib 文件名）
+  4  Windows 运行时需要 DLL → <u>PublicDelayLoadDLLs</u> + 运行时 CopyToBinaries
+  5  头文件目录加到 <b>PublicIncludePaths</b>
+  6  需要开关宏 → <b>PublicDefinitions</b>.Add("MY_SDK_ENABLED=1")
+  7  重新生成工程文件（右键 .uproject → Generate），别只按编译
+
+  <s>只加 include 不加 lib</s>  → 编译过、链接炸（最常见的第三方库问题）</pre>
+        </div>
+        <div class="capability reveal" style="--d:5">这一块的用处：<b>能接 SDK，你的项目才能对接平台、支付、语音、反作弊这些真实需求。</b></div>
+      </div>
+      <aside class="notes">这页不讲细节，只留坐标和一张清单。真接第三方库的那天，你会回来找这一页。清单第 7 步最容易被忘——改完 Build.cs 不重新生成工程，IDE 里还是旧配置。</aside>
+    </section>
+
+    <!-- 32 -->
+    <section class="slide" data-section="Which" data-title="反射 · UHT 生成了什么">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · 反射</div>
+        <h2 class="reveal" style="--d:1">UHT 生成了什么</h2>
+        <p class="lead reveal" style="--d:2">一句话：宏不是注释，是给另一个程序看的输入。</p>
+        <div class="two-col-dense reveal" style="--d:3">
+          <div>
+<pre class="pre2"><span class="cm">// MyActor.h —— 你写的</span>
+<span class="kw">#include</span> <span class="st">"CoreMinimal.h"</span>
+<span class="kw">#include</span> <span class="st">"MyActor.generated.h"</span>   <span class="cm">// 必须是最后一个 include</span>
+
+<span class="ty">UCLASS</span>()
+<span class="kw">class</span> MYGAME_API AMyActor : <span class="kw">public</span> AActor
+{
+    GENERATED_BODY()                    <span class="cm">// 必须第一行</span>
+<span class="kw">public:</span>
+    <span class="ty">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category=<span class="st">"Stats"</span>)
+    <span class="kw">int32</span> Health = 100;
+
+    <span class="ty">UFUNCTION</span>(BlueprintCallable)
+    <span class="kw">void</span> TakeDamage(<span class="kw">int32</span> Amount);
+};</pre>
+            <div class="diagram" style="margin-top:8px">
+              <div class="cap">UHT 干了什么</div>
+<div class="spec">
+            <div class="sr cau"><span class="lbl"><u>读</u></span><span class="txt">所有带 .generated.h 的头文件（不编译，只解析）</span></div>
+            <div class="sr cau"><span class="lbl"><u>写</u></span><span class="txt">MyActor.generated.h  →  静态类型信息、属性偏移、宏展开</span></div>
+            <div class="sr "><span class="lbl">MyActor.gen.cpp</span><span class="txt">→  RegisterCompiledInInfo、反射注册函数</span></div>
+          </div>
+            </div>
+          </div>
+          <div class="stack">
+            <table class="mtx tight">
+              <thead><tr><th style="width:130px">符号</th><th>作用</th></tr></thead>
+              <tbody>
+                <tr><td><code>UCLASS()</code></td><td>让类进入反射系统，蓝图可见、可派生</td></tr>
+                <tr><td><code>USTRUCT()</code></td><td>让结构体可反射、可序列化、可在蓝图用</td></tr>
+                <tr><td><code>UENUM()</code></td><td>枚举可在蓝图下拉框里出现</td></tr>
+                <tr><td><code>UPROPERTY()</code></td><td>属性进反射 + <b>进 GC 分析</b>（最关键）</td></tr>
+                <tr><td><code>UFUNCTION()</code></td><td>函数可被蓝图调用 / 被委托绑定</td></tr>
+                <tr><td><code>UINTERFACE()</code></td><td>接口可被蓝图实现</td></tr>
+                <tr><td><code>GENERATED_BODY()</code></td><td>把生成的代码插进你的类</td></tr>
+              </tbody>
+            </table>
+            <div class="card tight" style="border-color:rgba(251,191,36,.3)"><b><code>MYGAME_API</code> 是什么</b><p class="small muted" style="margin:.35em 0 0">导出宏，来自模块名。漏写 = 链接不过，不是语法错误。这是新手最常见的「编译成功但链接失败」。</p></div>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">三条硬规则（违反就编不过）</div>
+<div class="spec">
+            <div class="sr neg"><span class="lbl"><s>1</s></span><span class="txt">.generated.h 必须是<b>最后一个</b> include</span></div>
+            <div class="sr neg"><span class="lbl"><s>2</s></span><span class="txt">GENERATED_BODY() 必须是类体<b>第一行</b></span></div>
+            <div class="sr neg"><span class="lbl"><s>3</s></span><span class="txt">宏里的类型必须是<b>反射可见</b>的（UObject 指针 / 反射结构体 / 基础类型）</span></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">这页可以录个屏，展示 generated.h 生成前后。三条硬规则讲完，学生 90% 的 UHT 报错都能自己解决。MYGAME_API 这条单独强调——它是最迷惑人的一类错误。</aside>
+    </section>
+
+    <!-- 33 -->
+    <section class="slide" data-section="Which" data-title="反射 · 运行时能干什么">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · 反射</div>
+        <h2 class="reveal" style="--d:1">运行时能干什么：类型也是对象</h2>
+        <div class="cols reveal" style="--d:2">
+          <div>
+            <div class="hd">五个类型对象</div>
+            <table class="mtx tight">
+              <tr><td><code>UClass*</code></td><td>一个类的描述：属性表、函数表、父类链</td></tr>
+              <tr><td><code>UScriptStruct*</code></td><td>反射结构体的描述</td></tr>
+              <tr><td><code>UFunction*</code></td><td>一个可反射函数的描述：参数、返回值、标记</td></tr>
+              <tr><td><code>FProperty*</code></td><td>一个属性的描述：类型、偏移、标记</td></tr>
+              <tr><td><code>UField*</code></td><td>上面这些的公共基类</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="hd v">两件事，撑起所有工具</div>
+            <table class="mtx tight">
+              <thead><tr><th style="width:100px">能力</th><th>用在哪</th></tr></thead>
+              <tbody>
+                <tr><td>遍历属性<br>按名字读写</td><td>通用存档、属性面板、数据校验、批量改值、导出 CSV</td></tr>
+                <tr><td>遍历函数<br>找到并调用</td><td>控制台命令、蓝图节点、编辑器按钮、脚本绑定</td></tr>
+              </tbody>
+            </table>
+            <div class="card tight" style="margin-top:6px"><b>实际例子</b><p class="small muted" style="margin:.35em 0 0">一个「把所有数值属性导出成表」的编辑器工具 = 遍历 UClass → 遍历 FProperty → 判断类型 → 读值 → 写 CSV。不到 100 行。</p></div>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">三个概念的区别（蓝图引脚长得不一样，就是这个原因）</div>
+<pre class="ascii">  <b>UClass*</b>        「哪个类」    → 蓝图里的 <u>Class Reference</u>（紫色）
+  <b>UObject*</b>       「哪个实例」  → 蓝图里的 <u>Object Reference</u>（蓝色）
+  <b>TSubclassOf&lt;T&gt;</b> 「限定范围的类」→ 蓝图里可以规定「只能选 A 的子类」
+
+  <s>常见错</s> 想传一个类，结果传了实例指针；想调实例方法，结果拿到类</pre>
+        </div>
+        <p class="big-line reveal" style="--d:4">对象用类型描述，<b>类型本身也是对象</b>。</p>
+      </div>
+      <aside class="notes">举实际用途：写一个通用的属性面板、做一个「把所有数值导出成表」的编辑器工具，全靠这层反射。最后那张 UClass / UObject / TSubclassOf 的对比最实用——学生在蓝图里引脚连不上，八成就是这三个混了。</aside>
+    </section>
+
+    <!-- 34 -->
+    <section class="slide" data-section="Which" data-title="GC · 谁能被回收">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · CoreUObject</div>
+        <h2 class="reveal" style="--d:1">GC · 谁能被回收</h2>
+        <p class="lead reveal" style="--d:2">UE 没有 new / delete，对象由 GC 管。规则只有一条，但违反它的代价极高。</p>
+        <div class="cols reveal" style="--d:3">
+          <div>
+            <div class="diagram" style="margin-top:0">
+              <div class="cap">引用链：从根出发可达的都活着</div>
+<pre class="ascii">  <b>Root Set</b>（引擎自己抓着的：GEngine、GameInstance、Actor 等）
+     │
+     ├──→ <b>对象 A</b>
+     │       ├──→ <u>成员 X（标了 UPROPERTY）</u>  ✓ 被扫描，活着
+     │       └──→ <u>成员 Y（裸指针）</u>          ✗ 不被扫描，可能被回收
+     │
+     └──→ <b>对象 B</b>  ← 没有引用链到这里 → 回收</pre>
+            </div>
+            <div class="card" style="border-color:rgba(251,113,133,.36);margin-top:6px">
+              <p style="margin:0;color:#fda4af;font-weight:600;font-size:.92rem;line-height:1.45">只有 UPROPERTY 标记的引用，才进 GC 分析。</p>
+              <p class="small muted" style="margin:.45em 0 0">非 UObject 结构体与 UObject 混用，要小心 <code>FGCObject::AddReferencedObjects</code>。</p>
+            </div>
+          </div>
+          <div class="stack">
+            <table class="mtx tight">
+              <thead><tr><th style="width:120px">写法</th><th>UE5 推荐</th></tr></thead>
+              <tbody>
+                <tr><td>成员指针</td><td><code>TObjectPtr&lt;AActor&gt;</code> 而不是 <code>AActor*</code>（增量 GC 下才安全）</td></tr>
+                <tr><td>判空</td><td><code>IsValid(Ptr)</code> 而不是 <code>Ptr != nullptr</code></td></tr>
+                <tr><td>弱引用</td><td><code>TWeakObjectPtr&lt;T&gt;</code> 不参与 GC 引用，用前判空</td></tr>
+                <tr><td>非 UObject</td><td>用 <code>TSharedPtr</code> / <code>TUniquePtr</code>，它们不走 GC</td></tr>
+                <tr><td>手动标记</td><td><code>AddToRoot()</code> / <code>RemoveFromRoot()</code>，慎用</td></tr>
+              </tbody>
+            </table>
+            <div class="diagram" style="margin-top:0">
+              <div class="cap">经典事故现场</div>
+<pre class="ascii">  <s>AActor* CachedTarget;</s>          // 没标 UPROPERTY
+  CachedTarget = GetTarget();
+  // ... 几秒后 ...
+  CachedTarget->DoSomething();      // 崩溃：对象已被回收
+
+  <g>UPROPERTY() TObjectPtr&lt;AActor&gt; CachedTarget;</g>  // 正确</pre>
+            </div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">自从用了 UE，就<b>再也不用 new / delete 了</b>——但要记得告诉 GC「我还用它」。</p>
+      </div>
+      <aside class="notes">最常踩的坑：裸指针存对象，看着好好的，某天突然变空。原因就是没标 UPROPERTY，GC 当它不存在。IsValid 和 TObjectPtr 这两条是 UE5 的硬要求，别用旧写法糊弄过去。</aside>
+    </section>
+
+    <!-- 35 -->
+    <section class="slide" data-section="Which" data-title="CDO 与 Package">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · CoreUObject</div>
+        <h2 class="reveal" style="--d:1">CDO 与 Package</h2>
+        <p class="lead reveal" style="--d:2">两个绕不开的疑问：默认值从哪来？资产路径是什么？</p>
+        <div class="cols reveal" style="--d:3">
+          <div class="card">
+            <div class="hd">CDO · Class Default Object</div>
+            <table class="mtx tight">
+              <tr><td>是什么</td><td>每个 UClass 都有一个默认实例，在类注册时创建</td></tr>
+              <tr><td>在哪</td><td><code>GetClass()->GetDefaultObject&lt;AMyActor&gt;()</code></td></tr>
+              <tr><td>作用</td><td>蓝图里看到的默认值就是它；新对象以它为模板复制</td></tr>
+              <tr><td>所以</td><td>改 C++ 默认值，蓝图里「没覆盖过」的项会跟着变</td></tr>
+            </table>
+            <div class="diagram" style="margin-top:6px">
+              <div class="cap">CDO 与实例的关系</div>
+<pre class="ascii">  <b>AMyActor::AMyActor()</b>        →  创建 CDO（Health = 100）
+        │
+        ├── 关卡里放一个  →  复制 CDO  → 实例 A（Health = 100）
+        └── 蓝图派生 BP_My  →  复制 CDO  → 改 Health = 250  →  实例 B（Health = 250）</pre>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hd v">Package · 资产的组织方式</div>
+            <table class="mtx tight">
+              <tr><td>是什么</td><td>对象的容器，一个 .uasset 通常对应一个包</td></tr>
+              <tr><td>路径</td><td><code>/Game/ThirdPerson/BP_Player.BP_Player</code>（包名 + 对象名）</td></tr>
+              <tr><td>引用</td><td>包可以互相引用，形成依赖图；加载一个可能带起一串</td></tr>
+              <tr><td>硬引用</td><td><code>UPROPERTY() TObjectPtr&lt;UTexture2D&gt; Icon;</code> → 加载父对象时一起加载</td></tr>
+              <tr><td>软引用</td><td><code>TSoftObjectPtr&lt;&gt;</code> / <code>TSoftClassPtr&lt;&gt;</code> → 用时才加载，推荐</td></tr>
+            </table>
+            <div class="card tight" style="margin-top:6px;border-color:rgba(251,191,36,.3)"><b>为什么运行期别用 ConstructorHelpers</b><p class="small muted" style="margin:.35em 0 0">它只能在构造期用，而且强依赖路径字符串。运行期加载走 Asset Manager + 软引用，才可控。</p></div>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">两个疑问，两个答案</div>
+<div class="spec">
+            <div class="sr cau"><span class="lbl"><u>Q</u></span><span class="txt">为什么我改了 C++ 默认值，新生成的对象就变了？</span></div>
+            <div class="sr hi"><span class="lbl"><b>A</b></span><span class="txt">因为新对象是复制 CDO，而 CDO 在类注册时用构造函数创建</span></div>
+            <div class="sr cau"><span class="lbl"><u>Q</u></span><span class="txt">为什么我加了一个贴图引用，加载就慢了一大截？</span></div>
+            <div class="sr hi"><span class="lbl"><b>A</b></span><span class="txt">因为硬引用把整条包依赖链都拉起来了，改成 TSoftObjectPtr</span></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">一页带过。作用是解释「默认值从哪来」，这个疑问几乎每个新人都会碰一次。软引用这条更实用——很多人的包体爆炸就是硬引用堆出来的。</aside>
+    </section>
+
+    <!-- 36 -->
+    <section class="slide" data-section="Which" data-title="套路清单">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · 最实用的一页</div>
+        <h2 class="reveal" style="--d:1">套路清单：会写套路，就写得像引擎</h2>
+        <p class="lead reveal" style="--d:2">「套路」是最实用的词。这六组是每天都要敲的，敲熟就写对了。</p>
+        <div class="mgrid mg-3 reveal" style="--d:3">
+          <div class="mi"><span class="k">01</span><b>UHT 宏</b><p>UCLASS / UPROPERTY / UFUNCTION / USTRUCT / UENUM / UINTERFACE</p></div>
+          <div class="mi"><span class="k">02</span><b>模块链接</b><p><code>AddRange</code> / <code>Add</code> 在 Build.cs；public 与 private 的选择</p></div>
+          <div class="mi"><span class="k">03</span><b>Actor 创建</b><p><code>CreateDefaultSubobject</code> + <code>SetupAttachment</code> + <code>TObjectPtr</code> 成员</p></div>
+          <div class="mi v"><span class="k">04</span><b>Gameplay 继承</b><p>GI、GM、GS、PC、Pawn、PS 一波带走；谁该重载哪个虚函数</p></div>
+          <div class="mi v"><span class="k">05</span><b>C++ 与蓝图交互</b><p>UPROPERTY 的四个说明符、UFUNCTION 的三类、BlueprintFunctionLibrary</p></div>
+          <div class="mi a"><span class="k">06</span><b>输入与事件</b><p>Enhanced Input 绑定、委托 <code>AddDynamic</code>、<code>FTimerManager</code> 定时</p></div>
+        </div>
+        <div class="two-col-dense reveal" style="--d:4">
+          <div class="diagram" style="margin-top:0">
+            <div class="cap">最常见的三组套路（可直接抄）</div>
+<pre class="ascii"><span class="cm">// 1. 挂组件</span>
+Mesh = <span class="kw">CreateDefaultSubobject</span>&lt;USkeletalMeshComponent&gt;(<span class="st">"Mesh"</span>);
+Mesh-&gt;<span class="kw">SetupAttachment</span>(RootComponent);
+
+<span class="cm">// 2. 定时器</span>
+GetWorld()-&gt;<span class="kw">GetTimerManager</span>().<span class="kw">SetTimer</span>(Handle, <span class="kw">this</span>,
+    &amp;AMyActor::OnFire, <span class="nb">1.5f</span>, <span class="kw">true</span>);
+
+<span class="cm">// 3. 动态委托绑定</span>
+OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;AMyActor::HandleDamaged);</pre>
+          </div>
+          <div class="stack">
+            <table class="mtx tight">
+              <thead><tr><th style="width:110px">UPROPERTY 说明符</th><th>含义</th></tr></thead>
+              <tbody>
+                <tr><td><code>EditAnywhere</code></td><td>细节面板可改（实例与类默认都行）</td></tr>
+                <tr><td><code>VisibleAnywhere</code></td><td>只读显示，不能改</td></tr>
+                <tr><td><code>BlueprintReadWrite</code></td><td>蓝图可读写</td></tr>
+                <tr><td><code>BlueprintReadOnly</code></td><td>蓝图只读</td></tr>
+                <tr><td><code>Category="X"</code></td><td>细节面板分组，必填</td></tr>
+              </tbody>
+            </table>
+            <div class="warn">别再教 <code>BindAxis</code> —— 那是老输入系统，5.x 模板已全换 Enhanced Input</div>
+          </div>
+        </div>
+        <p class="tiny muted reveal" style="--d:5;margin-top:8px">强调别在关卡蓝图里堆逻辑：关卡蓝图跟关卡绑死，换关就没了，也没法复用。</p>
+      </div>
+      <aside class="notes">强调别在关卡蓝图里堆逻辑。特别提醒：网上大量输入教程还是 BindAxis 的，5.x 模板已经全换 Enhanced Input，照抄会不生效。三组套路让学生当堂抄一遍，比讲半小时概念有用。</aside>
+    </section>
+
+    <!-- 37 -->
+    <section class="slide" data-section="Which" data-title="常用库">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · 工具箱</div>
+        <h2 class="reveal" style="--d:1">常用库：不知道怎么写时先翻的地方</h2>
+        <div class="mgrid mg-3 reveal" style="--d:2">
+          <div class="mi"><span class="k">01 · Gameplay</span><b>UGameplayStatics</b>
+            <p>GetPlayerPawn / GetAllActorsOfClass / SpawnSoundAtLocation / ApplyDamage / SetGamePaused</p>
+          </div>
+          <div class="mi v"><span class="k">02 · System</span><b>UKismetSystemLibrary</b>
+            <p>LineTraceSingle / DrawDebugLine / PrintString / GetGameTimeInSeconds / IsValid</p>
+          </div>
+          <div class="mi a"><span class="k">03 · Math</span><b>UKismetMathLibrary</b>
+            <p>Lerp / VInterpTo / FindLookAtRotation / RandomFloatInRange / Normalize2D</p>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">另外三个值得早点认识的地方</div>
+<div class="spec">
+            <div class="sr "><span class="lbl"><b>UBlueprintFunctionLibrary</b></span><span class="txt">把常用逻辑做成静态函数库，蓝图直接调用</span></div>
+            <div class="sr "><span class="lbl"><b>FMath / FVector / FRotator</b></span><span class="txt">日常数学，比 Kismet 更轻，C++ 里首选</span></div>
+            <div class="sr "><span class="lbl"><b>UGameplayTagsManager</b></span><span class="txt">用标签替代硬编码字符串做类型判断</span></div>
+            <div class="sr neg"><span class="lbl"><s>别做</s> 自己炫技手写一套数学库</span><span class="txt">→ 引擎的已经够用且经过优化</span></div>
+            <div class="sr pos"><span class="lbl"><g>要做</g></span><span class="txt">先搜这三个类有没有现成函数，没有再自己写</span></div>
+          </div>
+        </div>
+        <div class="cols reveal" style="--d:4">
+          <div class="card tight"><b>搜索习惯</b><p class="small muted" style="margin:.35em 0 0">写代码前先在 <code>UKismet*Library</code> 里搜一圈。这三个类就是蓝图节点背后的 C++ 实现，绝大多数常用功能都在里面。</p></div>
+          <div class="card tight"><b>「不知道有没有」的正确反应</b><p class="small muted" style="margin:.35em 0 0">不是凭记忆硬写，而是打开引擎源码的 Public 目录，按字母顺序扫一遍类名。扫三次，你就记得了。</p></div>
+        </div>
+      </div>
+      <aside class="notes">这三个名字记住就够。写代码时不确定有没有现成函数，先去这三个类里搜一遍，比手写快十倍。更重要的是养成「先搜再写」的习惯。</aside>
+    </section>
+
+    <!-- 38 -->
+    <section class="slide" data-section="Which" data-title="难点：八个坑">
+      <div class="slide-inner">
+        <div class="kicker reveal">Which · 现实</div>
+        <h2 class="reveal" style="--d:1">难点：八个坑，八句解药</h2>
+        <table class="mtx reveal" style="--d:2">
+          <thead><tr><th style="width:50px">#</th><th style="width:230px">坑</th><th>为什么会卡</th><th style="width:250px">解药</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td>C++ 底子弱</td><td>指针、引用、const 一知半解，看到模板就绕开</td><td>先补容器与指针，模板可以后补</td></tr>
+            <tr><td>02</td><td>数据结构与操作系统</td><td>不知道该用哪个容器，线程一开就乱</td><td>用到再补，别系统刷书</td></tr>
+            <tr><td>03</td><td>数学（线代、向量、力学）</td><td>点乘叉乘搞不清，插值写不对</td><td>先会向量点乘/叉乘/插值三件</td></tr>
+            <tr><td>04</td><td>游戏开发知识（渲染、动画、AI）</td><td>每个模块都庞大，不知从哪下手</td><td>一模块一模块过，先懂接口再懂原理</td></tr>
+            <tr><td>05</td><td>缺项目经验</td><td>教程跟着做都会，自己做就空白</td><td>先完整做完一个小游戏，再到第二个</td></tr>
+            <tr><td>06</td><td>知识点太多记不住</td><td>试图背下来，越背越焦虑</td><td>不记，只记「去哪儿找」</td></tr>
+            <tr><td>07</td><td>找不到可借鉴的代码</td><td>不知道去哪儿读别人的实现</td><td>本课后半段专讲这个</td></tr>
+            <tr><td>08</td><td class="no">版本差异，照 UE4 教程写不过编译</td><td>网上仍然大量 4.x 内容</td><td>认版本，比背 API 省时间</td></tr>
+          </tbody>
+        </table>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">八个坑的分布：只有 3 个是「真的难」，5 个是「方法问题」</div>
+<div class="spec">
+            <div class="sr neg"><span class="lbl"><s>真难</s></span><span class="txt">数学 · 渲染原理 · 大规模工程经验      → 只能靠时间</span></div>
+            <div class="sr pos"><span class="lbl"><g>方法</g></span><span class="txt">记不住 · 找不到代码 · 缺项目 · 版本乱 · 底子补法  → 今天就能改</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">八个坑里，<b>五个今天就能绕过</b>——这才是这堂课的价值。</p>
+      </div>
+      <aside class="notes">每条配一句解药，别只列困难。第八条在前面已经解过，这里再点一次。最后那个分布图很关键：让学生知道大部分痛苦不是天赋问题，是方法问题。</aside>
+    </section>
+
+    <!-- 39 -->
+    <section class="slide" data-section="How" data-title="学习闭环">
+      <div class="slide-inner">
+        <div class="kicker reveal">How · 核心</div>
+        <h2 class="reveal" style="--d:1">学习闭环：四步转一圈</h2>
+        <p class="lead reveal" style="--d:2">全课的落点。前面讲「有什么」，这里讲「怎么长出来」。</p>
+        <div class="loop reveal" style="--d:3">
+          <div class="q"><span class="n">STEP 01</span><b>模仿</b><p>照着别人的实现写一遍，形成手感。别问为什么，先让手会。</p></div>
+          <div class="q"><span class="n">STEP 02</span><b>动手</b><p>在最小场景里改一改，验证自己的理解对不对。这是唯一的验证方式。</p></div>
+          <div class="q"><span class="n">STEP 03</span><b>总结</b><p>把规律写成自己的话：什么情况用什么、为什么。写下来才算真懂。</p></div>
+          <div class="q"><span class="n">STEP 04</span><b>积累</b><p>变成资产：测试工程、函数库、笔记、图。下次直接用。</p></div>
+        </div>
+        <div class="loop-bar reveal" style="--d:4"></div>
+        <div class="two-col-dense reveal" style="--d:5">
+          <div class="diagram" style="margin-top:0">
+            <div class="cap">四步最容易断在哪</div>
+<div class="spec">
+            <div class="sr neg"><span class="lbl"><s>断在模仿</s></span><span class="txt">只抄不改 → 换个需求还是不会</span></div>
+            <div class="sr neg"><span class="lbl"><s>断在动手</s></span><span class="txt">看完就算学会 → 三天后忘干净</span></div>
+            <div class="sr neg"><span class="lbl"><s>断在总结</s></span><span class="txt">做了很多但没有规律 → 每次都从零开始</span></div>
+            <div class="sr hi"><span class="lbl"><b>断在积累</b></span><span class="txt">做过的东西不留资产 → 三年后仍然只有经验没有工具</span></div>
+            <div class="sr cau"><span class="lbl"><u>关键</u></span><span class="txt">四步中「总结」和「积累」最容易被跳过，也最值钱</span></div>
+          </div>
+          </div>
+          <div class="stack">
+            <div class="card tight"><b>一圈的周期</b><p class="small muted" style="margin:.35em 0 0">一个小功能 = 一圈，几小时到几天。别指望一圈就进化一级，但也别做半圈就换方向。</p></div>
+            <div class="card tight"><b>怎么知道自己转了一圈</b><p class="small muted" style="margin:.35em 0 0">第二遍做同类功能时，你不需要再查资料——这就是转完一圈的标志。</p></div>
+            <div class="card tight" style="border-color:rgba(52,211,153,.3)"><b>为什么叫闭环</b><p class="small muted" style="margin:.35em 0 0">因为积累会变成下一次模仿的素材，起点比上一次高。这是复利，不是重复。</p></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">这页是全课落点。强调「总结」这一步最容易被跳过——不写下来，下个月就忘了；写下来就变成自己的资产。四步断在哪那张图，学生看了会点头，因为大部分人都断在总结和积累。</aside>
+    </section>
+
+    <!-- 40 -->
+    <section class="slide" data-section="How" data-title="模仿什么">
+      <div class="slide-inner">
+        <div class="kicker reveal">How · 输入源</div>
+        <h2 class="reveal" style="--d:1">模仿什么：三个来源，各自的坑</h2>
+        <table class="mtx reveal" style="--d:2">
+          <thead><tr><th style="width:130px">来源</th><th style="width:90px">优先级</th><th>好在哪</th><th style="width:250px">坑在哪</th></tr></thead>
+          <tbody>
+            <tr><td>模板项目</td><td class="ok">① 最稳</td><td>官方写法，能跑，结构正确；第三人称模板就是最好的起点</td><td>功能太少，学不到复杂结构</td></tr>
+            <tr><td><b>Lyra</b></td><td class="ok">① 最稳</td><td>官方完整范本：Game Features、Modular Gameplay、数据驱动、输入、UI 全套</td><td>体量巨大，别整包啃；挑一个 Feature 看</td></tr>
+            <tr><td>引擎源码</td><td class="mid">② 最权威</td><td>它就是标准，怎么写都不过分；能学到真实工程手法</td><td>要 GitHub 私有库或本地安装版；难找、难读、无注释</td></tr>
+            <tr><td>社区项目</td><td class="no">③ 最接地气</td><td>贴近实战，看得到别人怎么组织；常有奇技淫巧</td><td>水平参差，容易被带沟里；版本可能很旧</td></tr>
+          </tbody>
+        </table>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">推荐的读法：从「一条链路」入手，不要从模块入手</div>
+<div class="spec">
+            <div class="sr neg"><span class="lbl"><s>错误读法</s></span><span class="txt">打开 Lyra → 想读懂全部 → 三天后放弃</span></div>
+            <div class="sr pos"><span class="lbl"><g>正确读法</g></span><span class="txt">选一个具体动作：按下开火键 → 发生了什么</span></div>
+            <div class="sr "><span class="lbl">1</span><span class="txt">找到输入绑定点（Enhanced Input）</span></div>
+            <div class="sr "><span class="lbl">2</span><span class="txt">顺着调用查到 Ability / Weapon</span></div>
+            <div class="sr "><span class="lbl">3</span><span class="txt">查到伤害结算</span></div>
+            <div class="sr "><span class="lbl">4</span><span class="txt">查到表现（特效、音效、UI）</span></div>
+            <div class="sr note"><span class="txt">读完一条链路，比读一个模块更有效</span></div>
+          </div>
+        </div>
+        <div class="cols reveal" style="--d:4">
+          <div class="card tight"><b>为什么模板优先</b><p class="small muted" style="margin:.35em 0 0">因为它的「写法是对的」。学生期最怕的不是学到少，是学到一身需要戒掉的坏习惯。</p></div>
+          <div class="card tight"><b>什么时候可以读社区</b><p class="small muted" style="margin:.35em 0 0">当你能一眼看出「这段写法不太对」的时候。那说明你已经有了判断力，读社区就从风险变成收益。</p></div>
+        </div>
+        <p class="tiny muted reveal" style="--d:5;margin-top:8px">优先级：模板 → 源码 → 社区。别一上来读渲染。</p>
+      </div>
+      <aside class="notes">排优先级很重要。新人最常见的错误是打开引擎源码从渲染模块开始读，三天后放弃。应该从一条具体链路开始。什么时候能读社区那条很关键——它把「判断力」和「输入源」挂上了钩。</aside>
+    </section>
+
+    <!-- 41 -->
+    <section class="slide" data-section="How" data-title="动手与积累">
+      <div class="slide-inner">
+        <div class="kicker reveal">How · 操作</div>
+        <h2 class="reveal" style="--d:1">动手三招，积累三件</h2>
+        <div class="cols reveal" style="--d:2">
+          <div class="card ok">
+            <div class="hd g">动手三招 —— 每招都有明确产出</div>
+            <table class="mtx tight">
+              <tr><td>第一招<br>微调观察</td><td>改一个数值 / 开关，看结果变化。<br><b>产出：</b>对这个参数的直觉</td></tr>
+              <tr><td>第二招<br>按套路加功能</td><td>照现有代码的结构加一个同类功能。<br><b>产出：</b>套路变成肌肉记忆</td></tr>
+              <tr><td>第三招<br>翻头文件</td><td>打开刚用过的类的 .h，从头扫一遍还有什么接口。<br><b>产出：</b>发现「原来还有这个」</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="hd v">积累三件 —— 都是复利资产</div>
+            <table class="mtx tight">
+              <tr><td>测试工程</td><td>一个空工程，随便炸。所有实验在这里做，零成本。<br><b>你的车间</b></td></tr>
+              <tr><td>函数库插件</td><td>把常用的三五个功能做成插件，跨项目复用。<br><b>你的资产</b></td></tr>
+              <tr><td>图与笔记</td><td>类关系图、调用链图、踩坑记录。<br><b>你的理解</b></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">「车间」的正确用法</div>
+<div class="spec">
+            <div class="sr neg"><span class="lbl"><s>在正式项目里试新东西</s></span><span class="txt">→ 改坏了不敢删，越堆越乱，最后项目废了</span></div>
+            <div class="sr pos"><span class="lbl"><g>在车间里试，试通再搬</g></span><span class="txt">→ 空工程 + 一个空关卡 + 一个测试 Actor</span></div>
+            <div class="sr note"><span class="txt">车间里可以做的事：</span></div>
+            <div class="sr note"><span class="txt">· 试一个新的组件挂法</span></div>
+            <div class="sr note"><span class="txt">· 试一个不熟的 API</span></div>
+            <div class="sr note"><span class="txt">· 复现一个别人的 bug</span></div>
+            <div class="sr note"><span class="txt">· 对比两种写法的性能</span></div>
+            <div class="sr hi"><span class="lbl"><b>规则</b></span><span class="txt">车间里的东西可以随时删，不用心疼</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">积累的关键不是「记住」，是<b>让下次少做一遍</b>。</p>
+      </div>
+      <aside class="notes">「车间」这个比喻很有效：不要在正式项目里试新东西，建一个空工程，随便炸。炸坏了删掉重来，零成本。三招每招都有明确产出，这样学生才知道「动手」不是瞎点。</aside>
+    </section>
+
+    <!-- 42 -->
+    <section class="slide" data-section="How" data-title="工具与资源">
+      <div class="slide-inner">
+        <div class="kicker reveal">How · 装备</div>
+        <h2 class="reveal" style="--d:1">工具与资源</h2>
+        <div class="cols reveal" style="--d:2">
+          <div class="card">
+            <div class="hd">工具 —— 装好就别再折腾</div>
+            <table class="mtx tight">
+              <tr><td><b>Rider</b></td><td>Epic 启动器内可下，开箱即用，跳转/重构/调试最省事。首选</td></tr>
+              <tr><td>VS Code</td><td>+ clangd / C++ 扩展，轻，适合读代码</td></tr>
+              <tr><td>Unreal Insights</td><td>性能分析，找热点用</td></tr>
+              <tr><td>Live Coding</td><td>Ctrl+Alt+F11，改 .cpp 几秒生效</td></tr>
+              <tr><td>Widget Reflector</td><td>点 UI 控件定位到实现，现场会演示</td></tr>
+              <tr><td>Everything</td><td>按文件名秒搜源码</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="hd v">资源 —— 三个够用</div>
+            <table class="mtx tight">
+              <tr><td>官方文档</td><td>API 参考 + 概念页；版本要看清，别读 4.x 的页</td></tr>
+              <tr><td>源码本身</td><td>最准的文档，没有之一</td></tr>
+              <tr><td>社区内容</td><td>看版本、看写法、看评论；别迷信</td></tr>
+            </table>
+            <div class="card tight" style="margin-top:6px;border-color:rgba(251,191,36,.3)"><b>资源选择的判断</b><p class="small muted" style="margin:.35em 0 0">一份资料值不值得看：<b>先看它写于哪一年，再看它有没有用 Enhanced Input。</b>两样都不满足，直接跳过。</p></div>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">调试三板斧（比装十个插件有用）</div>
+<div class="spec">
+            <div class="sr "><span class="lbl"><b>UE_LOG</b></span><span class="txt">打日志，看时序。最土也最有效</span></div>
+            <div class="sr "><span class="lbl"><b>断点 + 调用栈</b></span><span class="txt">看「谁调的我」，这是理解源码的入口</span></div>
+            <div class="sr "><span class="lbl"><b>Unreal Insights</b></span><span class="txt">看「谁在吃时间」，别猜</span></div>
+            <div class="sr neg"><span class="lbl"><s>反例</s></span><span class="txt">花两天配主题、快捷键、插件 → 一节课没上</span></div>
+            <div class="sr pos"><span class="lbl"><g>正例</g></span><span class="txt">装 Rider，能跳转能断点，就够了</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">原则：<b>工具越简单越好，别把时间花在调格式上。</b></p>
+      </div>
+      <aside class="notes">一句原则：工具越简单越好。有人花两天配环境、配主题、配快捷键，然后一节课没上。别做这种人。调试三板斧比任何插件都重要，特别强调断点看调用栈——它会一直用到 P49。</aside>
+    </section>
+
+    <!-- 43 -->
+    <section class="slide" data-section="觉悟" data-title="工具观：我全都要">
+      <div class="slide-inner">
+        <div class="kicker reveal">觉悟 · 价值观</div>
+        <h2 class="reveal" style="--d:1">工具观：我全都要</h2>
+        <div class="cols reveal" style="--d:2">
+          <div class="card no">
+            <div class="hd r">两个极端（都不对）</div>
+            <table class="mtx tight">
+              <tr><td>代码原教旨主义</td><td>「蓝图都是玩具」，什么都用 C++ 写，包括 UI 布局</td></tr>
+              <tr><td>见 C++ 就躲</td><td>「能连出来就行」，明知做不到也说能做</td></tr>
+            </table>
+            <p class="small muted" style="margin:.6em 0 0">两个极端有同一个问题：<b>都在选阵营，而不是在解问题。</b></p>
+          </div>
+          <div class="card ok">
+            <div class="hd g">实际的态度</div>
+            <p style="margin:.2em 0;font-size:.95rem;line-height:1.55">它们都是工具。工具就有擅长和短板，<b>用不好是我的问题</b>。</p>
+            <div class="tickset">
+              <div class="tick g">蓝图擅长快、擅长变、擅长让人人都能改</div>
+              <div class="tick g">C++ 擅长稳、擅长深、擅长做别人做不到的</div>
+              <div class="tick g">判断用哪个，是这一行的核心能力之一</div>
+            </div>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">把「站队」换成「选型」——问三个问题</div>
+<div class="spec">
+            <div class="sr cau"><span class="lbl"><u>Q1</u> 这段逻辑会频繁变吗？</span><span class="txt">会 → 蓝图</span></div>
+            <div class="sr cau"><span class="lbl"><u>Q2</u> 谁要改它？美术/策划/程序？</span><span class="txt">非程序 → 蓝图</span></div>
+            <div class="sr cau"><span class="lbl"><u>Q3</u> 它在性能热路径上吗？</span><span class="txt">是 → C++</span></div>
+            <div class="sr "><span class="lbl"><b>三个都模糊</b></span><span class="txt">→ 先用蓝图做出来，等到真的痛了再下沉到 C++</span></div>
+            <div class="sr neg"><span class="lbl"><s>不要</s></span><span class="txt">在还没做出来之前就纠结放哪层</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">目标始终是<b>项目的高效开发、迭代、维护</b>——别站队，站项目。</p>
+      </div>
+      <aside class="notes">价值观页，慢讲。别站队，站项目。谁对谁错不重要，项目能不能按时上线、能不能维护才重要。三个问题那个选型法很好用，学生当场就能记住并应用。</aside>
+    </section>
+
+    <!-- 44 -->
+    <section class="slide" data-section="觉悟" data-title="什么时候动引擎">
+      <div class="slide-inner">
+        <div class="kicker reveal">觉悟 · 边界</div>
+        <h2 class="reveal" style="--d:1">什么时候动引擎</h2>
+        <p class="lead reveal" style="--d:2">关键词是「可维护」：改引擎的代价不在今天，在下次升级。</p>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">从「不动」到「动」的四级台阶，逐级往下走</div>
+<pre class="ascii">  <b>第 0 级</b>  不改引擎：用现有 API / 组件 / 蓝图做出来
+     │        代价：0        适用：90% 的需求
+     ▼
+  <b>第 1 级</b>  插件 / 子类 / 接口：扩展而不修改
+     │        代价：低       适用：想要新行为
+     ▼
+  <b>第 2 级</b>  Editor Utility / 反射：绕开私有成员，别改可见性
+     │        代价：中       适用：需要访问内部数据
+     ▼
+  <s>第 3 级</s>  直接改引擎源码：包在宏或注释标记里，方便 merge
+               代价：高       适用：真的没别的路</pre>
+        </div>
+        <div class="cols reveal" style="--d:4">
+          <div class="card tight"><b>为什么能不改就不改</b><p class="small muted" style="margin:.35em 0 0">下次升引擎版本时，你的改动要重放一遍。改得越深、越散，重放越疼。有人在 4.27 改的东西，到 5.0 花了三周才合回去。</p></div>
+          <div class="card tight"><b>真要改，怎么改</b><p class="small muted" style="margin:.35em 0 0">统一加一段标记注释（带项目名与日期），所有改动集中搜得到；能包在宏里就包在宏里；别改签名、只加接口。</p></div>
+        </div>
+        <div class="cols reveal" style="--d:5">
+          <div class="warn">改了 C++ 基类名，蓝图找不到父类 —— 用 <b>CoreRedirects</b> 修（Engine.ini 里配映射）</div>
+          <div class="warn">没有基类的蓝图可以 <b>reparent</b>，但先备份——reparent 不可逆</div>
+        </div>
+      </div>
+      <aside class="notes">讲代价：改引擎本身不难，难的是下次升版本时怎么合回去。所以要么不改，要么改得让人一眼能找出来。四级台阶这张图很实用——大部分需求都在第 0、1 级就解决了，真正需要改源码的极少。</aside>
+    </section>
+
+    <!-- 45 -->
+    <section class="slide" data-section="觉悟" data-title="AI 时代的这条路">
+      <div class="slide-inner">
+        <div class="kicker reveal">觉悟 · 现实</div>
+        <h2 class="reveal" style="--d:1">AI 时代的这条路</h2>
+        <p class="lead reveal" style="--d:2">AI 已经能写大部分样板：宏、BeginPlay、组件挂载、委托绑定、基础用法示例。那还学吗？</p>
+        <div class="cols reveal" style="--d:3">
+          <div class="card ok">
+            <div class="hd g">AI 能替你做的</div>
+            <div class="tickset">
+              <div class="tick g">写样板代码：UCLASS 骨架、组件挂载、输入绑定</div>
+              <div class="tick g">解释报错：贴一条错误，它能给出三个方向</div>
+              <div class="tick g">翻译写法：把 UE4 写法改成 UE5 写法</div>
+              <div class="tick g">查 API：这个类有没有那个函数</div>
+            </div>
+          </div>
+          <div class="card no">
+            <div class="hd r">AI 替不掉的三件事</div>
+            <div class="tickset">
+              <div class="tick r"><b>判断这段逻辑该放哪一层</b> —— 它不知道你的项目结构与团队分工</div>
+              <div class="tick r"><b>判断生成的代码能不能信</b> —— 它不知道你的版本、你的模块、你的约束</div>
+              <div class="tick r"><b>出了问题知道去哪找</b> —— 它没跑过你的项目，也不知道该在哪打断点</div>
+            </div>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">门槛的位置变了 —— 这也是蓝图被挤下去的原因</div>
+<div class="spec">
+            <div class="sr neg"><span class="lbl"><s>过去</s></span><span class="txt">门槛在「写」     ── 会不会敲这段代码</span></div>
+            <div class="sr hi"><span class="lbl"><b>现在</b></span><span class="txt">门槛在「判断」   ── 知不知道该写什么、写在哪、能不能信</span></div>
+            <div class="sr cau"><span class="lbl"><u>注意</u></span><span class="txt">AI 能读写<b>文本</b>：C++、脚本、配置 —— 这正好是蓝图的短板</span></div>
+            <div class="sr note"><span class="txt">所以「AI + 文本代码」的组合，会持续挤掉蓝图的地盘</span></div>
+            <div class="sr note"><span class="txt">蓝图剩下的地盘，是 AI 进不去的编辑器生态</span></div>
+            <div class="sr pos"><span class="lbl"><g>所以</g></span><span class="txt">六块要点、境界阶梯、源码方法论，一个都没白讲</span></div>
+            <div class="sr note"><span class="txt">—— 它们正好是判断力的来源，也是你「选层」的依据</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:5">AI 降低了<b>敲代码</b>的门槛，抬高了<b>做判断</b>的门槛。</p>
+      </div>
+      <aside class="notes">这是这场课的现实意义。学生一定会问「AI 都能写了还学吗」，答案是：AI 替你打字，但没人替你决定写在哪。这三件事，AI 目前都做不了。别把这页讲成「AI 威胁论」，讲成「门槛移位」。</aside>
+    </section>
+
+    <!-- 46 -->
+    <section class="slide" data-section="源码" data-title="一切从 GEngine 开始">
+      <div class="slide-inner">
+        <div class="kicker reveal">源码 · 入口</div>
+        <h2 class="reveal" style="--d:1">一切从 GEngine 开始</h2>
+        <p class="lead reveal" style="--d:2">引擎的所有静态入口都在几个全局对象上。认识它们，你就有了「从哪开始摸」的起点。</p>
+        <div class="cols reveal" style="--d:3">
+          <div class="card">
+            <div class="hd">UEngine* GEngine</div>
+            <table class="mtx tight">
+              <tr><td>是哪个类</td><td>游戏用 <code>UGameEngine</code>，编辑器用 <code>UEditorEngine</code></td></tr>
+              <tr><td>能拿到</td><td>World 列表、游戏视口、Engine 配置</td></tr>
+              <tr><td>常用</td><td><code>GEngine-&gt;GetWorldContexts()</code> / <code>GEngine-&gt;AddOnScreenDebugMessage()</code></td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="hd v">UEditorEngine* GEditor</div>
+            <table class="mtx tight">
+              <tr><td>只在编辑器</td><td>打包后的游戏里没有这个符号</td></tr>
+              <tr><td>能拿到</td><td>当前选中了哪些 Actor / 组件、当前视口、编辑器模式</td></tr>
+              <tr><td>常用</td><td><code>GEditor-&gt;GetSelectedActors()</code> / <code>GEditor-&gt;GetActiveViewport()</code></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">全局入口一览（认识名字，比背 API 有用）</div>
+<div class="spec">
+            <div class="sr "><span class="lbl"><b>GEngine</b></span><span class="txt">引擎实例：World 列表、视口、调试绘制</span></div>
+            <div class="sr "><span class="lbl"><b>GEditor</b></span><span class="txt">编辑器实例：选中、视口、模式（仅编辑器）</span></div>
+            <div class="sr "><span class="lbl"><b>GWorld</b></span><span class="txt">当前 World（多数情况用 GetWorld() 更安全）</span></div>
+            <div class="sr "><span class="lbl"><b>GFrameNumber</b></span><span class="txt">当前帧号（原来是 GFrameCounter）</span></div>
+            <div class="sr hi"><span class="lbl"><b>GLog</b></span><span class="txt">日志系统，UE_LOG 背后就是它</span></div>
+            <div class="sr "><span class="lbl"><b>GConfig</b></span><span class="txt">ini 读写，GConfig-&gt;GetString(...)</span></div>
+            <div class="sr "><span class="lbl"><b>GIsEditor</b></span><span class="txt">/ <b>WITH_EDITOR</b> 编译期判断</span></div>
+            <div class="sr "><span class="lbl"><b>GEngineLoop</b></span><span class="txt">主循环，Init / Tick / Exit</span></div>
+          </div>
+        </div>
+        <div class="cols reveal" style="--d:5">
+          <div class="card tight"><b>为什么这些入口重要</b><p class="small muted" style="margin:.35em 0 0">因为调试时你不知道从哪下手，第一件事就是「从全局对象往下摸」。它们是引擎这张图的几个抓手。</p></div>
+          <div class="card tight" style="border-color:rgba(251,191,36,.3)"><b>注意</b><p class="small muted" style="margin:.35em 0 0">别在构造函数里用 <code>GetWorld()</code>；别在 Shipping 包里用 <code>GEditor</code>——它不存在，会编译不过。</p></div>
+        </div>
+        <p class="big-line reveal" style="--d:6">编辑器也是个游戏，<b>只是一堆 UObject</b>。</p>
+      </div>
+      <aside class="notes">这页最容易被记住，也最容易被神化。别讲成「掌握了 GEngine 就掌握了引擎」，它只是一个入口。GEditor 只在编辑器存在这条要强调——很多人写了 GEditor 打包才炸。</aside>
+    </section>
+
+    <!-- 47 -->
+    <section class="slide" data-section="源码" data-title="源码怎么剖析">
+      <div class="slide-inner">
+        <div class="kicker reveal">源码 · 方法论</div>
+        <h2 class="reveal" style="--d:1">源码怎么剖析：两套视角</h2>
+        <div class="cols reveal" style="--d-2">
+          <div class="card">
+            <div class="hd">时空观 —— 拆开一个函数</div>
+            <table class="mtx tight">
+              <tr><td>时</td><td>调用顺序与触发时机：谁先谁后、什么条件下发生、一帧里跑几次</td></tr>
+              <tr><td>空</td><td>数据怎么流动与变形：进去什么、出来什么、中间被谁改过</td></tr>
+            </table>
+            <div class="diagram" style="margin-top:6px">
+              <div class="cap">用时空观看一个 Tick</div>
+<div class="spec">
+            <div class="sr cau"><span class="lbl"><u>时</u></span><span class="txt">第 N 帧 → World Tick → Actor Tick → 你的 Tick</span></div>
+            <div class="sr cau"><span class="lbl"><u>空</u></span><span class="txt">DeltaSeconds（时间） · 你读了哪些成员（空间）</span></div>
+            <div class="sr note"><span class="txt">你改了哪些状态（副作用） · 谁依赖这些状态</span></div>
+          </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hd v">信息论 —— 判断设计好坏</div>
+            <table class="mtx tight">
+              <tr><td>依赖越少越稳</td><td>一个类知道的越少，改它的风险越小</td></tr>
+              <tr><td>信息就是能量</td><td>传递、转换、拷贝都要消耗；能不算就不算</td></tr>
+              <tr><td>耦合是熵</td><td>不加约束，系统自然走向混乱</td></tr>
+            </table>
+            <div class="diagram" style="margin-top:6px">
+              <div class="cap">七个问题，走一遍任意函数</div>
+<div class="spec">
+            <div class="sr "><span class="lbl">1</span><span class="txt">一开始有什么？（输入、前置状态）</span></div>
+            <div class="sr "><span class="lbl">2</span><span class="txt">谁点的第一把火？（入口 / 触发者）</span></div>
+            <div class="sr "><span class="lbl">3</span><span class="txt">自循环靠什么推？（Tick / 事件 / 计时器）</span></div>
+            <div class="sr "><span class="lbl">4</span><span class="txt">外部输入有哪些？（玩家、网络、配置）</span></div>
+            <div class="sr "><span class="lbl">5</span><span class="txt">吐出了什么？（返回值、副作用、事件）</span></div>
+            <div class="sr "><span class="lbl">6</span><span class="txt">最后剩下什么？（持久状态）</span></div>
+            <div class="sr "><span class="lbl">7</span><span class="txt">如果我删掉它，谁会坏？</span></div>
+          </div>
+            </div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:3">别讲成哲学课，<b>举一个具体函数走一遍</b>。</p>
+      </div>
+      <aside class="notes">别讲成哲学课，举一个具体函数走一遍。比如 Tick 的一次调用：从哪来、传了什么、改了什么、最后去哪。七个问题里第 7 个最有用——问「删掉它会坏什么」，就能看出耦合有多深。</aside>
+    </section>
+
+    <!-- 48 -->
+    <section class="slide" data-section="源码" data-title="心法">
+      <div class="slide-inner">
+        <div class="kicker reveal">源码 · 心态</div>
+        <h2 class="reveal" style="--d:1">心法</h2>
+        <div class="cols reveal" style="--d:2">
+          <div class="card">
+            <div class="hd">保持谦逊，但不迷信</div>
+            <div class="tickset">
+              <div class="tick"><b>97.34% 的情况下是自己的问题</b>：版本不对、模块没加、路径写错、初始化顺序搞反</div>
+              <div class="tick"><b>但那 2.66% 是真的有</b>：引擎有历史包袱，也有真 bug，别把它当圣经</div>
+              <div class="tick"><b>要批评源码，先能写出更好的方案</b>：写不出，说明还没读懂它的约束</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="hd v">比好奇心更需要耐心</div>
+            <div class="tickset">
+              <div class="tick v">调用链太长：一个功能穿过十几个类很正常</div>
+              <div class="tick v">背景知识不够：读渲染要先懂图形学基础</div>
+              <div class="tick v">无人可问：冷门模块的资料极少</div>
+              <div class="tick v">源码太大：几百万行，读不完是正常的</div>
+            </div>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">一天只有 24 小时：接受「只掌握一小块」</div>
+<div class="spec">
+            <div class="sr neg"><span class="lbl"><s>不切实际的目标</s></span><span class="txt">把引擎读完 → 永远做不到 → 挫败 → 放弃</span></div>
+            <div class="sr pos"><span class="lbl"><g>切实际的目标</g></span><span class="txt">这个月把 <u>Gameplay</u> 的一条主链路读完</span></div>
+            <div class="sr note"><span class="txt">下个月把 <u>UMG</u> 的一条主链路读完</span></div>
+            <div class="sr "><span class="lbl"><b>一年读通五条链路</b></span><span class="txt">= 已经是团队里的「懂引擎」的人</span></div>
+            <div class="sr note"><span class="txt">引擎是海，你不需要喝干它，只需要知道哪片水域有鱼</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:4">承认一天只有 24 小时，只够掌握一小块。<b>这不是失败，是常态。</b></p>
+      </div>
+      <aside class="notes">这页是给学生松绑的。很多人以为「大神什么都懂」，其实没人什么都懂，只是懂得在哪儿不用懂。97.34% 这个数字原话就是这么说的，可以保留，它有种自嘲式的坦诚。</aside>
+    </section>
+
+    <!-- 49 -->
+    <section class="slide" data-section="源码" data-title="找：顺藤摸瓜">
+      <div class="slide-inner">
+        <div class="kicker reveal">源码 · 实战</div>
+        <h2 class="reveal" style="--d:1">找：顺藤摸瓜</h2>
+        <p class="lead reveal" style="--d:2">相信它一定在，只是你还没找到。</p>
+        <div class="mgrid mg-3 reveal" style="--d:3">
+          <div class="mi"><span class="k">TOOL 01</span><b>Widget Reflector</b><p>点一个 UI 控件，直接定位到它的实现类与层级。找 UMG 的入口</p></div>
+          <div class="mi"><span class="k">TOOL 02</span><b>查找所有引用</b><p>从一个名字摸到整条链路。Rider 里 Ctrl+Shift+F 是最高频的键</p></div>
+          <div class="mi"><span class="k">TOOL 03</span><b>全局字符串搜索</b><p>UI 上的文字、日志里的文案，往往是最好的线索</p></div>
+          <div class="mi v"><span class="k">TOOL 04</span><b>Everything 找文件</b><p>文件名记不全也能搜。按类名找 .h，比在 IDE 里翻快</p></div>
+          <div class="mi v"><span class="k">TOOL 05</span><b>断点看调用栈</b><p>最可靠。谁调的我，一看栈就清楚，这是理解源码的入口</p></div>
+          <div class="mi a"><span class="k">TOOL 06</span><b>Unreal Insights</b><p>找时间去哪了。别猜性能，量出来再说</p></div>
+        </div>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">实战：从一个编辑器按钮找到它的 C++ 实现（现场演示）</div>
+<div class="spec">
+            <div class="sr hi"><span class="lbl">1</span><span class="txt">打开 <b>Widget Reflector</b>（Tools 菜单），勾选 Pick Painted Widget</span></div>
+            <div class="sr "><span class="lbl">2</span><span class="txt">鼠标移到那个按钮上 → 面板显示控件名与类名</span></div>
+            <div class="sr cau"><span class="lbl">3</span><span class="txt">复制类名 → 在 IDE 里 <u>全局搜索</u>这个类名</span></div>
+            <div class="sr "><span class="lbl">4</span><span class="txt">Rider 里 Ctrl+Click 进入声明 → 再找它的 .cpp</span></div>
+            <div class="sr hi"><span class="lbl">5</span><span class="txt">在按钮的回调函数上<b>打断点</b> → 点按钮 → 看调用栈</span></div>
+            <div class="sr "><span class="lbl">6</span><span class="txt">从栈里往上走，找到「谁触发了这个操作」—— 这就是那条链路的起点</span></div>
+            <div class="sr note"><span class="txt"><b>全程不超过一分钟</b>，比读十分钟文档有用</span></div>
+          </div>
+        </div>
+        <p class="tiny muted reveal" style="--d:5;margin-top:8px">这是全场唯一需要实机的两处之一（另一处是 UHT 生成前后）。</p>
+      </div>
+      <aside class="notes">现场演示一次：从一个编辑器按钮点到它的 C++ 实现，全程不超过一分钟。这个演示比讲十分钟方法论有用。六步要一步步来，别跳步——学生看你跳步，自己就学不会。</aside>
+    </section>
+
+    <!-- 50 -->
+    <section class="slide" data-section="源码" data-title="搬：怎么借得干净">
+      <div class="slide-inner">
+        <div class="kicker reveal">源码 · 借鉴</div>
+        <h2 class="reveal" style="--d:1">搬：怎么借得干净</h2>
+        <p class="lead reveal" style="--d:2">「借用」的目标是可维护，不是能跑。</p>
+        <div class="cols reveal" style="--d:3">
+          <div class="card">
+            <div class="hd">四条原则</div>
+            <table class="mtx tight">
+              <tr><td>能调就不拷</td><td>能直接调用 API 就别复制实现——拷过来就等于接手维护</td></tr>
+              <tr><td>先看输入输出</td><td>搞清它依赖什么、产出什么，再决定能不能借</td></tr>
+              <tr><td>找那个「旋钮」</td><td>想在流程里插一脚，去找 Delegate、虚函数、可重载点</td></tr>
+              <tr><td>别跨层调</td><td>Runtime 下别去调 Editor 代码，打不包</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="hd v">四种「借」的代价</div>
+            <table class="mtx tight">
+              <thead><tr><th style="width:100px">方式</th><th style="width:70px">代价</th><th>什么时候用</th></tr></thead>
+              <tbody>
+                <tr><td>直接调用</td><td class="ok">最低</td><td>接口正好够用</td></tr>
+                <tr><td>子类重写</td><td class="ok">低</td><td>想在某个点改行为</td></tr>
+                <tr><td>复制代码</td><td class="mid">中</td><td>只想抄思路，不想带依赖</td></tr>
+                <tr><td>改引擎源码</td><td class="no">最高</td><td>真的没别的路</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">「找不到旋钮」时的排查顺序</div>
+<div class="spec">
+            <div class="sr hi"><span class="lbl">1</span><span class="txt">这个类有没有 <b>virtual</b> 函数可以重写？</span></div>
+            <div class="sr hi"><span class="lbl">2</span><span class="txt">有没有 <b>Delegate</b> 可以绑定？（OnXxx 命名多半是）</span></div>
+            <div class="sr hi"><span class="lbl">3</span><span class="txt">有没有 <b>Component</b> 可以替换，而不用改主体？</span></div>
+            <div class="sr hi"><span class="lbl">4</span><span class="txt">有没有 <b>接口</b> 可以实现？</span></div>
+            <div class="sr hi"><span class="lbl">5</span><span class="txt">有没有 <b>Subsystem</b> 可以扩展？</span></div>
+            <div class="sr neg"><span class="lbl"><s>6</s></span><span class="txt">都没有 → 才考虑改引擎，并按前面讲的方式标记</span></div>
+            <div class="sr hi"><span class="lbl"><b>经验</b></span><span class="txt">引擎的扩展点比你想的多得多。找不到，通常是没找全</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:5">能跑只是及格，<b>能维护才算学会</b>。</p>
+      </div>
+      <aside class="notes">很多人拷一段源码过来，跑起来了，三个月后自己都看不懂。借的标准是：半年后还能改得动。五个排查顺序很实用——大部分人卡在第 1 步就不往下找了。</aside>
+    </section>
+
+    <!-- 51 -->
+    <section class="slide" data-section="收尾" data-title="一张图收尾">
+      <div class="slide-inner">
+        <div class="kicker reveal">收尾 · 合流</div>
+        <h2 class="reveal" style="--d:1">一张图收尾</h2>
+        <p class="lead reveal" style="--d:2">全场三部分，合成一个动作：看自己缺哪块，用闭环补最近的那块。</p>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">三张图叠一张</div>
+<pre class="ascii">         <b>① 我在哪</b>              <b>② 缺什么</b>                 <b>③ 怎么补</b>
+   ┌──────────────┐      ┌──────────────┐      ┌──────────────┐
+   │ 炼气         │      │ Core    ████ │      │ 模仿         │
+   │ 筑基  ← 你在这 │  ×   │ GamePlay ███ │  →   │ 动手         │
+   │ 金丹         │      │ UBT      ██  │      │ 总结         │
+   │ 元婴         │      │ UHT      █   │      │ 积累         │
+   │ 化神         │      │ GC       █   │      │      ↓       │
+   └──────────────┘      └──────────────┘      └── 变资产 ────┘
+
+  <g>动作</g>  三个格子各填一次 → 得到一句：<b>这个月我要补 XX 块的 YY 部分</b></pre>
+        </div>
+        <div class="cols3 reveal" style="--d:4">
+          <div class="card tight"><span class="num">① 我在哪</span><h3>境界阶梯</h3><p class="small muted" style="margin:0">给出 5 级刻度，也给出「可以并级、可以跳」的宽容度</p></div>
+          <div class="card tight"><span class="num">② 缺什么</span><h3>六块要点</h3><p class="small muted" style="margin:0">Core / GamePlay / UBT / UHT / GC / 地方习俗，就是打分表的六列</p></div>
+          <div class="card tight"><span class="num">③ 怎么补</span><h3>学习闭环</h3><p class="small muted" style="margin:0">模仿 → 动手 → 总结 → 积累，转一圈就长一块</p></div>
+        </div>
+        <p class="big-line reveal" style="--d:5">先补<b>最近的一块</b>，别从最远的一块开始。</p>
+      </div>
+      <aside class="notes">收束全场，把三部分合成一个动作：看自己缺哪块，用闭环补最近的那块。别一上来就要读渲染。「这个月我要补 XX 块的 YY 部分」这句话要让学生当场写下来，写不出来就是没听懂。</aside>
+    </section>
+
+    <!-- 52 -->
+    <section class="slide" data-section="收尾" data-title="课后 30 天">
+      <div class="slide-inner">
+        <div class="kicker reveal">收尾 · 行动</div>
+        <h2 class="reveal" style="--d:1">课后 30 天：五件有验收标准的事</h2>
+        <table class="mtx reveal" style="--d:2">
+          <thead><tr><th style="width:50px">#</th><th style="width:330px">做什么</th><th>验收标准（做到这个才算完成）</th><th style="width:90px">耗时</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td>读一遍项目里最常用那个 C++ 类的 <code>.h</code></td><td>把每处 <code>UPROPERTY</code> 归成三类：配置 / 引用 / 运行时状态</td><td>1 小时</td></tr>
+            <tr><td>02</td><td>在最小场景里加一个组件</td><td><code>CreateDefaultSubobject</code> + <code>TObjectPtr&lt;&gt;</code> 成员 + <code>SetupAttachment</code>，能跑</td><td>1 小时</td></tr>
+            <tr><td>03</td><td>用 Enhanced Input 接一个按键</td><td><code>UInputAction</code> + <code>IMC</code> + <code>BindAction</code> 跑通，按键有反应</td><td>2 小时</td></tr>
+            <tr><td>04</td><td>故意写错一个模块名</td><td>看懂那条 <code>undefined symbol</code> 报错，能说出修法</td><td>20 分钟</td></tr>
+            <tr><td>05</td><td>画一张自己项目的类关系图</td><td>标出谁持有谁、谁 Tick、谁复制、谁跨关卡存活</td><td>2 小时</td></tr>
+          </tbody>
+        </table>
+        <div class="diagram reveal" style="--d:3">
+          <div class="cap">为什么是这五件（每件对应一个坑）</div>
+<div class="spec">
+            <div class="sr "><span class="lbl">01</span><span class="txt">对应「只会用不改」        → 读懂自己项目的代码</span></div>
+            <div class="sr "><span class="lbl">02</span><span class="txt">对应「不会挂组件」        → 掌握最基本的结构</span></div>
+            <div class="sr "><span class="lbl">03</span><span class="txt">对应「照着旧教程写输入」  → 换上 5.x 的写法</span></div>
+            <div class="sr neg"><span class="lbl"><s>04</s></span><span class="txt">对应「遇到链接错误就懵」  → 亲手制造一次，以后不会怕</span></div>
+            <div class="sr "><span class="lbl">05</span><span class="txt">对应「脑子里没有结构」    → 把隐性的理解画出来</span></div>
+          </div>
+        </div>
+        <p class="tiny muted reveal" style="--d:4;margin-top:8px">② ③ 是 5.x 现在必须会的两条，替代「照着 UE4 教程抄一遍」。五件总共不到 7 小时，分布在 30 天里做。</p>
+      </div>
+      <aside class="notes">这五件事分布在 30 天里做，一天十几分钟就够。给验收标准很重要：学生需要知道「做到什么程度算做完」。第 4 件看着奇怪，但它是投入产出比最高的——亲手制造一次错误，比看十次报错文档有用。</aside>
+    </section>
+
+    <!-- 53 -->
+    <section class="slide" data-section="收尾" data-title="提问 · 下一节">
+      <div class="slide-inner">
+        <div class="kicker reveal">收尾 · 下一节</div>
+        <h2 class="reveal" style="--d:1">接下来讲哪个？</h2>
+        <p class="lead reveal" style="--d:2">四个候选，现场投票选一条。选完就是下一节课的主题。</p>
+        <div class="mgrid mg-4 reveal" style="--d:3">
+          <div class="mi"><span class="k">A</span><b>Gameplay 框架细节</b><p>生命周期、生成顺序、谁该重载哪个虚函数</p></div>
+          <div class="mi v"><span class="k">B</span><b>委托与接口</b><p>三类委托、动态委托、AddDynamic、蓝图接口</p></div>
+          <div class="mi g"><span class="k">C</span><b>Enhanced Input 与 UMG</b><p>输入映射、上下文切换、UI 与游戏逻辑打通</p></div>
+          <div class="mi a"><span class="k">D</span><b>源码走读</b><p>从一条主链路开始，现场读完一整条</p></div>
+        </div>
+        <div class="diagram reveal" style="--d:4">
+          <div class="cap">两节课的分工（别重复）</div>
+<div class="spec">
+            <div class="sr hi"><span class="lbl"><b>第一节课</b></span><span class="txt">一局游戏怎么跑起来     → 编辑器、坐标系、面向对象、C++ 语法、框架、读链路</span></div>
+            <div class="sr hi"><span class="lbl"><b>导向课</b></span><span class="txt">你接下来怎么走         → 境界、5W1H、六块要点、闭环、源码方法论</span></div>
+            <div class="sr cau"><span class="lbl"><u>下一节</u></span><span class="txt">投票选出的那一条深度课   → 展开讲一个主题</span></div>
+            <div class="sr neg"><span class="lbl"><s>不要</s></span><span class="txt">把导向课讲成框架课   <s>也不要</s> 把框架课讲成导向课</span></div>
+          </div>
+        </div>
+        <p class="big-line reveal" style="--d:5">别用「谢谢观看」收尾，<b>用一个问题收尾</b>。</p>
+      </div>
+      <aside class="notes">别用「谢谢观看」收尾，用一个问题收尾。留 2 分钟提问，然后现场投票选下一节的主题。举手投票比在线问卷好——现场能看到哪边人多。</aside>
+    </section>
+
+  </main>
+
+  <footer class="bottombar">
+    <div class="hint"><span>← →</span> 翻页 · <span>F</span> 全屏 · <span>O</span> 目录 · <span>N</span> 备注</div>
+    <div>UNREAL ENGINE · 导向课 · C++ 进阶之路</div>
+  </footer>
+
+  <div class="nav-btns">
+    <button class="nav-btn" id="prevBtn" type="button" aria-label="上一页">‹</button>
+    <button class="nav-btn" id="nextBtn" type="button" aria-label="下一页">›</button>
+  </div>
+
+  <div class="notes-panel" id="notesPanel" aria-live="polite"></div>
+
+  <div class="overview" id="overview">
+    <h3>目录 · O 关闭</h3>
+    <div class="ov-grid" id="ovGrid"></div>
+  </div>
+</div>
+
+<script src="deck.js"></script>
+</body>
+</html>
