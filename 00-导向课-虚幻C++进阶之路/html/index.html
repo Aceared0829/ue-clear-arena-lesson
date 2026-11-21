@@ -350,17 +350,39 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
           </div>
           <h1 class="reveal cover-title" style="--d:1">虚幻 C++<br><span class="grad">进阶之路</span></h1>
           <div class="cover-sub reveal" style="--d:2">
-            <span class="en">A MAP, NOT A MANUAL</span>
+            <span class="en">UNREAL C++ LEARNING GUIDE</span>
             <span class="ln"></span>
           </div>
-          <p class="lead reveal" style="--d:3">一张地图，不是一本手册。<br>五个境界、5W1H、六块要点、八个坑、四步闭环——听完能给自己排一条半年的路线。</p>
+          <p class="lead reveal" style="--d:3">梳理虚幻 C++ 的知识结构和学习顺序。<br>结合常见误区与源码阅读方法，制定适合自己的学习计划。</p>
         </div>
         <div class="hero-visual reveal" style="--d:2" aria-hidden="true">
-          <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
-          <div class="cross"></div><div class="orb-dot"></div><div class="orb"><i></i></div>
+          <div class="code-glow"></div>
+          <span class="code-watermark">{ }</span>
+          <span class="code-corner top-left"></span>
+          <span class="code-corner bottom-right"></span>
+          <div class="code-window">
+            <div class="code-window-bar">
+              <div class="window-dots"><i></i><i></i><i></i></div>
+              <span class="code-file">Hero.cpp</span>
+              <span class="code-version">UE 5.8</span>
+            </div>
+            <div class="code-tabs"><span class="active">C++</span><span>BLUEPRINT</span><span>OUTPUT</span></div>
+            <div class="code-body">
+              <div><span class="line-no">01</span><code><span class="code-macro">UCLASS</span>()</code></div>
+              <div><span class="line-no">02</span><code><span class="code-keyword">class</span> <span class="code-type">AHero</span> : <span class="code-keyword">public</span> <span class="code-type">ACharacter</span></code></div>
+              <div><span class="line-no">03</span><code>{</code></div>
+              <div><span class="line-no">04</span><code>    <span class="code-macro">GENERATED_BODY</span>()</code></div>
+              <div><span class="line-no">05</span><code><span class="code-keyword">public</span>:</code></div>
+              <div class="code-focus"><span class="line-no">06</span><code>    <span class="code-keyword">virtual void</span> <span class="code-fn">Tick</span>(<span class="code-keyword">float</span> Dt) <span class="code-keyword">override</span>;</code></div>
+              <div><span class="line-no">07</span><code>};</code></div>
+              <div><span class="line-no">08</span><code><span class="code-comment">// Build something unreal.</span><span class="code-caret"></span></code></div>
+            </div>
+            <div class="code-status"><span><i></i>BUILD SUCCEEDED</span><span>UTF-8&nbsp;&nbsp; C++20</span></div>
+          </div>
+          <div class="code-float-tag"><span>&lt;/&gt;</span> COMPILE. CREATE. REPEAT.</div>
         </div>
       </div>
-      <aside class="notes">别讲履历、别讲引擎历史。第一句话：这节课不写一行代码。今天只做一件事——把 C++ 这条路画成一张你能带走的图。105 分钟是完整版，讲不完按 ★ 取舍，60 分钟也能讲完。</aside>
+      <aside class="notes">开场直接说明课程范围：这节课不写代码，主要梳理虚幻 C++ 的知识结构、学习顺序和源码阅读方法。学生可以据此安排后续学习。</aside>
     </section>
 
     <!-- 02 -->
@@ -368,21 +390,21 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
       <div class="slide-inner">
         <div class="kicker reveal">开场 · 预期管理</div>
         <h2 class="reveal" style="--d:1">今天不讲语法</h2>
-        <p class="lead reveal" style="--d:2">这一节不教你写代码，只告诉你代码该写在哪一层、为什么这么写、什么时候该动手。</p>
+        <p class="lead reveal" style="--d:2">这节课暂不展开语法，先介绍代码应该放在哪一层、为什么这样组织，以及什么时候开始动手。</p>
 
         <div class="reveal" style="--d:3;display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:12px">
           <div class="card" style="margin:0;border-color:rgba(52,211,153,.26);background:linear-gradient(180deg,rgba(20,44,40,.42),rgba(9,16,26,.72))">
-            <div class="hd g">带走 —— 五个能立刻用的东西</div>
+            <div class="hd g">本节课的五个收获</div>
             <div class="tickset">
               <div class="tick g">你在哪个境界，以及凭什么这么判断</div>
-              <div class="tick g">这条路有多长，中间压着几级台阶</div>
+              <div class="tick g">这条学习路线有哪些阶段</div>
               <div class="tick g">先学什么、后学什么，顺序错了会怎样</div>
-              <div class="tick g">怎么判断自己学会了——四条自测标志</div>
+              <div class="tick g">用四条标准检查学习效果</div>
               <div class="tick g">答案去哪儿找：源码、工具、方法论</div>
             </div>
           </div>
           <div class="card" style="margin:0;border-color:rgba(251,113,133,.22);background:linear-gradient(180deg,rgba(46,22,30,.42),rgba(9,16,26,.72))">
-            <div class="hd r">留到别处 —— 不在今天的范围</div>
+            <div class="hd r">本节课不展开的内容</div>
             <div class="tickset">
               <div class="tick r">指针、模板、语法细节</div>
               <div class="tick r">宏展开后的完整代码</div>
@@ -424,31 +446,31 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             <div class="tagline">→ 走路</div>
           </div>
         </div>
-        <p class="tiny muted reveal" style="--d:5;margin-top:14px">三节课各管一件事：<b style="color:#a5f3fc">先看地图、再看地形、最后自己走</b>。今天只发地图，不发工具。</p>
+        <p class="tiny muted reveal" style="--d:5;margin-top:14px">三次课的安排：<b style="color:#a5f3fc">导向课梳理知识结构，基础课讲清运行机制，实战课完成项目练习</b>。</p>
       </div>
-      <aside class="notes">学生最怕「又是一节念 PPT 的课」。先把能带走什么说清楚：带走一条路线，不是一堆名词。想学写代码去上实战课，这节课负责让你知道该上哪些课、按什么顺序上。底下三张卡是全场的坐标：先看地图，再看地形，最后自己走路。</aside>
+      <aside class="notes">先说明这节课能学到什么、不涉及什么。具体代码练习放在后续课程，本节课帮助学生判断需要学哪些内容，以及按什么顺序学。最后介绍三次课各自的侧重点。</aside>
     </section>
 
     <!-- 03 -->
-    <section class="slide" data-section="开场" data-title="今天回答六个问题">
+    <section class="slide" data-section="开场" data-title="这节课怎么讲">
       <div class="slide-inner">
         <div class="kicker reveal">开场 · 结构</div>
-        <h2 class="reveal" style="--d:1">今天回答六个问题</h2>
-        <p class="lead reveal" style="--d:2">5W1H，六个问题，六段内容。迷路了就先回到这张表。</p>
+        <h2 class="reveal" style="--d:1">这节课怎么讲</h2>
+        <p class="lead reveal" style="--d:2">先弄清虚幻 C++ 要学什么，再聊聊为什么值得学、你该学到哪一步，以及接下来怎么练。</p>
         <table class="mtx reveal" style="--d:3">
-          <thead><tr><th style="width:90px">问题</th><th style="width:130px">回答什么</th><th>落点</th><th style="width:80px">时长</th></tr></thead>
+          <thead><tr><th style="width:220px">聊到哪块</th><th>大致讲什么</th></tr></thead>
           <tbody>
-            <tr><td><code>WHAT</code></td><td>是什么</td><td>虚幻 C++ 包含六块，不只是语言；学会有四个标志</td><td>9 min</td></tr>
-            <tr><td><code>WHY</code></td><td>为什么</td><td>引擎为什么开放 C++；蓝图在失去什么；三层怎么分工</td><td>12 min</td></tr>
-            <tr><td><code>WHO</code></td><td>谁</td><td>四类人真的需要，其余人优先级不同</td><td>3 min</td></tr>
-            <tr><td><code>WHEN</code></td><td>什么时候</td><td>蓝图入手还是直接 C++；什么算「蓝图学明白了」</td><td>7 min</td></tr>
-            <tr><td><code>WHICH</code></td><td>学哪些</td><td>六块要点 + 八个坑，从 Core 到 GC 全部点到</td><td>24 min</td></tr>
-            <tr><td><code>HOW</code></td><td>怎么学</td><td>四步闭环、模仿什么、怎么积累、用什么工具</td><td>10 min</td></tr>
+            <tr><td>先认识它</td><td>除了 C++ 语法，还要学引擎里的哪些东西</td></tr>
+            <tr><td>再聊聊为什么学</td><td>哪些事情交给 C++，哪些事情用蓝图反而更方便</td></tr>
+            <tr><td>看看自己用不用得上</td><td>结合你的岗位和项目，判断该学到什么程度</td></tr>
+            <tr><td>找个合适的起点</td><td>从蓝图入手还是直接写 C++，各有什么利弊</td></tr>
+            <tr><td>把该补的列出来</td><td>过一遍六块核心知识，顺便说说常见的八个难点</td></tr>
+            <tr><td>最后讲讲怎么练</td><td>怎么抄、怎么改、怎么总结，让做过的内容真正留下来</td></tr>
           </tbody>
         </table>
-        <p class="big-line reveal" style="--d:4">再往后是三段收束：<b>觉悟</b>、<b>源码方法论</b>、<b>收尾行动</b>。</p>
+        <p class="big-line reveal" style="--d:4">讲完这些，再带你看看<b>怎么用 AI 辅助学习</b>、<b>怎么翻源码</b>，最后留几项课后练习。</p>
       </div>
-      <aside class="notes">这页当目录用，也当锚点。讲的时候报一声「现在回答第几个 W」，学生就不会迷路。</aside>
+      <aside class="notes">这页按实际讲课顺序介绍即可：先认识虚幻 C++，再聊学习价值、适合人群和入门方式，接着梳理知识与难点，最后讲练习方法、AI 辅助和源码阅读。</aside>
     </section>
 
     <!-- 04 -->
@@ -456,7 +478,7 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
       <div class="slide-inner">
         <div class="kicker reveal">地图 · 全貌</div>
         <h2 class="reveal" style="--d:1">五个境界：从会用到造工具</h2>
-        <p class="lead reveal" style="--d:2">每条路上的每一级都能落在这五格上。括号里是旧叫法；这是<b>能力刻度</b>，不是职级，也不是鄙视链。</p>
+        <p class="lead reveal" style="--d:2">可以把不同方向的学习进度放在这五级中检查。括号里是旧叫法；这里评估的是<b>具体能力</b>，与职级无关。</p>
         <div class="lv-pano reveal" style="--d:3">
           <div class="lv-col">
             <div class="top"><span class="lvl">L1 炼气</span><span class="no">新手村</span></div>
@@ -509,7 +531,7 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
         <div class="reveal" style="--d:5;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
           <div class="card tight" style="margin:0;border-color:rgba(34,211,238,.3)">
             <b style="font-size:.86rem">为什么用「境界」这种叫法</b>
-            <p class="small muted" style="margin:.4em 0 0">因为它天生带三件事：<b style="color:#a5f3fc">可以并级、可以跳、没有官方认证</b>。比「初级/中级/高级」诚实得多——那套分级总让人误以为在排队。</p>
+            <p class="small muted" style="margin:.4em 0 0">各模块可以处在不同级别，也可以跳级，<b style="color:#a5f3fc">没有统一认证</b>。它用于自测，不要求所有人按同一条路线前进。</p>
           </div>
           <div class="card tight" style="margin:0;border-color:rgba(251,191,36,.28)">
             <b style="font-size:.86rem">时间量级怎么看</b>
@@ -517,7 +539,7 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
           </div>
         </div>
       </div>
-      <aside class="notes">先给整段路，再逐级展开。三条常被误解的点：① 这是能力刻度不是职级；② 大多数人一辈子停在筑基、金丹，很正常；③ 借用修仙的壳是为了好记——炼气是入门，化神是传说，中间三段才是常态。时间量级只是参考，别当成承诺。下面那排卡片不用逐条念，讲清「每一级都有一个典型产出」就够了。</aside>
+      <aside class="notes">先介绍完整路线，再逐级展开。说明这三点：① 这里划分的是能力，不是职级；② 多数人长期处在筑基或金丹阶段很正常；③ 修仙名称只是方便记忆，炼气表示入门，化神表示行业级别的创造能力。时间量级仅供参考，下面重点说明每一级的典型产出。</aside>
     </section>
 
     <!-- 05 -->
@@ -561,18 +583,18 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
           </div>
           </div>
           <div class="card" style="border-color:rgba(34,211,238,.34);margin:0">
-            <div class="hd">急着写 C++ 没错 —— 但请带着这四个问题写</div>
+            <div class="hd">开始写 C++ 时，先考虑这四个问题</div>
             <table class="mtx tight" style="margin-top:4px">
               <tr><td>① 它在谁手里活着</td><td>谁创建、谁持有、谁在什么时机销毁？GC 凭什么不回收它</td></tr>
-              <tr><td>② 它该写在哪一层</td><td>Actor / UObject / 组件 / 函数库——选错层，代码就散</td></tr>
-              <tr><td>③ 它为什么这么写</td><td>宏、模块、反射不是语法糖，是引擎的规矩，问一次为什么</td></tr>
+              <tr><td>② 它该写在哪一层</td><td>Actor / UObject / 组件 / 函数库：位置选错，代码就难以组织</td></tr>
+              <tr><td>③ 它为什么这么写</td><td>宏、模块和反射都有具体作用，需要理解引擎的约束</td></tr>
               <tr><td>④ 换个人能改吗</td><td>命名、分层、注释；能跑只是及格，能被人接手才算会</td></tr>
             </table>
-            <p class="tiny muted" style="margin:6px 0 0">提前学 C++ 完全可行，引擎源码就是最好的教材。但「先写通再补原理」的账，早晚要还——差别只是现在想，还是三个月后返工。</p>
+            <p class="tiny muted" style="margin:6px 0 0">提前学 C++ 完全可行，引擎源码也是重要的学习材料。先写通再补原理也可以，但要及时回顾，避免后续集中返工。</p>
           </div>
         </div>
       </div>
-      <aside class="notes">这一页的态度要讲明：炼气期直接写 C++ 完全可以，甚至鼓励——引擎源码就是最好的教材，早动手早开窍。真正要拦住的不是「写」，而是「只写不想」。这四个问题是提前写 C++ 的人必须先挂在墙上的：谁持有它、写在哪一层、为什么这么写、换个人能不能改。今天不要求答对，但要求每写一段都问一次。</aside>
+      <aside class="notes">炼气阶段可以直接写 C++，引擎源码也可以作为学习材料。需要避免只照抄而不理解。每写一段代码，都检查四个问题：谁持有它、写在哪一层、为什么这样写、换个人能不能修改。本节课不要求学生立即答全。</aside>
     </section>
 
     <!-- 06 -->
@@ -582,7 +604,7 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
         <h2 class="reveal" style="--d:1">筑基 · 掌握引擎：开始分工</h2>
         <div class="cols reveal" style="--d:2">
           <div class="card">
-            <div class="hd">动手 —— 哪些模块交给 C++</div>
+            <div class="hd">适合交给 C++ 的模块</div>
             <table class="mtx tight">
               <tr><td>函数库</td><td>BlueprintCallable 静态函数库，把重复逻辑收进 C++</td></tr>
               <tr><td>计算逻辑</td><td>伤害公式、属性结算、路径与寻路辅助</td></tr>
@@ -591,7 +613,7 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             </table>
           </div>
           <div class="card">
-            <div class="hd v">动脑 —— 这一级真正在练的</div>
+            <div class="hd v">这一阶段需要掌握的能力</div>
             <table class="mtx tight">
               <tr><td>分工框架</td><td>什么必须 C++、什么留在蓝图，边界画在哪</td></tr>
               <tr><td>函数库</td><td>把项目里的通用能力沉淀成可复用模块</td></tr>
@@ -608,9 +630,9 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
        │  再往下走一层
   <b>懂 Asset</b>      ── 知道资产是「存在磁盘上的对象」，有引用关系、有加载时机</pre>
         </div>
-        <div class="capability reveal" style="--d:4">能力标志 <b>知道这段逻辑该写在哪一层</b> —— 不是「C++ 还是蓝图」，是 C++ / 脚本 / 蓝图 三选一。</div>
+        <div class="capability reveal" style="--d:4">能力标志 <b>知道这段逻辑该写在哪一层</b>：能在 C++、脚本和蓝图之间做出合理选择。</div>
       </div>
-      <aside class="notes">红字是这一级的门槛，不是骂人：会用 Actor 不等于理解 UObject 的世界。核心词是「分工」——什么时候该写 C++，才是这一级真正要过的关。三层认知的顺序不能跳。</aside>
+      <aside class="notes">会用 Actor 不代表已经理解 UObject 的对象体系。这一级重点是分工，知道什么时候该用 C++、脚本或蓝图。Actor、Object、Asset 三层概念按顺序解释。</aside>
     </section>
 
     <!-- 07 -->
@@ -620,7 +642,7 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
         <h2 class="reveal" style="--d:1">金丹 · 懂得引擎：知道去哪儿找</h2>
         <div class="mgrid mg-2 reveal" style="--d:2">
           <div class="mi"><span class="k">研究</span><b>模块的机制与原理</b><p>不只看接口签名，而是看它为什么这样设计、约束从哪来</p></div>
-          <div class="mi"><span class="k">实现</span><b>在 C++ 层写支撑类</b><p>工具类、策略类、子系统——给团队搭骨架，而不是填功能</p></div>
+          <div class="mi"><span class="k">实现</span><b>在 C++ 层写支撑类</b><p>通过工具类、策略类和子系统，为团队提供稳定的基础结构</p></div>
           <div class="mi v"><span class="k">扩展</span><b>引擎层扩展</b><p>Slate 自定义控件、编辑器扩展、改造渲染管线</p></div>
           <div class="mi a"><span class="k">维护</span><b>改引擎 / Hack / 修 bug</b><p>改得动，也合得回去；知道哪条路以后升级会疼</p></div>
         </div>
@@ -634,9 +656,9 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             <div class="sr "><span class="lbl">5</span><span class="txt">如果我要扩展它，最小侵入点在哪儿？</span></div>
           </div>
         </div>
-        <div class="capability reveal" style="--d:4">能力标志 <b>任何模块都有信心翻到源码并扩展</b> —— 缺的只是时间，不是勇气。</div>
+        <div class="capability reveal" style="--d:4">能力标志 <b>面对陌生模块，能够阅读源码并找到合适的扩展点</b>。</div>
       </div>
-      <aside class="notes">「信心」比「会」重要：知道去哪儿找，比背下来有用。这一级的人拿到陌生模块，第一反应是打开源码，不是发帖问。</aside>
+      <aside class="notes">这一级不要求记住所有接口，重点是面对陌生模块时能主动阅读源码，找到实现和扩展点。</aside>
     </section>
 
     <!-- 08 -->
@@ -661,9 +683,9 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             <div class="sr hi"><span class="lbl">元婴</span><span class="txt"><b>把功能做成能力</b>      别人也能用它快速做出同样的事</span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:4">这一级不是目标，是<b>结果</b>——先把一堆没人愿意解决的问题解决掉。</p>
+        <p class="big-line reveal" style="--d:4">这一阶段的能力通常来自持续解决项目中的复杂问题。</p>
       </div>
-      <aside class="notes">一页带过，别让学生以为这是目标。能到这一级的人，往往是先解决了一堆没人愿意解决的问题。真正稀缺的不是技术，是「知道什么不该做」。</aside>
+      <aside class="notes">这一页简要介绍即可。达到这一阶段通常需要长期解决复杂项目问题，同时还要能评估改动的必要性，避免过度设计。</aside>
     </section>
 
     <!-- 09 -->
@@ -673,7 +695,7 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
         <h2 class="reveal" style="--d:1">化神 · 创造引擎：造工具的人</h2>
         <div class="mgrid mg-3 reveal" style="--d:2">
           <div class="mi"><span class="k">01</span><b>清楚整体结构</b><p>知道引擎各子系统的边界、依赖方向、演进路线</p></div>
-          <div class="mi v"><span class="k">02</span><b>站行业高度造工具</b><p>解决的不是一个项目的问题，是一类项目的问题</p></div>
+          <div class="mi v"><span class="k">02</span><b>设计通用工具</b><p>把单个项目中的经验整理成适用于一类项目的工具</p></div>
           <div class="mi a"><span class="k">03</span><b>作品影响行业</b><p>别人因为你的工具，改变了工作方式</p></div>
         </div>
         <div class="diagram reveal" style="--d:3">
@@ -685,9 +707,9 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             <div class="sr hi"><span class="lbl">元婴 → 化神</span><span class="txt">从「能重做」到「定义问题」  <b>造工具</b></span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:4">境界的尽头不是技术，是<b>判断力</b>——知道什么该做、什么不该做。</p>
+        <p class="big-line reveal" style="--d:4">除了技术能力，还要能判断<b>哪些方案值得投入，哪些改动应该避免</b>。</p>
       </div>
-      <aside class="notes">同上，快速带过。落点一句：这一级拼的不是代码量，是判断力。很多人卡在元婴不是技术不够，是不敢做减法。</aside>
+      <aside class="notes">简要介绍。这个阶段除了代码能力，还需要判断方案的投入产出，并能为项目做减法。</aside>
     </section>
 
     <!-- 10 -->
@@ -699,9 +721,9 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
           <div class="card">
             <div class="hd">三条使用说明</div>
             <div class="tickset">
-              <div class="tick"><b>可以并级</b> —— 你可能还在筑基，但某个模块已经是金丹</div>
-              <div class="tick"><b>可以跳</b> —— 被人带过一遍，某块直接越级</div>
-              <div class="tick"><b>不是排队</b> —— 没人给你发证书，也没人检查你第几级</div>
+              <div class="tick"><b>可以并级</b>：整体还在筑基，某个模块也可能已经达到金丹</div>
+              <div class="tick"><b>可以跳级</b>：有项目经验或他人指导时，某些模块可以更快掌握</div>
+              <div class="tick"><b>不必对齐</b>：它只是自测工具，没有统一的评级标准</div>
             </div>
           </div>
           <div class="card" style="border-color:rgba(34,211,238,.32)">
@@ -715,42 +737,42 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             </table>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:3">知道自己<b>缺哪一块</b>，比知道自己<b>第几级</b>有用。</p>
-        <p class="tiny muted reveal" style="--d:4;margin-top:6px">所以接下来那张六块要点，比你现在的段位更重要——它才是打分表。</p>
+        <p class="big-line reveal" style="--d:3">自测的重点是找出<b>具体薄弱模块</b>，而不是确定一个笼统的等级。</p>
+        <p class="tiny muted reveal" style="--d:4;margin-top:6px">接下来用六块要点分别检查，更容易确定下一步该补什么。</p>
       </div>
-      <aside class="notes">这是防抬杠页。学生一定会问「我算哪个境界」，把问题换成「我缺哪块」。别在课上给任何人评级，给了就是给自己找麻烦。</aside>
+      <aside class="notes">学生可能会问「我算哪个境界」。建议把问题改成「我目前缺哪块」，按模块自测，不在课上给个人评级。</aside>
     </section>
 
     <!-- 11 -->
-    <section class="slide" data-section="框架" data-title="5W1H">
+    <section class="slide" data-section="框架" data-title="课程内容一览">
       <div class="slide-inner">
         <div class="kicker reveal">框架</div>
-        <h2 class="reveal" style="--d:1">5W1H：六个问题，六段内容</h2>
+        <h2 class="reveal" style="--d:1">这节课，按这个顺序聊</h2>
         <div class="mgrid mg-3 reveal" style="--d:2">
-          <div class="mi"><span class="k">WHAT</span><b>是什么</b><p>六块拼图 · 学会的四个标志 · 三条误区</p></div>
-          <div class="mi"><span class="k">WHY</span><b>为什么</b><p>引擎为什么开放 · 你为什么学 · 蓝图够不够 · 配比</p></div>
-          <div class="mi"><span class="k">WHO</span><b>谁</b><p>四类真的需要的人</p></div>
-          <div class="mi v"><span class="k">WHEN</span><b>什么时候</b><p>三个前置 · 什么算学会蓝图</p></div>
-          <div class="mi v"><span class="k">WHICH</span><b>学哪些</b><p>六块要点 · 八个坑</p></div>
-          <div class="mi v"><span class="k">HOW</span><b>怎么学</b><p>四步闭环 · 模仿 · 积累 · 工具</p></div>
+          <div class="mi"><span class="k">01 · 先认识它</span><b>虚幻 C++ 到底学什么</b><p>不只学语法，还要懂引擎框架、构建、反射和对象管理</p></div>
+          <div class="mi"><span class="k">02 · 再聊聊价值</span><b>什么时候真的需要它</b><p>看看 C++ 和蓝图各自适合做什么，别为了用而用</p></div>
+          <div class="mi"><span class="k">03 · 结合自己</span><b>你该学到哪一步</b><p>岗位不同、项目不同，需要补的内容也不一样</p></div>
+          <div class="mi v"><span class="k">04 · 找个起点</span><b>从蓝图还是 C++ 开始</b><p>两条路都能走，选一条更适合你当前基础的</p></div>
+          <div class="mi v"><span class="k">05 · 把内容过一遍</span><b>重点知识和常见难点</b><p>知道每块大概讲什么，遇到问题时知道往哪儿查</p></div>
+          <div class="mi v"><span class="k">06 · 最后讲方法</span><b>学完以后怎么练</b><p>先照着做，再自己改，做完留下代码和笔记</p></div>
         </div>
         <div class="diagram reveal" style="--d:3">
           <div class="cap">全场结构（12 段 · 53 页 · 105 分钟）</div>
-<pre class="ascii">  A 开场 <u>5′</u>   B 地图 <u>10′</u>   C 框架 <u>2′</u>   D What <u>9′</u>   E Why <u>12′</u>   F Who <u>3′</u>
+<pre class="ascii">  A 开场 <u>5′</u>   B 地图 <u>10′</u>   C 框架 <u>2′</u>   D 是什么 <u>9′</u>   E 为什么 <u>12′</u>   F 谁需要 <u>3′</u>
   ▓▓▓░░░░░░░░░░░▓▓░░░░░░░░░░░░░░▓▓▓▓░░░░░░░░░░▓▓▓▓▓▓░░░░░▓▓░
-  G When <u>7′</u>   H Which <u>24′</u>                I How <u>10′</u>  J 觉悟 <u>8′</u>  K 源码 <u>10′</u>  L 收尾 <u>5′</u>
+  G 何时学 <u>7′</u>  H 学什么 <u>24′</u>                I 怎么学 <u>10′</u>  J 觉悟 <u>8′</u>  K 源码 <u>10′</u>  L 收尾 <u>5′</u>
   ▓▓▓░░░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░▓▓▓▓▓▓░░▓▓▓▓░░░▓▓▓▓▓░░░▓▓░░</pre>
         </div>
       </div>
-      <aside class="notes">当目录用，也当「迷路回来看」的锚点。H 段最长（24 分钟），也是全场最该保留的部分——如果时间被压，压缩 A 和 K，H 不要压。</aside>
+      <aside class="notes">这页作为课程目录和定位页。H 段知识最密集，讲解时需要保留足够时间；需要压缩时，优先精简 A 和 K。</aside>
     </section>
 
     <!-- 12 -->
-    <section class="slide" data-section="What" data-title="旧教程还能照抄吗">
+    <section class="slide" data-section="是什么" data-title="旧教程还能照抄吗">
       <div class="slide-inner">
-        <div class="kicker reveal">What · 先解雷</div>
+        <div class="kicker reveal">是什么 · 版本差异</div>
         <h2 class="reveal" style="--d:1">旧教程还能照抄吗</h2>
-        <p class="lead reveal" style="--d:2">地图没变，路修过。网上有一半教程是 UE4 的，直接抄会编译不过，或者写出今天不该有的结构。</p>
+        <p class="lead reveal" style="--d:2">很多网上教程仍基于 UE4。直接照搬可能编译失败，也可能在新项目里沿用已经不推荐的结构。</p>
         <div class="cols reveal" style="--d:3">
           <div>
             <table class="mtx tight">
@@ -772,27 +794,27 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             <div class="card tight" style="border-color:rgba(251,191,36,.3)"><b>见到旧教程怎么办</b><p class="small muted" style="margin:.35em 0 0">先认版本：看发布日期、看有没有 Enhanced Input、看有没有 TObjectPtr。三样都没有，就是 4.x 的。</p></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:4">看到旧教程不用慌，先认出它用的是<b>哪套</b>。</p>
+        <p class="big-line reveal" style="--d:4">参考旧教程前，先确认它的<b>引擎版本和输入系统</b>。</p>
       </div>
-      <aside class="notes">这页是给学生「解雷」的。课上一律按 5.8 讲，但不假装旧写法不存在——旧项目里到处都是，能认出来比骂它有用。判断版本的三招（发布日期 / Enhanced Input / TObjectPtr）是这页最实用的东西。</aside>
+      <aside class="notes">课上一律按 5.8 讲，同时说明旧项目中仍会见到旧写法。学生需要能识别版本差异。判断版本时重点看发布日期、Enhanced Input 和 TObjectPtr。</aside>
     </section>
 
     <!-- 13 -->
-    <section class="slide" data-section="What" data-title="虚幻 C++ ≠ C++">
+    <section class="slide" data-section="是什么" data-title="虚幻 C++ ≠ C++">
       <div class="slide-inner">
-        <div class="kicker reveal">What</div>
+        <div class="kicker reveal">是什么 · 知识范围</div>
         <h2 class="reveal" style="--d:1">虚幻 C++ ≠ C++</h2>
-        <p class="lead reveal" style="--d:2">C++ 只是地基，剩下五块是「引擎的规矩」。很多人学不下去，是只学了第一块。</p>
+        <p class="lead reveal" style="--d:2">除了标准 C++，还要理解引擎框架、构建、反射、核心库和蓝图交互。只学语法，很难独立完成引擎功能。</p>
         <div class="mgrid mg-3 reveal" style="--d:3">
-          <div class="mi"><span class="k">01 · 基础</span><b>标准 C++</b><p>语法、指针、类、模板、RAII——唯一能在书上学的部分</p></div>
+          <div class="mi"><span class="k">01 · 基础</span><b>标准 C++</b><p>语法、指针、类、模板、RAII，可通过通用教材系统学习</p></div>
           <div class="mi"><span class="k">02 · 约定</span><b>引擎的 C++ 框架</b><p>Actor / Component / Gameplay 的写法约定，命名与生命周期</p></div>
           <div class="mi v"><span class="k">03 · 构建</span><b>模块与插件（UBT）</b><p>代码怎么被组织、被编译、被链接到目标平台</p></div>
-          <div class="mi v"><span class="k">04 · 生成</span><b>反射与代码生成（UHT）</b><p>宏为什么不是注释，generated.h 里到底是什么</p></div>
+          <div class="mi v"><span class="k">04 · 生成</span><b>反射与代码生成（UHT）</b><p>宏如何参与代码生成，generated.h 中包含什么</p></div>
           <div class="mi g"><span class="k">05 · 日常</span><b>Core 的库</b><p>FString / TArray / TMap / UE_LOG / 智能指针 / 委托</p></div>
           <div class="mi a"><span class="k">06 · 桥梁</span><b>与蓝图交互</b><p>UPROPERTY / UFUNCTION / 函数库 / 反射调用</p></div>
         </div>
         <div class="diagram reveal" style="--d:4">
-          <div class="cap">六块与常见报错的对应关系——报错就是线索</div>
+          <div class="cap">根据常见报错定位相关知识</div>
 <div class="spec">
             <div class="sr neg"><span class="lbl"><s>unresolved external / undefined symbol</s></span><span class="txt">→  第 3 块（模块依赖没连上）</span></div>
             <div class="sr neg"><span class="lbl"><s>xxx is not a member of ...</s></span><span class="txt">→  第 3 块（头文件没包含或模块没公开）</span></div>
@@ -801,17 +823,17 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             <div class="sr neg"><span class="lbl"><s>blueprint can't find variable</s></span><span class="txt">→  第 6 块（缺 UPROPERTY 或 BlueprintReadWrite）</span></div>
           </div>
         </div>
-        <p class="tiny muted reveal" style="--d:5;margin-top:8px">UE5 这些年加的 Subsystem、Enhanced Input、StateTree，不是第七块，是这六块在应用层的新补丁。</p>
+        <p class="tiny muted reveal" style="--d:5;margin-top:8px">UE5 新增的 Subsystem、Enhanced Input、StateTree 等功能，也可以归入这六块知识中理解。</p>
       </div>
-      <aside class="notes">关键一句：C++ 只是地基，剩下五块是引擎的规矩。很多人学到一半放弃，不是因为 C++ 难，是因为只学了第一块，剩下的靠猜。这张「报错 → 第几块」的表是最实用的，学生遇到错能自己对号。</aside>
+      <aside class="notes">除了标准 C++，还要理解引擎框架和相关工具。很多人遇到困难，是因为只学了语法，对模块、反射和对象管理缺少认识。结合报错表说明各块知识的实际用途。</aside>
     </section>
 
     <!-- 14 -->
-    <section class="slide" data-section="What" data-title="学会的四条标志">
+    <section class="slide" data-section="是什么" data-title="学会的四条标志">
       <div class="slide-inner">
-        <div class="kicker reveal">What · 自测表</div>
+        <div class="kicker reveal">是什么 · 自测表</div>
         <h2 class="reveal" style="--d:1">学会的四条标志</h2>
-        <p class="lead reveal" style="--d:2">反过来当自测表：四条一条都没有，说明还没入门，不是笨。</p>
+        <p class="lead reveal" style="--d:2">可以用这四项检查目前的基础，找出还需要补强的部分。</p>
         <table class="mtx reveal" style="--d:3">
           <thead><tr><th style="width:140px">标志</th><th>具体要求</th><th style="width:230px">怎么检验</th><th style="width:110px">对应块</th></tr></thead>
           <tbody>
@@ -830,13 +852,13 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
           </div>
         </div>
       </div>
-      <aside class="notes">这四条比任何考试都准。特别是第一条——很多人以为是「我 C++ 不行」，其实是模块没加、头文件没包含。三类错误的区分是这页的核心。</aside>
+      <aside class="notes">用这四项帮助学生自测。很多报错并非语法问题，而是模块没加或头文件没包含。重点讲清编译错误、链接错误和运行崩溃的区别。</aside>
     </section>
 
     <!-- 15 -->
-    <section class="slide" data-section="What" data-title="它不是什么">
+    <section class="slide" data-section="是什么" data-title="它不是什么">
       <div class="slide-inner">
-        <div class="kicker reveal">What · 拆门槛</div>
+        <div class="kicker reveal">是什么 · 常见误区</div>
         <h2 class="reveal" style="--d:1">它不是什么</h2>
         <div class="cols3 reveal" style="--d:2">
           <div class="card no">
@@ -864,25 +886,25 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             <div class="sr pos"><span class="lbl"><g>走通的人</g></span><span class="txt">从「改一个数值」开始，先有反馈，再要原理</span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:4">门槛不在记忆量，在于<b>知不知道该写在哪</b>。</p>
+        <p class="big-line reveal" style="--d:4">学习重点是理解代码的<b>职责和位置</b>，不需要先记住大量 API。</p>
       </div>
-      <aside class="notes">提前拆掉心里的门槛。学生最常问「要背多少 API」，答案是零。真实的学习顺序是反过来的：先改、再有反馈、再要原理。</aside>
+      <aside class="notes">学生常问需要背多少 API。说明不需要以背诵为起点，可以先修改现有功能，观察结果，再回头理解原理。</aside>
     </section>
 
     <!-- 16 -->
-    <section class="slide" data-section="Why" data-title="为什么引擎要开放 C++">
+    <section class="slide" data-section="为什么" data-title="为什么引擎要开放 C++">
       <div class="slide-inner">
-        <div class="kicker reveal">Why · 引擎侧</div>
+        <div class="kicker reveal">为什么 · 引擎侧</div>
         <h2 class="reveal" style="--d:1">为什么引擎要开放 C++</h2>
         <div class="two-col-dense reveal" style="--d:2">
           <div>
             <table class="mtx tight">
               <thead><tr><th style="width:110px">理由</th><th>具体是什么</th></tr></thead>
               <tbody>
-                <tr><td>性能</td><td>原话说了三遍——直接编译成机器码，没有解释层</td></tr>
+                <tr><td>性能</td><td>直接编译成机器码，不需要经过蓝图虚拟机</td></tr>
                 <tr><td>可优化</td><td>能优化到自己真正想优化的那一行，而不是等别人开放接口</td></tr>
                 <tr><td>强类型</td><td>大项目里重构不容易崩，编译器帮你查一半错</td></tr>
-                <tr><td>开放性</td><td>可定制、可扩展、可替换——从渲染到构建</td></tr>
+                <tr><td>开放性</td><td>渲染、构建等部分都可以定制、扩展或替换</td></tr>
                 <tr><td>迭代快</td><td>不用等接口层补齐，团队自己就能往下做</td></tr>
                 <tr><td>生态</td><td>第三方中间件几乎都是 C/C++，接得进来</td></tr>
               </tbody>
@@ -902,22 +924,22 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
           </div>
         </div>
       </div>
-      <aside class="notes">别只讲性能：真正的原因是引擎不可能替所有项目做完决定。它给你一把可以直接动刀的工具，代价是你要懂刀在干什么。生态这一条别漏——接第三方 SDK 时你就明白为什么非得是 C++。</aside>
+      <aside class="notes">除了性能，还要说明引擎无法替所有项目做完设计决策。C++ 提供了更底层的扩展能力，也要求开发者理解相关约束。接入第三方 SDK 是常见的实际需求。</aside>
     </section>
 
     <!-- 17 -->
-    <section class="slide" data-section="Why" data-title="为什么你要学">
+    <section class="slide" data-section="为什么" data-title="为什么你要学">
       <div class="slide-inner">
-        <div class="kicker reveal">Why · 你这一侧</div>
+        <div class="kicker reveal">为什么 · 学习价值</div>
         <h2 class="reveal" style="--d:1">为什么你要学</h2>
         <div class="mgrid mg-2 reveal" style="--d:2">
           <div class="mi"><span class="k">01 · 能力</span><b>扩展功能能直达底层</b><p>蓝图做不了的需求，C++ 能做。定制、接 SDK、改引擎行为</p></div>
-          <div class="mi"><span class="k">02 · 性能</span><b>能优化真正的热点</b><p>不是猜哪里慢，而是量出来再改。Unreal Insights 能告诉你在哪</p></div>
+          <div class="mi"><span class="k">02 · 性能</span><b>能优化真正的热点</b><p>先用 Unreal Insights 测量性能，再针对热点修改</p></div>
           <div class="mi v"><span class="k">03 · 理解</span><b>能调试，也能读懂引擎</b><p>断点进得去，才知道它怎么跑。看懂源码 = 拿着教材学</p></div>
           <div class="mi a"><span class="k">04 · 职业</span><b>初级到中级的分水岭</b><p>大项目总得有一门「Hold 得住」的语言。招聘上写不写，是两个价位</p></div>
         </div>
         <div class="diagram reveal" style="--d:3">
-          <div class="cap">学与不学，三年后的差别（同一批入行的人）</div>
+          <div class="cap">不同技术路线对项目维护的影响</div>
 <div class="spec">
             <div class="sr neg"><span class="lbl"><s>只做蓝图</s></span><span class="txt"><g>会 C++</g></span></div>
             <div class="sr "><span class="lbl">第 1 年</span><span class="txt">能独立做小项目 ✓                 能独立做小项目 ✓</span></div>
@@ -926,17 +948,17 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             <div class="sr "><span class="lbl">天花板 ≈ 项目复杂度</span><span class="txt">天花板 ≈ 自己想停在哪</span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:4">理解了 <b>why</b>，才解决得了 <b>how</b>。</p>
+        <p class="big-line reveal" style="--d:4">明确使用 C++ 的场景，再决定需要学到什么程度。</p>
       </div>
-      <aside class="notes">补一句现实理由：招聘上写「熟悉 C++」和不写，是两个价位的岗位。这条别展开成鸡汤，点到为止。三年对比图很扎心，但它是真的。</aside>
+      <aside class="notes">可以补充招聘中的现实需求：不同岗位对 C++ 能力的要求和薪资范围会有差别，点到为止。三年对比图用于说明技术路线对维护能力的影响，不要当作对所有人的确定预测。</aside>
     </section>
 
     <!-- 18 -->
-    <section class="slide" data-section="Why" data-title="蓝图正在失去什么">
+    <section class="slide" data-section="为什么" data-title="蓝图正在失去什么">
       <div class="slide-inner">
-        <div class="kicker reveal">Why · 边界</div>
+        <div class="kicker reveal">为什么 · 蓝图边界</div>
         <h2 class="reveal" style="--d:1">蓝图正在失去什么</h2>
-        <p class="lead reveal" style="--d:2">说句不客气的话：AI 时代下，蓝图的作用在变小。它没死，但它的护城河只剩一条。</p>
+        <p class="lead reveal" style="--d:2">文本代码和 AI 工具的发展，正在改变蓝图的使用范围。它在编辑器中的可视化优势仍然存在。</p>
         <div class="mgrid mg-3 reveal" style="--d:3">
           <div class="mi r"><span class="k">硬伤 01 · 版本管理</span><b>二进制资产，合并不了</b>
             <p>蓝图是 .uasset，本质是二进制。两个人改同一个蓝图，只能靠「你先提交我后改」，或者干脆分文件。代码能 merge、能 diff、能 review，蓝图不行。</p>
@@ -945,22 +967,22 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             <p>蓝图跑在 VM 上，逐节点解释。同一个逻辑，C++ 常常快一个数量级。热点逻辑放蓝图，是项目后期最常见的性能债。</p>
           </div>
           <div class="mi r"><span class="k">硬伤 03 · AI 时代</span><b>AI 写不动节点图</b>
-            <p>AI 最擅长的是文本：C++、Python、Lua、C#。对着二进制节点图，它既读不懂也改不了——这一步直接把蓝图挡在了 AI 工作流外面。</p>
+            <p>AI 工具通常更适合处理 C++、Python、Lua、C# 等文本。蓝图的二进制节点图难以直接参与文本生成、审查和重构流程。</p>
           </div>
         </div>
         <div class="reveal" style="--d:4;display:grid;grid-template-columns:1.15fr 1fr;gap:12px;margin-top:12px">
           <div class="diagram" style="margin-top:0">
-            <div class="cap">蓝图现在的唯一不可替代项</div>
+            <div class="cap">蓝图目前最有价值的部分：编辑器生态</div>
 <div class="spec">
-            <div class="sr "><span class="lbl"><b>编辑器生态</b></span><span class="txt">美术、TA、策划、音频——不写代码的人，只能在这里干活</span></div>
+            <div class="sr "><span class="lbl"><b>编辑器生态</b></span><span class="txt">美术、TA、策划和音频成员可以直接在编辑器中修改和预览</span></div>
             <div class="sr note"><span class="txt">材质、动画、Niagara、UMG 可视化预览，都是它的延伸</span></div>
-            <div class="sr neg"><span class="lbl"><s>如果没有这套生态</s></span><span class="txt">蓝图早被脚本语言取代了 —— 这就是为什么 Epic 还要死守它</span></div>
-            <div class="sr pos"><span class="lbl"><g>它依然值得学</g></span><span class="txt">因为「让非程序也能改」，这件事暂时没有第二个解</span></div>
+            <div class="sr neg"><span class="lbl"><s>主要限制</s></span><span class="txt">团队协作、性能分析和文本工具支持都不如代码方便</span></div>
+            <div class="sr pos"><span class="lbl"><g>适用场景</g></span><span class="txt">非程序成员可以直接修改逻辑、预览效果并参与迭代</span></div>
           </div>
           </div>
           <div class="card" style="margin:0;border-color:rgba(251,191,36,.32)">
-            <div class="hd a">一句话概括蓝图的处境</div>
-            <p style="margin:.2em 0;font-size:.92rem;line-height:1.55">它<b>不是被 C++ 打败的</b>，是被「版本控制 + 性能 + AI」三件事同时挤压。</p>
+            <div class="hd a">蓝图在项目中的定位</div>
+            <p style="margin:.2em 0;font-size:.92rem;line-height:1.55">版本控制、性能和 AI 工具支持，都在影响团队使用蓝图的方式。</p>
             <div class="tickset" style="margin-top:6px">
               <div class="tick a">对程序：蓝图从「主力」退成「胶水与调参层」</div>
               <div class="tick a">对非程序：蓝图仍是唯一入口，短期不会变</div>
@@ -968,15 +990,15 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             </div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:5">真正的问题不是「用不用蓝图」，是<b>你还有没有别的选项</b>。</p>
+        <p class="big-line reveal" style="--d:5">根据团队分工和项目需求选择蓝图，同时保留使用 C++ 的能力。</p>
       </div>
-      <aside class="notes">这页要有态度，但别变成踩蓝图。三条硬伤按顺序讲：版本管理（最痛，团队越大越痛）→ 性能（最常见的技术债）→ AI（最新的一条，也是最致命的长期趋势）。落点讲清：蓝图不会被淘汰，因为编辑器生态还在；但它的定位已经从「主战场」退到「非程序入口 + 调参层」。程序如果只会蓝图，就等于只会一个正在收缩的战场。</aside>
+      <aside class="notes">介绍蓝图限制时避免简单化地否定它。按版本管理、性能和 AI 工具支持三个方面说明，再补充编辑器生态和非程序成员协作的优势。对程序员而言，蓝图通常承担连接逻辑和参数调整的工作；对非程序成员，它仍是重要的工作入口。</aside>
     </section>
 
     <!-- 19 -->
-    <section class="slide" data-section="Why" data-title="三层分工：C++ / 脚本 / 蓝图">
+    <section class="slide" data-section="为什么" data-title="三层分工：C++ / 脚本 / 蓝图">
       <div class="slide-inner">
-        <div class="kicker reveal">Why · 分工</div>
+        <div class="kicker reveal">为什么 · 三层分工</div>
         <h2 class="reveal" style="--d:1">配比早就不是 80 / 20 了</h2>
         <p class="lead reveal" style="--d:2">过去流行的「20% C++ / 80% 蓝图」已经不够用了。现在的常见做法是三层：<b style="color:#a5f3fc">C++ 内核 · 脚本玩法 · 蓝图调参</b>。</p>
         <div class="reveal" style="--d:3;display:grid;grid-template-columns:1.1fr 1fr;gap:12px;margin-top:10px">
@@ -1004,34 +1026,34 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
                 <tr><td>非程序可用</td><td class="ok">最好</td><td class="no">要学语法</td><td class="no">不行</td></tr>
               </tbody>
             </table>
-            <div class="card tight"><b>结论</b><p class="small muted" style="margin:.35em 0 0">这次要学的不是「C++ 抢蓝图的活」，而是<b style="color:#a5f3fc">学会选层</b>：写在哪一层，比用什么语言更重要。</p></div>
+            <div class="card tight"><b>结论</b><p class="small muted" style="margin:.35em 0 0">这里重点讨论<b style="color:#a5f3fc">如何分层</b>：根据职责选择 C++、脚本或蓝图，而不是只比较语言。</p></div>
           </div>
         </div>
         <div class="reveal" style="--d:4;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
-          <div class="card tight" style="border-color:rgba(251,191,36,.3)"><b>为什么脚本能顶掉一大块蓝图</b>
+          <div class="card tight" style="border-color:rgba(251,191,36,.3)"><b>脚本适合承担的部分</b>
             <div class="tickset">
               <div class="tick a">版本控制：文本 diff / merge / review，团队协作不再靠喊</div>
               <div class="tick a">AI 协作：AI 能读、能改、能补测试，整条流水线跑得通</div>
               <div class="tick a">热更新：不进引擎也能改玩法，运营活动不用等版本</div>
             </div>
           </div>
-          <div class="card tight"><b>但脚本不是万灵药</b>
+          <div class="card tight"><b>引入脚本的成本</b>
             <div class="tickset">
               <div class="tick">接入成本高：要自己搭绑定层，UE 官方没有「开箱即用」的脚本方案</div>
               <div class="tick">调试体验差：断点、profiler、蓝图那种可视化都没有现成的</div>
-              <div class="tick">团队门槛：非程序直接劝退，策划还是得回蓝图</div>
+              <div class="tick">团队门槛：非程序成员需要学习语法，策划通常仍使用蓝图</div>
             </div>
           </div>
         </div>
-        <p class="tiny muted reveal" style="--d:5;margin-top:8px">所以本课的重点不是「别用蓝图」，而是：<b>先掌握 C++ 这一层，再判断你的项目要不要插脚本。</b></p>
+        <p class="tiny muted reveal" style="--d:5;margin-top:8px">建议先掌握 C++，再根据项目需求决定是否引入脚本层；蓝图仍可按团队分工使用。</p>
       </div>
-      <aside class="notes">这页要讲清为什么 80/20 过时了。那个比例是 UE4 时代的经验值，那时没有 AI、团队也没那么在意合并冲突。现在很多项目在中间插一层脚本（Lua / Python / C# / Verse），动机就三个：版本控制、AI 协作、热更新。但别把它讲成银弹——脚本的接入成本、调试体验、团队门槛都要付代价。落点：先会 C++，再谈选层。</aside>
+      <aside class="notes">80/20 是部分 UE4 项目的经验比例，不能直接套用到所有项目。现在一些项目会加入 Lua、Python、C# 或 Verse 等脚本层，常见原因包括版本控制、AI 协作和热更新。同时也要说明脚本接入、调试和团队学习成本。先理解 C++，再根据项目选层。</aside>
     </section>
 
     <!-- 20 -->
-    <section class="slide" data-section="Who" data-title="谁需要学">
+    <section class="slide" data-section="谁需要" data-title="谁需要学">
       <div class="slide-inner">
-        <div class="kicker reveal">Who</div>
+        <div class="kicker reveal">谁需要 · 学习目标</div>
         <h2 class="reveal" style="--d:1">谁需要学：四类人，四个目标层级</h2>
         <table class="mtx reveal" style="--d:2">
           <thead><tr><th style="width:150px">岗位</th><th>为什么需要</th><th style="width:150px">该学到哪级</th><th style="width:200px">最该先补的块</th></tr></thead>
@@ -1054,35 +1076,35 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
         </div>
         <p class="big-line reveal" style="--d:4">其余人学了也不亏，但<b>优先级不同</b>。</p>
       </div>
-      <aside class="notes">大课学生来源杂，别制造焦虑。做美术的同学学到筑基就够了，做 Gameplay 的必须到金丹。把「你该学到哪一级」和「你是不是这类人」分开说，学生才不会给自己下错结论。</aside>
+      <aside class="notes">学生背景不同，学习深度也应不同。美术岗位通常学到筑基即可满足多数需求，Gameplay 岗位则需要继续深入。分别讨论岗位需求和个人基础，避免统一要求。</aside>
     </section>
 
     <!-- 21 -->
-    <section class="slide" data-section="When" data-title="什么时候开始学">
+    <section class="slide" data-section="何时学" data-title="什么时候开始学">
       <div class="slide-inner">
-        <div class="kicker reveal">When · 路径选择</div>
+        <div class="kicker reveal">何时学 · 路径选择</div>
         <h2 class="reveal" style="--d:1">什么时候开始学：两条路都走得通</h2>
-        <p class="lead reveal" style="--d:2">「先玩明白蓝图再学 C++」不是必须的。<b style="color:#a5f3fc">直接 C++ 入门完全可以，甚至更快</b>——但要认下它的代价。</p>
+        <p class="lead reveal" style="--d:2">不必先完全掌握蓝图再学 C++。<b style="color:#a5f3fc">可以直接从 C++ 入门</b>，只是前期需要同时适应语法和引擎概念。</p>
         <div class="reveal" style="--d:3;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
           <div class="diagram" style="margin-top:0;border-color:rgba(52,211,153,.3)">
-            <div class="cap">路线 A：蓝图入手 —— 心智压力小，但容易停在舒适区</div>
+            <div class="cap">路线 A：从蓝图入手，入门反馈较快</div>
 <div class="spec">
             <div class="sr note"><span class="txt">蓝图做通 → 摸各模块 → 懂框架概念 → 再写 C++</span></div>
             <div class="sr pos"><span class="lbl"><g>优点</g></span><span class="txt">门槛低、反馈快、不容易挫败</span></div>
             <div class="sr note"><span class="txt">能先建立「引擎长什么样」的直觉</span></div>
-            <div class="sr neg"><span class="lbl"><s>代价</s></span><span class="txt">耗时间 —— 一层层往上爬，一年可能还在炼气</span></div>
+            <div class="sr neg"><span class="lbl"><s>代价</s></span><span class="txt">学习周期可能较长，容易停留在熟悉的功能中</span></div>
             <div class="sr note"><span class="txt">舒适区很舒服，舒服到不想往 C++ 走</span></div>
             <div class="sr note"><span class="txt">蓝图的写法习惯，后面还要花力气改掉</span></div>
           </div>
           </div>
           <div class="diagram" style="margin-top:0;border-color:rgba(34,211,238,.36)">
-            <div class="cap">路线 B：直接 C++ 入门 —— 难受，但爬得快</div>
+            <div class="cap">路线 B：直接学 C++，前期负担较大</div>
 <div class="spec">
             <div class="sr note"><span class="txt">直接写 C++ → 一边撞墙一边看引擎源码 → 回头补基础</span></div>
-            <div class="sr pos"><span class="lbl"><g>优点</g></span><span class="txt">修为涨得猛 —— 因为你在跟最难的那层打交道</span></div>
+            <div class="sr pos"><span class="lbl"><g>优点</g></span><span class="txt">能较早接触源码和底层机制</span></div>
             <div class="sr note"><span class="txt">一开始就建立「对象 / 模块 / 反射」的正确直觉</span></div>
             <div class="sr note"><span class="txt">没有蓝图习惯要改，省一道返工</span></div>
-            <div class="sr neg"><span class="lbl"><s>代价</s></span><span class="txt">前期极容易放弃 —— 编译链、模块、GC 全是新概念</span></div>
+            <div class="sr neg"><span class="lbl"><s>代价</s></span><span class="txt">前期压力较大，需要同时理解编译链、模块和 GC</span></div>
             <div class="sr note"><span class="txt">没人带的话，卡在一个报错上能卡一周</span></div>
           </div>
           </div>
@@ -1100,7 +1122,7 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
           </table>
           <div class="stack">
             <div class="card tight" style="border-color:rgba(34,211,238,.34)"><b>我的看法（讲者经验）</b>
-              <p class="small" style="margin:.35em 0 0">我自己就是 C++ 入门。前期确实痛苦，但过去之后进度快很多——因为一开始就在读引擎源码，而不是在读教程。</p>
+              <p class="small" style="margin:.35em 0 0">我自己从 C++ 入门。前期适应较慢，但熟悉后进度快了很多，因为较早开始阅读引擎源码。</p>
             </div>
             <div class="card tight" style="border-color:rgba(251,191,36,.3)"><b>但别硬扛</b>
               <div class="tickset">
@@ -1110,17 +1132,17 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             </div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:5">真正的分水岭不是「从哪入手」，是<b>你有没有一直往上走</b>。</p>
+        <p class="big-line reveal" style="--d:5">两种路线都可以。根据当前基础选择，并在项目需要时补充另一部分。</p>
       </div>
-      <aside class="notes">这页要讲得坦诚，不要照搬「必须先玩明白蓝图」的老说法。实话是：蓝图入手心智压力小，但真的很耗时间，而且舒适区很容易待住；直接 C++ 入门前期难受、容易放弃，可一旦过了那个坎，修为涨得非常快，因为你在跟最难的那层打交道。可以讲自己的经历：C++ 入门，前期痛苦但进度快很多。最后给个台阶：不用死磕，扛不住就先退回蓝图缓一缓，两条路随时能切。</aside>
+      <aside class="notes">不必坚持「先完全掌握蓝图再学 C++」。蓝图入门反馈快，但可能长期停留在现有用法；直接学 C++ 前期压力较大，需要同时理解语法和引擎机制。可以结合自己的学习经历说明差异。两条路线可以切换，不需要把一次选择当成固定路径。</aside>
     </section>
 
     <!-- 22 -->
-    <section class="slide" data-section="When" data-title="什么算「蓝图学明白了」">
+    <section class="slide" data-section="何时学" data-title="什么算「蓝图学明白了」">
       <div class="slide-inner">
-        <div class="kicker reveal">When · 标准</div>
+        <div class="kicker reveal">何时学 · 基础标准</div>
         <h2 class="reveal" style="--d:1">什么算「蓝图学明白了」</h2>
-        <p class="lead reveal" style="--d:2">不是「能连出功能」，是「能拆得开」。这两者之间差着一整级。</p>
+        <p class="lead reveal" style="--d:2">除了能实现功能，还要能拆分职责、整理结构，让后续修改更方便。</p>
         <table class="mtx reveal" style="--d:3">
           <thead><tr><th style="width:140px">项</th><th>要求</th><th style="width:130px">没做到会怎样</th></tr></thead>
           <tbody>
@@ -1142,15 +1164,15 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
         </div>
         <p class="tiny muted reveal" style="--d:5;margin-top:8px">最后一句：能做，不代表做原型时也要这么做。原型阶段该糙就糙。</p>
       </div>
-      <aside class="notes">这页其实在立标准。很多学生以为「能做出功能」就够了，但工程上的分水岭是能不能把功能拆成能维护的几块。「加第四种敌人改几处」是个很好用的检验方法。</aside>
+      <aside class="notes">这页用于明确工程标准。能实现功能之后，还要检查职责是否清晰、结构是否便于维护。可以用「增加第四种敌人需要改几处」来检验。</aside>
     </section>
 
     <!-- 23 -->
-    <section class="slide" data-section="Which" data-title="六块要点地图">
+    <section class="slide" data-section="学什么" data-title="六块要点地图">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · 全景</div>
-        <h2 class="reveal" style="--d:1">六块要点：不是并列的</h2>
-        <p class="lead reveal" style="--d:2">前两块是日常，中间三块解释「为什么能这样写」，最后一块靠积累。学的时候按这个顺序，别平行用力。</p>
+        <div class="kicker reveal">学什么 · 全景</div>
+        <h2 class="reveal" style="--d:1">六块要点的学习顺序</h2>
+        <p class="lead reveal" style="--d:2">先掌握常用的 Core 和 Gameplay，再理解构建、反射与 GC，最后结合项目熟悉各模块的写法。</p>
         <div class="mgrid mg-3 reveal" style="--d:3">
           <div class="mi g"><span class="k">日常 · 每天</span><b>Core</b><p>容器、字符串、智能指针、委托、数学类型——写代码的手感来源</p></div>
           <div class="mi g"><span class="k">日常 · 每天</span><b>GamePlay</b><p>Actor 怎么组装、对象怎么组织、框架怎么用</p></div>
@@ -1171,15 +1193,15 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
         </div>
         <p class="tiny muted reveal" style="--d:5;margin-top:8px">这六块，就是上一页那张打分表的列。</p>
       </div>
-      <aside class="notes">先给全景。学生最爱问「这么多怎么学」，答案是先学前两块，中间三块懂到能解释报错就行，最后一块靠时间。依赖方向这张图很重要——它解释了为什么不能从渲染开始。</aside>
+      <aside class="notes">先给全景。建议先学前两块，中间三块先达到能解释常见报错的程度，各模块写法则结合项目逐步积累。依赖方向图可以说明为什么不建议一开始就读渲染。</aside>
     </section>
 
     <!-- 24 -->
-    <section class="slide" data-section="Which" data-title="Core · 要补的底子">
+    <section class="slide" data-section="学什么" data-title="Core · 要补的底子">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · Core</div>
+        <div class="kicker reveal">学什么 · Core</div>
         <h2 class="reveal" style="--d:1">Core · 要补的底子</h2>
-        <p class="lead reveal" style="--d:2">原话是「很多人栽在这上面」。这六项里，前三项是必须，后三项是用到再补。</p>
+        <p class="lead reveal" style="--d:2">这六项中，前三项是常用基础，后三项可以结合实际需求补充。</p>
         <div class="two-col-dense reveal" style="--d:3">
           <div>
             <table class="mtx tight">
@@ -1221,13 +1243,13 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
     </section>
 
     <!-- 25 -->
-    <section class="slide" data-section="Which" data-title="Core · 到什么程度">
+    <section class="slide" data-section="学什么" data-title="Core · 到什么程度">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · Core</div>
+        <div class="kicker reveal">学什么 · Core</div>
         <h2 class="reveal" style="--d:1">到什么程度，去哪学</h2>
         <div class="cols reveal" style="--d:2">
           <div class="card ok">
-            <div class="hd g">够用线 —— 三项</div>
+            <div class="hd g">基础达标的三项要求</div>
             <div class="tickset">
               <div class="tick g"><b>能看懂</b>：别人的代码、引擎源码，知道大意</div>
               <div class="tick g"><b>能改</b>：照现有结构改出自己的版本</div>
@@ -1236,7 +1258,7 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             </div>
           </div>
           <div class="card">
-            <div class="hd">来源 —— 两个够用</div>
+            <div class="hd">两个主要学习来源</div>
             <table class="mtx tight">
               <tr><td>源码</td><td><code>Engine/Source/Runtime/Core/Public</code>，随便挑一个头文件开始读</td></tr>
               <tr><td>参考</td><td>cppreference，查标准库语义，别读全部</td></tr>
@@ -1253,17 +1275,17 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             <div class="sr note"><span class="txt">另有 <code>int32</code>/<code>uint8</code> 这类引擎别名，别写成 int/char</span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:4">指一个具体目录，比推荐一摞书有用。</p>
+        <p class="big-line reveal" style="--d:4">建议先从 <b>Engine/Source/Runtime/Core/Public</b> 中选择常用头文件阅读。</p>
       </div>
-      <aside class="notes">别推荐一摞书。指一个具体目录：Engine/Source/Runtime/Core/Public，从 Public 里随便挑一个头文件开始读，比看教程有用。LWC 这条一定要讲——学生写 FVector 传给 float 函数会莫名其妙精度丢失。</aside>
+      <aside class="notes">给出具体目录：Engine/Source/Runtime/Core/Public。可以从中选择常用头文件开始阅读。LWC 需要重点说明，避免 FVector 与 float 混用时出现精度问题。</aside>
     </section>
 
     <!-- 26 -->
-    <section class="slide" data-section="Which" data-title="GamePlay · Actor 怎么组装">
+    <section class="slide" data-section="学什么" data-title="GamePlay · Actor 怎么组装">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · GamePlay</div>
+        <div class="kicker reveal">学什么 · Gameplay</div>
         <h2 class="reveal" style="--d:1">Actor 怎么组装：容器与能力</h2>
-        <p class="lead reveal" style="--d:2">Actor 是容器，组件是能力。这句记下来，后面全通。</p>
+        <p class="lead reveal" style="--d:2">Actor 负责组织对象，组件负责提供具体能力。理解这一点，再看后面的生命周期和对象组织。</p>
         <div class="pipe reveal" style="--d:3">
           <div class="st"><span class="n">01</span><b>创建 Actor</b><small>继承 + UCLASS；构造函数里别做重活</small></div>
           <div class="st"><span class="n">02</span><b>挂 Component</b><small>CreateDefaultSubobject + SetupAttachment</small></div>
@@ -1302,15 +1324,15 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             <div class="card tight"><b>一个高频错误</b><p class="small muted" style="margin:.35em 0 0">在构造函数里 <code>GetWorld()</code> 或 <code>FindPlayer</code>——那时世界可能还不存在。这类问题表现为「偶尔崩」，最难查。</p></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:5">组合优先：<b>能不继承就不继承，能挂组件就挂组件。</b></p>
+        <p class="big-line reveal" style="--d:5">设计 Actor 时优先考虑组件组合，避免为了叠加能力不断增加继承层级。</p>
       </div>
-      <aside class="notes">呼应第一节课的面向对象：组合优先。学生最容易写一个巨型基类，然后在里面判断「我是不是玩家」。生命周期那张表是实用货——构造函数里查世界是新手最经典的崩法。</aside>
+      <aside class="notes">呼应面向对象中的组合优先，避免把多种能力都堆进一个基类。生命周期部分重点提醒：构造函数里查询世界可能导致崩溃。</aside>
     </section>
 
     <!-- 27 -->
-    <section class="slide" data-section="Which" data-title="GamePlay · 对象怎么组织">
+    <section class="slide" data-section="学什么" data-title="GamePlay · 对象怎么组织">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · GamePlay</div>
+        <div class="kicker reveal">学什么 · Gameplay</div>
         <h2 class="reveal" style="--d:1">对象怎么组织：四层结构</h2>
         <div class="cols reveal" style="--d:2">
           <div>
@@ -1339,7 +1361,7 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
           </div>
         </div>
         <div class="diagram reveal" style="--d:3">
-          <div class="cap">UObject vs Actor vs Asset —— 三者到底差在哪</div>
+          <div class="cap">UObject、Actor 与 Asset 的区别</div>
 <div class="spec">
             <div class="sr "><span class="lbl"><b>UObject</b></span><span class="txt">万物之基：有反射、受 GC 管、可序列化。不一定在世界里</span></div>
             <div class="sr cau"><span class="lbl"><b>Actor</b></span><span class="txt">一种 UObject：<u>能进世界</u>，有 Transform、有 Tick、能复制</span></div>
@@ -1349,13 +1371,13 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
           </div>
         </div>
       </div>
-      <aside class="notes">只点位置，不展开——框架细节是另一节课。这里给的是「不知道往哪写的时候，去哪儿翻」。最后那张 UObject/Actor/Asset 的对比，就是 P06 那句红字的答案，一定要讲透。</aside>
+      <aside class="notes">这里只介绍各类对象的位置和职责，框架细节留到后续课程。最后结合 UObject、Actor、Asset 的对比，回应前面关于对象层次的说明。</aside>
     </section>
 
     <!-- 28 -->
-    <section class="slide" data-section="Which" data-title="Module · 为什么要有 UBT">
+    <section class="slide" data-section="学什么" data-title="Module · 为什么要有 UBT">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · Module</div>
+        <div class="kicker reveal">学什么 · Module</div>
         <h2 class="reveal" style="--d:1">为什么要有 UBT：一条编译链</h2>
         <div class="cols reveal" style="--d:2">
           <div class="card tight"><b>问题</b><p class="small muted" style="margin:.35em 0 0">引擎要支持 Windows / Mac / Linux / iOS / Android / 主机，每个平台的编译器、宏、链接方式都不同。</p></div>
@@ -1383,13 +1405,13 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
         </div>
         <p class="tiny muted reveal" style="--d:5;margin-top:8px">这就是「我明明改对了为什么不生效」的第二种根因——第一种是根本没编译成功。</p>
       </div>
-      <aside class="notes">学生最常见的困惑「我明明改对了为什么不编译」，根因都在这条链上。这张图要慢慢讲：每一段对应一类报错，学生以后看到报错就知道卡在哪一段。Live Coding 的边界（能改什么、不能改什么）必须讲清。</aside>
+      <aside class="notes">学生常遇到「代码改了却没有生效」的问题，可以沿这条编译链排查。每一段对应不同报错，讲清后才能定位问题。还要说明 Live Coding 能改什么、不能改什么。</aside>
     </section>
 
     <!-- 29 -->
-    <section class="slide" data-section="Which" data-title="Module · 依赖怎么连">
+    <section class="slide" data-section="学什么" data-title="Module · 依赖怎么连">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · Module</div>
+        <div class="kicker reveal">学什么 · Module</div>
         <h2 class="reveal" style="--d:1">依赖怎么连：三组属性</h2>
         <p class="lead reveal" style="--d:2"><code>Build.cs</code> 里的 <code>ModuleRules</code>，三组属性管三件事。</p>
         <div class="mgrid mg-3 reveal" style="--d:3">
@@ -1420,14 +1442,14 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
     </section>
 
     <!-- 30 -->
-    <section class="slide" data-section="Which" data-title="Module · 头文件与包含">
+    <section class="slide" data-section="学什么" data-title="Module · 头文件与包含">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · Module</div>
+        <div class="kicker reveal">学什么 · Module</div>
         <h2 class="reveal" style="--d:1">头文件与包含：谁能看见谁</h2>
         <p class="lead reveal" style="--d:2">最容易混的一组概念。记住一句：IncludePath 是「能看见」，Dependency 是「能用」。</p>
         <div class="cols reveal" style="--d:3">
           <div class="card">
-            <div class="hd">路径 —— 决定 include 怎么写</div>
+            <div class="hd">路径：决定 include 怎么写</div>
             <table class="mtx tight">
               <tr><td>Public</td><td><code>PublicIncludePaths</code>；默认已含 <code>Public</code></td></tr>
               <tr><td>Private</td><td><code>PrivateIncludePaths</code>；默认已含 <code>Private</code> 与 <code>Classes</code></td></tr>
@@ -1435,7 +1457,7 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             </table>
           </div>
           <div class="card">
-            <div class="hd v">只包含不链接 —— 一种特殊关系</div>
+            <div class="hd v">只包含、不链接的特殊关系</div>
             <table class="mtx tight">
               <tr><td>Public</td><td><code>PublicIncludePathModuleNames</code></td></tr>
               <tr><td>Private</td><td><code>PrivateIncludePathModuleNames</code></td></tr>
@@ -1459,13 +1481,13 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
         </div>
         <div class="warn reveal" style="--d:5">判断方法：<b>能 include 却链接不过</b>，就是这组配错了。补 Dependency，别去改 IncludePath。</div>
       </div>
-      <aside class="notes">配圈图讲，不要念定义。一句话记忆：IncludePath 是「能看见」，Dependency 是「能用」。判断方法很实用：能 include 但链接不过，就是缺 Dependency，别去乱改 IncludePath。</aside>
+      <aside class="notes">配合关系图解释，不逐条念定义。IncludePath 决定头文件搜索，Dependency 决定模块链接。能 include 但链接失败时，应检查 Dependency，而不是随意修改 IncludePath。</aside>
     </section>
 
     <!-- 31 -->
-    <section class="slide" data-section="Which" data-title="Module · 第三方库、宏、平台">
+    <section class="slide" data-section="学什么" data-title="Module · 第三方库、宏、平台">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · Module</div>
+        <div class="kicker reveal">学什么 · Module</div>
         <h2 class="reveal" style="--d:1">第三方库、宏、平台</h2>
         <p class="lead reveal" style="--d:2">接外部 SDK 的那天，一定要回来对一遍清单。</p>
         <div class="mgrid mg-3 reveal" style="--d:3">
@@ -1493,15 +1515,15 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
         </div>
         <div class="capability reveal" style="--d:5">这一块的用处：<b>能接 SDK，你的项目才能对接平台、支付、语音、反作弊这些真实需求。</b></div>
       </div>
-      <aside class="notes">这页不讲细节，只留坐标和一张清单。真接第三方库的那天，你会回来找这一页。清单第 7 步最容易被忘——改完 Build.cs 不重新生成工程，IDE 里还是旧配置。</aside>
+      <aside class="notes">这页保留接入第三方库时的检查清单，不展开所有细节。第 7 步容易遗漏：修改 Build.cs 后要重新生成工程，否则 IDE 可能仍使用旧配置。</aside>
     </section>
 
     <!-- 32 -->
-    <section class="slide" data-section="Which" data-title="反射 · UHT 生成了什么">
+    <section class="slide" data-section="学什么" data-title="反射 · UHT 生成了什么">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · 反射</div>
+        <div class="kicker reveal">学什么 · 反射</div>
         <h2 class="reveal" style="--d:1">UHT 生成了什么</h2>
-        <p class="lead reveal" style="--d:2">一句话：宏不是注释，是给另一个程序看的输入。</p>
+        <p class="lead reveal" style="--d:2">这些宏会为 UHT 提供类型信息，参与后续的代码生成。</p>
         <div class="two-col-dense reveal" style="--d:3">
           <div>
 <pre class="pre2"><span class="cm">// MyActor.h —— 你写的</span>
@@ -1553,13 +1575,13 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
           </div>
         </div>
       </div>
-      <aside class="notes">这页可以录个屏，展示 generated.h 生成前后。三条硬规则讲完，学生 90% 的 UHT 报错都能自己解决。MYGAME_API 这条单独强调——它是最迷惑人的一类错误。</aside>
+      <aside class="notes">可以录屏展示 generated.h 的生成结果。三条硬规则能覆盖多数常见 UHT 错误。MYGAME_API 需要单独说明，它常表现为编译通过后链接失败。</aside>
     </section>
 
     <!-- 33 -->
-    <section class="slide" data-section="Which" data-title="反射 · 运行时能干什么">
+    <section class="slide" data-section="学什么" data-title="反射 · 运行时能干什么">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · 反射</div>
+        <div class="kicker reveal">学什么 · 反射</div>
         <h2 class="reveal" style="--d:1">运行时能干什么：类型也是对象</h2>
         <div class="cols reveal" style="--d:2">
           <div>
@@ -1573,7 +1595,7 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             </table>
           </div>
           <div>
-            <div class="hd v">两件事，撑起所有工具</div>
+            <div class="hd v">反射支持的两类工具能力</div>
             <table class="mtx tight">
               <thead><tr><th style="width:100px">能力</th><th>用在哪</th></tr></thead>
               <tbody>
@@ -1594,15 +1616,15 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
         </div>
         <p class="big-line reveal" style="--d:4">对象用类型描述，<b>类型本身也是对象</b>。</p>
       </div>
-      <aside class="notes">举实际用途：写一个通用的属性面板、做一个「把所有数值导出成表」的编辑器工具，全靠这层反射。最后那张 UClass / UObject / TSubclassOf 的对比最实用——学生在蓝图里引脚连不上，八成就是这三个混了。</aside>
+      <aside class="notes">用通用属性面板和数值导出工具说明反射的用途。最后比较 UClass、UObject、TSubclassOf，帮助学生理解蓝图引脚类型不匹配的问题。</aside>
     </section>
 
     <!-- 34 -->
-    <section class="slide" data-section="Which" data-title="GC · 谁能被回收">
+    <section class="slide" data-section="学什么" data-title="GC · 谁能被回收">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · CoreUObject</div>
+        <div class="kicker reveal">学什么 · CoreUObject</div>
         <h2 class="reveal" style="--d:1">GC · 谁能被回收</h2>
-        <p class="lead reveal" style="--d:2">UE 没有 new / delete，对象由 GC 管。规则只有一条，但违反它的代价极高。</p>
+        <p class="lead reveal" style="--d:2">UObject 通常由引擎创建并由 GC 管理。需要正确保存引用，避免仍在使用的对象被回收。</p>
         <div class="cols reveal" style="--d:3">
           <div>
             <div class="diagram" style="margin-top:0">
@@ -1642,15 +1664,15 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
             </div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:4">自从用了 UE，就<b>再也不用 new / delete 了</b>——但要记得告诉 GC「我还用它」。</p>
+        <p class="big-line reveal" style="--d:4">需要长期持有的 UObject 引用，应使用 <b>UPROPERTY</b> 等引擎支持的方式让 GC 识别。</p>
       </div>
-      <aside class="notes">最常踩的坑：裸指针存对象，看着好好的，某天突然变空。原因就是没标 UPROPERTY，GC 当它不存在。IsValid 和 TObjectPtr 这两条是 UE5 的硬要求，别用旧写法糊弄过去。</aside>
+      <aside class="notes">常见问题是未标记 UPROPERTY 的对象成员后来变为空，因为 GC 没有识别这条引用。说明 IsValid 和 TObjectPtr 在 UE5 中的用法，并区分普通判空与对象有效性检查。</aside>
     </section>
 
     <!-- 35 -->
-    <section class="slide" data-section="Which" data-title="CDO 与 Package">
+    <section class="slide" data-section="学什么" data-title="CDO 与 Package">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · CoreUObject</div>
+        <div class="kicker reveal">学什么 · CoreUObject</div>
         <h2 class="reveal" style="--d:1">CDO 与 Package</h2>
         <p class="lead reveal" style="--d:2">两个绕不开的疑问：默认值从哪来？资产路径是什么？</p>
         <div class="cols reveal" style="--d:3">
@@ -1692,15 +1714,15 @@ h2{font-size:clamp(1.7rem,2.9vw,2.6rem);margin:0 0 .3em;letter-spacing:-.028em}
           </div>
         </div>
       </div>
-      <aside class="notes">一页带过。作用是解释「默认值从哪来」，这个疑问几乎每个新人都会碰一次。软引用这条更实用——很多人的包体爆炸就是硬引用堆出来的。</aside>
+      <aside class="notes">简要解释默认值来自哪里。软引用部分可以结合资源加载和包体大小说明，避免不必要的硬引用。</aside>
     </section>
 
     <!-- 36 -->
-    <section class="slide" data-section="Which" data-title="套路清单">
+    <section class="slide" data-section="学什么" data-title="套路清单">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · 最实用的一页</div>
-        <h2 class="reveal" style="--d:1">套路清单：会写套路，就写得像引擎</h2>
-        <p class="lead reveal" style="--d:2">「套路」是最实用的词。这六组是每天都要敲的，敲熟就写对了。</p>
+        <div class="kicker reveal">学什么 · 常用写法</div>
+        <h2 class="reveal" style="--d:1">六组常用代码写法</h2>
+        <p class="lead reveal" style="--d:2">先熟悉这些高频写法，再通过项目理解它们各自的使用条件。</p>
         <div class="mgrid mg-3 reveal" style="--d:3">
           <div class="mi"><span class="k">01</span><b>UHT 宏</b><p>UCLASS / UPROPERTY / UFUNCTION / USTRUCT / UENUM / UINTERFACE</p></div>
           <div class="mi"><span class="k">02</span><b>模块链接</b><p><code>AddRange</code> / <code>Add</code> 在 Build.cs；public 与 private 的选择</p></div>
@@ -1734,18 +1756,18 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
                 <tr><td><code>Category="X"</code></td><td>细节面板分组，必填</td></tr>
               </tbody>
             </table>
-            <div class="warn">别再教 <code>BindAxis</code> —— 那是老输入系统，5.x 模板已全换 Enhanced Input</div>
+            <div class="warn">新项目使用 Enhanced Input；旧教程中的 <code>BindAxis</code> 属于旧输入系统</div>
           </div>
         </div>
         <p class="tiny muted reveal" style="--d:5;margin-top:8px">强调别在关卡蓝图里堆逻辑：关卡蓝图跟关卡绑死，换关就没了，也没法复用。</p>
       </div>
-      <aside class="notes">强调别在关卡蓝图里堆逻辑。特别提醒：网上大量输入教程还是 BindAxis 的，5.x 模板已经全换 Enhanced Input，照抄会不生效。三组套路让学生当堂抄一遍，比讲半小时概念有用。</aside>
+      <aside class="notes">提醒学生不要在关卡蓝图里堆通用逻辑。旧输入教程仍大量使用 BindAxis，新模板已经使用 Enhanced Input。三组常见写法可以现场写一遍，加深理解。</aside>
     </section>
 
     <!-- 37 -->
-    <section class="slide" data-section="Which" data-title="常用库">
+    <section class="slide" data-section="学什么" data-title="常用库">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · 工具箱</div>
+        <div class="kicker reveal">学什么 · 工具箱</div>
         <h2 class="reveal" style="--d:1">常用库：不知道怎么写时先翻的地方</h2>
         <div class="mgrid mg-3 reveal" style="--d:2">
           <div class="mi"><span class="k">01 · Gameplay</span><b>UGameplayStatics</b>
@@ -1773,14 +1795,14 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
           <div class="card tight"><b>「不知道有没有」的正确反应</b><p class="small muted" style="margin:.35em 0 0">不是凭记忆硬写，而是打开引擎源码的 Public 目录，按字母顺序扫一遍类名。扫三次，你就记得了。</p></div>
         </div>
       </div>
-      <aside class="notes">这三个名字记住就够。写代码时不确定有没有现成函数，先去这三个类里搜一遍，比手写快十倍。更重要的是养成「先搜再写」的习惯。</aside>
+      <aside class="notes">先熟悉这三个常用类。写代码前可以搜索是否已有合适函数，减少重复实现。</aside>
     </section>
 
     <!-- 38 -->
-    <section class="slide" data-section="Which" data-title="难点：八个坑">
+    <section class="slide" data-section="学什么" data-title="难点：八个坑">
       <div class="slide-inner">
-        <div class="kicker reveal">Which · 现实</div>
-        <h2 class="reveal" style="--d:1">难点：八个坑，八句解药</h2>
+        <div class="kicker reveal">学什么 · 常见难点</div>
+        <h2 class="reveal" style="--d:1">八个常见难点与应对方法</h2>
         <table class="mtx reveal" style="--d:2">
           <thead><tr><th style="width:50px">#</th><th style="width:230px">坑</th><th>为什么会卡</th><th style="width:250px">解药</th></tr></thead>
           <tbody>
@@ -1795,23 +1817,23 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
           </tbody>
         </table>
         <div class="diagram reveal" style="--d:3">
-          <div class="cap">八个坑的分布：只有 3 个是「真的难」，5 个是「方法问题」</div>
+          <div class="cap">区分需要长期积累的知识和可以调整的方法</div>
 <div class="spec">
             <div class="sr neg"><span class="lbl"><s>真难</s></span><span class="txt">数学 · 渲染原理 · 大规模工程经验      → 只能靠时间</span></div>
             <div class="sr pos"><span class="lbl"><g>方法</g></span><span class="txt">记不住 · 找不到代码 · 缺项目 · 版本乱 · 底子补法  → 今天就能改</span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:4">八个坑里，<b>五个今天就能绕过</b>——这才是这堂课的价值。</p>
+        <p class="big-line reveal" style="--d:4">优先改进学习方法；数学、渲染和工程经验则需要持续积累。</p>
       </div>
-      <aside class="notes">每条配一句解药，别只列困难。第八条在前面已经解过，这里再点一次。最后那个分布图很关键：让学生知道大部分痛苦不是天赋问题，是方法问题。</aside>
+      <aside class="notes">每项困难都给出对应处理方法，不只罗列问题。第八条前面已经提过，这里简要回顾。最后区分长期积累和可以立即调整的学习方法。</aside>
     </section>
 
     <!-- 39 -->
-    <section class="slide" data-section="How" data-title="学习闭环">
+    <section class="slide" data-section="怎么学" data-title="学习闭环">
       <div class="slide-inner">
-        <div class="kicker reveal">How · 核心</div>
+        <div class="kicker reveal">怎么学 · 学习闭环</div>
         <h2 class="reveal" style="--d:1">学习闭环：四步转一圈</h2>
-        <p class="lead reveal" style="--d:2">全课的落点。前面讲「有什么」，这里讲「怎么长出来」。</p>
+        <p class="lead reveal" style="--d:2">前面介绍知识结构，这里说明如何通过练习逐步掌握。</p>
         <div class="loop reveal" style="--d:3">
           <div class="q"><span class="n">STEP 01</span><b>模仿</b><p>照着别人的实现写一遍，形成手感。别问为什么，先让手会。</p></div>
           <div class="q"><span class="n">STEP 02</span><b>动手</b><p>在最小场景里改一改，验证自己的理解对不对。这是唯一的验证方式。</p></div>
@@ -1827,23 +1849,23 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
             <div class="sr neg"><span class="lbl"><s>断在动手</s></span><span class="txt">看完就算学会 → 三天后忘干净</span></div>
             <div class="sr neg"><span class="lbl"><s>断在总结</s></span><span class="txt">做了很多但没有规律 → 每次都从零开始</span></div>
             <div class="sr hi"><span class="lbl"><b>断在积累</b></span><span class="txt">做过的东西不留资产 → 三年后仍然只有经验没有工具</span></div>
-            <div class="sr cau"><span class="lbl"><u>关键</u></span><span class="txt">四步中「总结」和「积累」最容易被跳过，也最值钱</span></div>
+            <div class="sr cau"><span class="lbl"><u>关键</u></span><span class="txt">四步中「总结」和「积累」最容易被跳过，也最能减少重复工作</span></div>
           </div>
           </div>
           <div class="stack">
             <div class="card tight"><b>一圈的周期</b><p class="small muted" style="margin:.35em 0 0">一个小功能 = 一圈，几小时到几天。别指望一圈就进化一级，但也别做半圈就换方向。</p></div>
             <div class="card tight"><b>怎么知道自己转了一圈</b><p class="small muted" style="margin:.35em 0 0">第二遍做同类功能时，你不需要再查资料——这就是转完一圈的标志。</p></div>
-            <div class="card tight" style="border-color:rgba(52,211,153,.3)"><b>为什么叫闭环</b><p class="small muted" style="margin:.35em 0 0">因为积累会变成下一次模仿的素材，起点比上一次高。这是复利，不是重复。</p></div>
+            <div class="card tight" style="border-color:rgba(52,211,153,.3)"><b>为什么叫闭环</b><p class="small muted" style="margin:.35em 0 0">整理下来的代码和笔记会成为下一次练习的参考，减少重复查找和试错。</p></div>
           </div>
         </div>
       </div>
-      <aside class="notes">这页是全课落点。强调「总结」这一步最容易被跳过——不写下来，下个月就忘了；写下来就变成自己的资产。四步断在哪那张图，学生看了会点头，因为大部分人都断在总结和积累。</aside>
+      <aside class="notes">这页说明完整的学习过程。总结和积累容易被跳过，导致每次遇到类似问题都重新查找。要求学生把验证过的结论写下来，并保留可复用代码。</aside>
     </section>
 
     <!-- 40 -->
-    <section class="slide" data-section="How" data-title="模仿什么">
+    <section class="slide" data-section="怎么学" data-title="模仿什么">
       <div class="slide-inner">
-        <div class="kicker reveal">How · 输入源</div>
+        <div class="kicker reveal">怎么学 · 参考来源</div>
         <h2 class="reveal" style="--d:1">模仿什么：三个来源，各自的坑</h2>
         <table class="mtx reveal" style="--d:2">
           <thead><tr><th style="width:130px">来源</th><th style="width:90px">优先级</th><th>好在哪</th><th style="width:250px">坑在哪</th></tr></thead>
@@ -1867,22 +1889,22 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
           </div>
         </div>
         <div class="cols reveal" style="--d:4">
-          <div class="card tight"><b>为什么模板优先</b><p class="small muted" style="margin:.35em 0 0">因为它的「写法是对的」。学生期最怕的不是学到少，是学到一身需要戒掉的坏习惯。</p></div>
+          <div class="card tight"><b>为什么模板优先</b><p class="small muted" style="margin:.35em 0 0">官方模板通常符合当前版本的引擎约定，适合先建立正确的代码结构和习惯。</p></div>
           <div class="card tight"><b>什么时候可以读社区</b><p class="small muted" style="margin:.35em 0 0">当你能一眼看出「这段写法不太对」的时候。那说明你已经有了判断力，读社区就从风险变成收益。</p></div>
         </div>
         <p class="tiny muted reveal" style="--d:5;margin-top:8px">优先级：模板 → 源码 → 社区。别一上来读渲染。</p>
       </div>
-      <aside class="notes">排优先级很重要。新人最常见的错误是打开引擎源码从渲染模块开始读，三天后放弃。应该从一条具体链路开始。什么时候能读社区那条很关键——它把「判断力」和「输入源」挂上了钩。</aside>
+      <aside class="notes">明确资料优先级。新人不适合直接从渲染模块开始通读，可以先选择一条具体功能链路。阅读社区代码时，需要结合版本和项目约束判断写法是否合适。</aside>
     </section>
 
     <!-- 41 -->
-    <section class="slide" data-section="How" data-title="动手与积累">
+    <section class="slide" data-section="怎么学" data-title="动手与积累">
       <div class="slide-inner">
-        <div class="kicker reveal">How · 操作</div>
-        <h2 class="reveal" style="--d:1">动手三招，积累三件</h2>
+        <div class="kicker reveal">怎么学 · 练习与积累</div>
+        <h2 class="reveal" style="--d:1">练习方法与资料积累</h2>
         <div class="cols reveal" style="--d:2">
           <div class="card ok">
-            <div class="hd g">动手三招 —— 每招都有明确产出</div>
+            <div class="hd g">三种练习方法及预期产出</div>
             <table class="mtx tight">
               <tr><td>第一招<br>微调观察</td><td>改一个数值 / 开关，看结果变化。<br><b>产出：</b>对这个参数的直觉</td></tr>
               <tr><td>第二招<br>按套路加功能</td><td>照现有代码的结构加一个同类功能。<br><b>产出：</b>套路变成肌肉记忆</td></tr>
@@ -1890,7 +1912,7 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
             </table>
           </div>
           <div class="card">
-            <div class="hd v">积累三件 —— 都是复利资产</div>
+            <div class="hd v">建议长期保留的三类资料</div>
             <table class="mtx tight">
               <tr><td>测试工程</td><td>一个空工程，随便炸。所有实验在这里做，零成本。<br><b>你的车间</b></td></tr>
               <tr><td>函数库插件</td><td>把常用的三五个功能做成插件，跨项目复用。<br><b>你的资产</b></td></tr>
@@ -1899,31 +1921,31 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
           </div>
         </div>
         <div class="diagram reveal" style="--d:3">
-          <div class="cap">「车间」的正确用法</div>
+          <div class="cap">测试工程的使用方式</div>
 <div class="spec">
-            <div class="sr neg"><span class="lbl"><s>在正式项目里试新东西</s></span><span class="txt">→ 改坏了不敢删，越堆越乱，最后项目废了</span></div>
-            <div class="sr pos"><span class="lbl"><g>在车间里试，试通再搬</g></span><span class="txt">→ 空工程 + 一个空关卡 + 一个测试 Actor</span></div>
-            <div class="sr note"><span class="txt">车间里可以做的事：</span></div>
+            <div class="sr neg"><span class="lbl"><s>直接在正式项目试验</s></span><span class="txt">→ 临时代码容易混入项目，后续难以清理</span></div>
+            <div class="sr pos"><span class="lbl"><g>先在测试工程验证</g></span><span class="txt">→ 空工程 + 一个空关卡 + 一个测试 Actor</span></div>
+            <div class="sr note"><span class="txt">测试工程适合用来：</span></div>
             <div class="sr note"><span class="txt">· 试一个新的组件挂法</span></div>
             <div class="sr note"><span class="txt">· 试一个不熟的 API</span></div>
             <div class="sr note"><span class="txt">· 复现一个别人的 bug</span></div>
             <div class="sr note"><span class="txt">· 对比两种写法的性能</span></div>
-            <div class="sr hi"><span class="lbl"><b>规则</b></span><span class="txt">车间里的东西可以随时删，不用心疼</span></div>
+            <div class="sr hi"><span class="lbl"><b>规则</b></span><span class="txt">验证通过后再迁入正式项目，测试代码可以随时删除</span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:4">积累的关键不是「记住」，是<b>让下次少做一遍</b>。</p>
+        <p class="big-line reveal" style="--d:4">把验证过的代码和结论整理下来，方便下次直接复用。</p>
       </div>
-      <aside class="notes">「车间」这个比喻很有效：不要在正式项目里试新东西，建一个空工程，随便炸。炸坏了删掉重来，零成本。三招每招都有明确产出，这样学生才知道「动手」不是瞎点。</aside>
+      <aside class="notes">建议新建独立测试工程验证不熟悉的写法，避免把临时代码留在正式项目中。三种练习都应有明确产出，让学生知道练习后需要观察或整理什么。</aside>
     </section>
 
     <!-- 42 -->
-    <section class="slide" data-section="How" data-title="工具与资源">
+    <section class="slide" data-section="怎么学" data-title="工具与资源">
       <div class="slide-inner">
-        <div class="kicker reveal">How · 装备</div>
+        <div class="kicker reveal">怎么学 · 工具与资源</div>
         <h2 class="reveal" style="--d:1">工具与资源</h2>
         <div class="cols reveal" style="--d:2">
           <div class="card">
-            <div class="hd">工具 —— 装好就别再折腾</div>
+            <div class="hd">常用开发工具</div>
             <table class="mtx tight">
               <tr><td><b>Rider</b></td><td>Epic 启动器内可下，开箱即用，跳转/重构/调试最省事。首选</td></tr>
               <tr><td>VS Code</td><td>+ clangd / C++ 扩展，轻，适合读代码</td></tr>
@@ -1934,7 +1956,7 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
             </table>
           </div>
           <div class="card">
-            <div class="hd v">资源 —— 三个够用</div>
+            <div class="hd v">三类主要资料</div>
             <table class="mtx tight">
               <tr><td>官方文档</td><td>API 参考 + 概念页；版本要看清，别读 4.x 的页</td></tr>
               <tr><td>源码本身</td><td>最准的文档，没有之一</td></tr>
@@ -1944,7 +1966,7 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
           </div>
         </div>
         <div class="diagram reveal" style="--d:3">
-          <div class="cap">调试三板斧（比装十个插件有用）</div>
+          <div class="cap">三种基本调试手段</div>
 <div class="spec">
             <div class="sr "><span class="lbl"><b>UE_LOG</b></span><span class="txt">打日志，看时序。最土也最有效</span></div>
             <div class="sr "><span class="lbl"><b>断点 + 调用栈</b></span><span class="txt">看「谁调的我」，这是理解源码的入口</span></div>
@@ -1953,24 +1975,24 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
             <div class="sr pos"><span class="lbl"><g>正例</g></span><span class="txt">装 Rider，能跳转能断点，就够了</span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:4">原则：<b>工具越简单越好，别把时间花在调格式上。</b></p>
+        <p class="big-line reveal" style="--d:4">先保证跳转、断点和日志可用，再按实际需求补充其他工具。</p>
       </div>
-      <aside class="notes">一句原则：工具越简单越好。有人花两天配环境、配主题、配快捷键，然后一节课没上。别做这种人。调试三板斧比任何插件都重要，特别强调断点看调用栈——它会一直用到 P49。</aside>
+      <aside class="notes">工具配置先满足跳转、断点和日志即可，不必一开始投入大量时间调整主题和插件。重点演示断点和调用栈，后续源码阅读还会用到。</aside>
     </section>
 
     <!-- 43 -->
-    <section class="slide" data-section="觉悟" data-title="工具观：我全都要">
+    <section class="slide" data-section="觉悟" data-title="根据项目选择工具">
       <div class="slide-inner">
         <div class="kicker reveal">觉悟 · 价值观</div>
-        <h2 class="reveal" style="--d:1">工具观：我全都要</h2>
+        <h2 class="reveal" style="--d:1">根据项目选择工具</h2>
         <div class="cols reveal" style="--d:2">
           <div class="card no">
-            <div class="hd r">两个极端（都不对）</div>
+            <div class="hd r">两种不合理的选型方式</div>
             <table class="mtx tight">
-              <tr><td>代码原教旨主义</td><td>「蓝图都是玩具」，什么都用 C++ 写，包括 UI 布局</td></tr>
+              <tr><td>只用 C++</td><td>认为「蓝图都是玩具」，连 UI 布局也坚持用 C++ 写</td></tr>
               <tr><td>见 C++ 就躲</td><td>「能连出来就行」，明知做不到也说能做</td></tr>
             </table>
-            <p class="small muted" style="margin:.6em 0 0">两个极端有同一个问题：<b>都在选阵营，而不是在解问题。</b></p>
+            <p class="small muted" style="margin:.6em 0 0">两种方式都忽略了<b>具体项目需求和团队分工</b>。</p>
           </div>
           <div class="card ok">
             <div class="hd g">实际的态度</div>
@@ -1983,7 +2005,7 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
           </div>
         </div>
         <div class="diagram reveal" style="--d:3">
-          <div class="cap">把「站队」换成「选型」——问三个问题</div>
+          <div class="cap">选择蓝图或 C++ 时，先问三个问题</div>
 <div class="spec">
             <div class="sr cau"><span class="lbl"><u>Q1</u> 这段逻辑会频繁变吗？</span><span class="txt">会 → 蓝图</span></div>
             <div class="sr cau"><span class="lbl"><u>Q2</u> 谁要改它？美术/策划/程序？</span><span class="txt">非程序 → 蓝图</span></div>
@@ -1992,9 +2014,9 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
             <div class="sr neg"><span class="lbl"><s>不要</s></span><span class="txt">在还没做出来之前就纠结放哪层</span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:4">目标始终是<b>项目的高效开发、迭代、维护</b>——别站队，站项目。</p>
+        <p class="big-line reveal" style="--d:4">选型要考虑项目的<b>开发效率、迭代需求和维护成本</b>。</p>
       </div>
-      <aside class="notes">价值观页，慢讲。别站队，站项目。谁对谁错不重要，项目能不能按时上线、能不能维护才重要。三个问题那个选型法很好用，学生当场就能记住并应用。</aside>
+      <aside class="notes">这页讨论工具选型。评价标准是项目能否高效开发、迭代和维护，而不是某种工具绝对更好。用三个问题帮助学生判断蓝图与 C++ 的使用场景。</aside>
     </section>
 
     <!-- 44 -->
@@ -2026,7 +2048,7 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
           <div class="warn">没有基类的蓝图可以 <b>reparent</b>，但先备份——reparent 不可逆</div>
         </div>
       </div>
-      <aside class="notes">讲代价：改引擎本身不难，难的是下次升版本时怎么合回去。所以要么不改，要么改得让人一眼能找出来。四级台阶这张图很实用——大部分需求都在第 0、1 级就解决了，真正需要改源码的极少。</aside>
+      <aside class="notes">修改引擎的主要成本在版本升级和维护。若确实需要修改，要清楚标记并控制范围。按四个层级依次评估，多数需求可以在前两层解决。</aside>
     </section>
 
     <!-- 45 -->
@@ -2046,29 +2068,29 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
             </div>
           </div>
           <div class="card no">
-            <div class="hd r">AI 替不掉的三件事</div>
+            <div class="hd r">使用 AI 时仍需自己判断的三件事</div>
             <div class="tickset">
-              <div class="tick r"><b>判断这段逻辑该放哪一层</b> —— 它不知道你的项目结构与团队分工</div>
-              <div class="tick r"><b>判断生成的代码能不能信</b> —— 它不知道你的版本、你的模块、你的约束</div>
-              <div class="tick r"><b>出了问题知道去哪找</b> —— 它没跑过你的项目，也不知道该在哪打断点</div>
+              <div class="tick r"><b>判断这段逻辑该放哪一层</b>：需要结合项目结构与团队分工</div>
+              <div class="tick r"><b>检查生成的代码能否采用</b>：需要核对引擎版本、模块依赖和项目约束</div>
+              <div class="tick r"><b>出了问题知道去哪找</b>：需要实际运行项目、查看日志并设置断点</div>
             </div>
           </div>
         </div>
         <div class="diagram reveal" style="--d:4">
-          <div class="cap">门槛的位置变了 —— 这也是蓝图被挤下去的原因</div>
+          <div class="cap">AI 辅助开发带来的变化</div>
 <div class="spec">
-            <div class="sr neg"><span class="lbl"><s>过去</s></span><span class="txt">门槛在「写」     ── 会不会敲这段代码</span></div>
-            <div class="sr hi"><span class="lbl"><b>现在</b></span><span class="txt">门槛在「判断」   ── 知不知道该写什么、写在哪、能不能信</span></div>
-            <div class="sr cau"><span class="lbl"><u>注意</u></span><span class="txt">AI 能读写<b>文本</b>：C++、脚本、配置 —— 这正好是蓝图的短板</span></div>
-            <div class="sr note"><span class="txt">所以「AI + 文本代码」的组合，会持续挤掉蓝图的地盘</span></div>
-            <div class="sr note"><span class="txt">蓝图剩下的地盘，是 AI 进不去的编辑器生态</span></div>
-            <div class="sr pos"><span class="lbl"><g>所以</g></span><span class="txt">六块要点、境界阶梯、源码方法论，一个都没白讲</span></div>
-            <div class="sr note"><span class="txt">—— 它们正好是判断力的来源，也是你「选层」的依据</span></div>
+            <div class="sr neg"><span class="lbl"><s>代码生成</s></span><span class="txt">样板代码和常见 API 示例更容易获得</span></div>
+            <div class="sr hi"><span class="lbl"><b>人工检查</b></span><span class="txt">仍需判断写什么、放在哪一层，以及结果是否正确</span></div>
+            <div class="sr cau"><span class="lbl"><u>文本优势</u></span><span class="txt">AI 更容易读写 C++、脚本和配置等文本内容</span></div>
+            <div class="sr note"><span class="txt">文本代码因此更容易接入生成、审查和重构流程</span></div>
+            <div class="sr note"><span class="txt">蓝图的优势仍主要在可视化编辑和非程序成员协作</span></div>
+            <div class="sr pos"><span class="lbl"><g>学习重点</g></span><span class="txt">理解六块要点，并通过源码阅读提高判断能力</span></div>
+            <div class="sr note"><span class="txt">生成代码后，还要自己验证编译、运行和维护成本</span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:5">AI 降低了<b>敲代码</b>的门槛，抬高了<b>做判断</b>的门槛。</p>
+        <p class="big-line reveal" style="--d:5">AI 可以减少样板代码工作，但架构判断、结果验证和问题排查仍需要开发者完成。</p>
       </div>
-      <aside class="notes">这是这场课的现实意义。学生一定会问「AI 都能写了还学吗」，答案是：AI 替你打字，但没人替你决定写在哪。这三件事，AI 目前都做不了。别把这页讲成「AI 威胁论」，讲成「门槛移位」。</aside>
+      <aside class="notes">学生可能会问「AI 都能写了还学吗」。可以说明 AI 能减少样板代码工作，但代码放置、结果验证和问题排查仍需要开发者参与。重点讨论工作方式的变化，不渲染 AI 威胁。</aside>
     </section>
 
     <!-- 46 -->
@@ -2076,7 +2098,7 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
       <div class="slide-inner">
         <div class="kicker reveal">源码 · 入口</div>
         <h2 class="reveal" style="--d:1">一切从 GEngine 开始</h2>
-        <p class="lead reveal" style="--d:2">引擎的所有静态入口都在几个全局对象上。认识它们，你就有了「从哪开始摸」的起点。</p>
+        <p class="lead reveal" style="--d:2">先从几个常用全局对象入手，可以更方便地查找引擎状态和相关实现。</p>
         <div class="cols reveal" style="--d:3">
           <div class="card">
             <div class="hd">UEngine* GEngine</div>
@@ -2112,9 +2134,9 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
           <div class="card tight"><b>为什么这些入口重要</b><p class="small muted" style="margin:.35em 0 0">因为调试时你不知道从哪下手，第一件事就是「从全局对象往下摸」。它们是引擎这张图的几个抓手。</p></div>
           <div class="card tight" style="border-color:rgba(251,191,36,.3)"><b>注意</b><p class="small muted" style="margin:.35em 0 0">别在构造函数里用 <code>GetWorld()</code>；别在 Shipping 包里用 <code>GEditor</code>——它不存在，会编译不过。</p></div>
         </div>
-        <p class="big-line reveal" style="--d:6">编辑器也是个游戏，<b>只是一堆 UObject</b>。</p>
+        <p class="big-line reveal" style="--d:6">编辑器功能同样建立在 UObject、反射和模块系统之上。</p>
       </div>
-      <aside class="notes">这页最容易被记住，也最容易被神化。别讲成「掌握了 GEngine 就掌握了引擎」，它只是一个入口。GEditor 只在编辑器存在这条要强调——很多人写了 GEditor 打包才炸。</aside>
+      <aside class="notes">GEngine 是排查问题的入口之一，不代表掌握它就掌握了整个引擎。还要强调 GEditor 只在编辑器环境存在，运行时代码不能依赖它。</aside>
     </section>
 
     <!-- 47 -->
@@ -2124,7 +2146,7 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
         <h2 class="reveal" style="--d:1">源码怎么剖析：两套视角</h2>
         <div class="cols reveal" style="--d-2">
           <div class="card">
-            <div class="hd">时空观 —— 拆开一个函数</div>
+            <div class="hd">时空观：拆开一个函数</div>
             <table class="mtx tight">
               <tr><td>时</td><td>调用顺序与触发时机：谁先谁后、什么条件下发生、一帧里跑几次</td></tr>
               <tr><td>空</td><td>数据怎么流动与变形：进去什么、出来什么、中间被谁改过</td></tr>
@@ -2139,7 +2161,7 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
             </div>
           </div>
           <div class="card">
-            <div class="hd v">信息论 —— 判断设计好坏</div>
+            <div class="hd v">信息论：判断设计是否合理</div>
             <table class="mtx tight">
               <tr><td>依赖越少越稳</td><td>一个类知道的越少，改它的风险越小</td></tr>
               <tr><td>信息就是能量</td><td>传递、转换、拷贝都要消耗；能不算就不算</td></tr>
@@ -2161,14 +2183,14 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
         </div>
         <p class="big-line reveal" style="--d:3">别讲成哲学课，<b>举一个具体函数走一遍</b>。</p>
       </div>
-      <aside class="notes">别讲成哲学课，举一个具体函数走一遍。比如 Tick 的一次调用：从哪来、传了什么、改了什么、最后去哪。七个问题里第 7 个最有用——问「删掉它会坏什么」，就能看出耦合有多深。</aside>
+      <aside class="notes">用一个具体函数走一遍分析过程。例如 Tick 的一次调用：谁发起、传入什么、修改什么、结果流向哪里。第 7 个问题「删掉它会坏什么」可以帮助判断耦合关系。</aside>
     </section>
 
     <!-- 48 -->
-    <section class="slide" data-section="源码" data-title="心法">
+    <section class="slide" data-section="源码" data-title="阅读源码时的心态">
       <div class="slide-inner">
         <div class="kicker reveal">源码 · 心态</div>
-        <h2 class="reveal" style="--d:1">心法</h2>
+        <h2 class="reveal" style="--d:1">阅读源码时的心态</h2>
         <div class="cols reveal" style="--d:2">
           <div class="card">
             <div class="hd">保持谦逊，但不迷信</div>
@@ -2179,7 +2201,7 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
             </div>
           </div>
           <div class="card">
-            <div class="hd v">比好奇心更需要耐心</div>
+            <div class="hd v">阅读源码需要耐心</div>
             <div class="tickset">
               <div class="tick v">调用链太长：一个功能穿过十几个类很正常</div>
               <div class="tick v">背景知识不够：读渲染要先懂图形学基础</div>
@@ -2189,18 +2211,18 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
           </div>
         </div>
         <div class="diagram reveal" style="--d:3">
-          <div class="cap">一天只有 24 小时：接受「只掌握一小块」</div>
+          <div class="cap">把阅读目标限制在具体模块和链路</div>
 <div class="spec">
             <div class="sr neg"><span class="lbl"><s>不切实际的目标</s></span><span class="txt">把引擎读完 → 永远做不到 → 挫败 → 放弃</span></div>
             <div class="sr pos"><span class="lbl"><g>切实际的目标</g></span><span class="txt">这个月把 <u>Gameplay</u> 的一条主链路读完</span></div>
             <div class="sr note"><span class="txt">下个月把 <u>UMG</u> 的一条主链路读完</span></div>
             <div class="sr "><span class="lbl"><b>一年读通五条链路</b></span><span class="txt">= 已经是团队里的「懂引擎」的人</span></div>
-            <div class="sr note"><span class="txt">引擎是海，你不需要喝干它，只需要知道哪片水域有鱼</span></div>
+            <div class="sr note"><span class="txt">不必通读整个引擎，优先掌握与当前项目相关的部分</span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:4">承认一天只有 24 小时，只够掌握一小块。<b>这不是失败，是常态。</b></p>
+        <p class="big-line reveal" style="--d:4">每次读通一条具体链路，逐步建立对引擎结构的理解。</p>
       </div>
-      <aside class="notes">这页是给学生松绑的。很多人以为「大神什么都懂」，其实没人什么都懂，只是懂得在哪儿不用懂。97.34% 这个数字原话就是这么说的，可以保留，它有种自嘲式的坦诚。</aside>
+      <aside class="notes">这页用于调整阅读预期。没有人能掌握整个引擎，应该根据项目选择需要深入的部分。97.34% 是讲课时的玩笑数字，不要当作统计数据。</aside>
     </section>
 
     <!-- 49 -->
@@ -2208,7 +2230,7 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
       <div class="slide-inner">
         <div class="kicker reveal">源码 · 实战</div>
         <h2 class="reveal" style="--d:1">找：顺藤摸瓜</h2>
-        <p class="lead reveal" style="--d:2">相信它一定在，只是你还没找到。</p>
+        <p class="lead reveal" style="--d:2">从界面操作、命名和调用关系入手，逐步定位相关实现。</p>
         <div class="mgrid mg-3 reveal" style="--d:3">
           <div class="mi"><span class="k">TOOL 01</span><b>Widget Reflector</b><p>点一个 UI 控件，直接定位到它的实现类与层级。找 UMG 的入口</p></div>
           <div class="mi"><span class="k">TOOL 02</span><b>查找所有引用</b><p>从一个名字摸到整条链路。Rider 里 Ctrl+Shift+F 是最高频的键</p></div>
@@ -2231,15 +2253,15 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
         </div>
         <p class="tiny muted reveal" style="--d:5;margin-top:8px">这是全场唯一需要实机的两处之一（另一处是 UHT 生成前后）。</p>
       </div>
-      <aside class="notes">现场演示一次：从一个编辑器按钮点到它的 C++ 实现，全程不超过一分钟。这个演示比讲十分钟方法论有用。六步要一步步来，别跳步——学生看你跳步，自己就学不会。</aside>
+      <aside class="notes">现场演示从一个编辑器按钮定位到它的 C++ 实现。六个步骤按顺序操作，不要跳过中间过程，让学生看清定位思路。</aside>
     </section>
 
     <!-- 50 -->
-    <section class="slide" data-section="源码" data-title="搬：怎么借得干净">
+    <section class="slide" data-section="源码" data-title="借鉴源码的维护成本">
       <div class="slide-inner">
         <div class="kicker reveal">源码 · 借鉴</div>
-        <h2 class="reveal" style="--d:1">搬：怎么借得干净</h2>
-        <p class="lead reveal" style="--d:2">「借用」的目标是可维护，不是能跑。</p>
+        <h2 class="reveal" style="--d:1">借鉴源码时如何控制维护成本</h2>
+        <p class="lead reveal" style="--d:2">除了让功能跑起来，还要考虑依赖、扩展方式和后续修改成本。</p>
         <div class="cols reveal" style="--d:3">
           <div class="card">
             <div class="hd">四条原则</div>
@@ -2275,19 +2297,19 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
             <div class="sr hi"><span class="lbl"><b>经验</b></span><span class="txt">引擎的扩展点比你想的多得多。找不到，通常是没找全</span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:5">能跑只是及格，<b>能维护才算学会</b>。</p>
+        <p class="big-line reveal" style="--d:5">借鉴代码后，要确认自己能够解释并维护它。</p>
       </div>
-      <aside class="notes">很多人拷一段源码过来，跑起来了，三个月后自己都看不懂。借的标准是：半年后还能改得动。五个排查顺序很实用——大部分人卡在第 1 步就不往下找了。</aside>
+      <aside class="notes">复制源码后即使能运行，也可能留下维护问题。评价标准包括能否理解依赖、找到扩展点并在后续修改。按五个排查顺序逐项检查。</aside>
     </section>
 
     <!-- 51 -->
-    <section class="slide" data-section="收尾" data-title="一张图收尾">
+    <section class="slide" data-section="收尾" data-title="制定学习计划">
       <div class="slide-inner">
         <div class="kicker reveal">收尾 · 合流</div>
-        <h2 class="reveal" style="--d:1">一张图收尾</h2>
-        <p class="lead reveal" style="--d:2">全场三部分，合成一个动作：看自己缺哪块，用闭环补最近的那块。</p>
+        <h2 class="reveal" style="--d:1">把课程内容转成学习计划</h2>
+        <p class="lead reveal" style="--d:2">检查各模块的掌握情况，选择当前最需要的一项，通过练习和总结补齐。</p>
         <div class="diagram reveal" style="--d:3">
-          <div class="cap">三张图叠一张</div>
+          <div class="cap">制定学习计划的三个步骤</div>
 <pre class="ascii">         <b>① 我在哪</b>              <b>② 缺什么</b>                 <b>③ 怎么补</b>
    ┌──────────────┐      ┌──────────────┐      ┌──────────────┐
    │ 炼气         │      │ Core    ████ │      │ 模仿         │
@@ -2300,13 +2322,13 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
   <g>动作</g>  三个格子各填一次 → 得到一句：<b>这个月我要补 XX 块的 YY 部分</b></pre>
         </div>
         <div class="cols3 reveal" style="--d:4">
-          <div class="card tight"><span class="num">① 我在哪</span><h3>境界阶梯</h3><p class="small muted" style="margin:0">给出 5 级刻度，也给出「可以并级、可以跳」的宽容度</p></div>
-          <div class="card tight"><span class="num">② 缺什么</span><h3>六块要点</h3><p class="small muted" style="margin:0">Core / GamePlay / UBT / UHT / GC / 地方习俗，就是打分表的六列</p></div>
-          <div class="card tight"><span class="num">③ 怎么补</span><h3>学习闭环</h3><p class="small muted" style="margin:0">模仿 → 动手 → 总结 → 积累，转一圈就长一块</p></div>
+          <div class="card tight"><span class="num">① 我在哪</span><h3>能力分级</h3><p class="small muted" style="margin:0">按模块分别评估，不同模块可以处在不同阶段</p></div>
+          <div class="card tight"><span class="num">② 缺什么</span><h3>六块要点</h3><p class="small muted" style="margin:0">分别检查 Core、Gameplay、UBT、UHT、GC 和各模块写法</p></div>
+          <div class="card tight"><span class="num">③ 怎么补</span><h3>学习闭环</h3><p class="small muted" style="margin:0">模仿、动手、总结、积累，并保留可复用的成果</p></div>
         </div>
-        <p class="big-line reveal" style="--d:5">先补<b>最近的一块</b>，别从最远的一块开始。</p>
+        <p class="big-line reveal" style="--d:5">优先补齐当前项目最需要、最接近现有基础的内容。</p>
       </div>
-      <aside class="notes">收束全场，把三部分合成一个动作：看自己缺哪块，用闭环补最近的那块。别一上来就要读渲染。「这个月我要补 XX 块的 YY 部分」这句话要让学生当场写下来，写不出来就是没听懂。</aside>
+      <aside class="notes">最后让学生把三部分组合成学习计划：评估现状、确定薄弱模块、安排练习。可以现场写下「这个月我要补 XX 块的 YY 部分」，目标要具体。</aside>
     </section>
 
     <!-- 52 -->
@@ -2336,7 +2358,7 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
         </div>
         <p class="tiny muted reveal" style="--d:4;margin-top:8px">② ③ 是 5.x 现在必须会的两条，替代「照着 UE4 教程抄一遍」。五件总共不到 7 小时，分布在 30 天里做。</p>
       </div>
-      <aside class="notes">这五件事分布在 30 天里做，一天十几分钟就够。给验收标准很重要：学生需要知道「做到什么程度算做完」。第 4 件看着奇怪，但它是投入产出比最高的——亲手制造一次错误，比看十次报错文档有用。</aside>
+      <aside class="notes">这五件事可以分散在 30 天里完成。每项都有验收标准，方便学生判断是否完成。第 4 项通过主动制造链接错误，帮助理解报错原因和修复方法。</aside>
     </section>
 
     <!-- 53 -->
@@ -2344,7 +2366,7 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
       <div class="slide-inner">
         <div class="kicker reveal">收尾 · 下一节</div>
         <h2 class="reveal" style="--d:1">接下来讲哪个？</h2>
-        <p class="lead reveal" style="--d:2">四个候选，现场投票选一条。选完就是下一节课的主题。</p>
+        <p class="lead reveal" style="--d:2">从四个候选方向中投票选出下一节课的主题。</p>
         <div class="mgrid mg-4 reveal" style="--d:3">
           <div class="mi"><span class="k">A</span><b>Gameplay 框架细节</b><p>生命周期、生成顺序、谁该重载哪个虚函数</p></div>
           <div class="mi v"><span class="k">B</span><b>委托与接口</b><p>三类委托、动态委托、AddDynamic、蓝图接口</p></div>
@@ -2355,14 +2377,14 @@ OnDamaged.<span class="kw">AddDynamic</span>(<span class="kw">this</span>, &amp;
           <div class="cap">两节课的分工（别重复）</div>
 <div class="spec">
             <div class="sr hi"><span class="lbl"><b>第一节课</b></span><span class="txt">一局游戏怎么跑起来     → 编辑器、坐标系、面向对象、C++ 语法、框架、读链路</span></div>
-            <div class="sr hi"><span class="lbl"><b>导向课</b></span><span class="txt">你接下来怎么走         → 境界、5W1H、六块要点、闭环、源码方法论</span></div>
+            <div class="sr hi"><span class="lbl"><b>导向课</b></span><span class="txt">你接下来怎么走         → 能力分级、六个学习问题、核心知识、练习方法、源码阅读</span></div>
             <div class="sr cau"><span class="lbl"><u>下一节</u></span><span class="txt">投票选出的那一条深度课   → 展开讲一个主题</span></div>
             <div class="sr neg"><span class="lbl"><s>不要</s></span><span class="txt">把导向课讲成框架课   <s>也不要</s> 把框架课讲成导向课</span></div>
           </div>
         </div>
-        <p class="big-line reveal" style="--d:5">别用「谢谢观看」收尾，<b>用一个问题收尾</b>。</p>
+        <p class="big-line reveal" style="--d:5">提问后投票确定下一节内容：<b>你目前最想解决哪一类问题？</b></p>
       </div>
-      <aside class="notes">别用「谢谢观看」收尾，用一个问题收尾。留 2 分钟提问，然后现场投票选下一节的主题。举手投票比在线问卷好——现场能看到哪边人多。</aside>
+      <aside class="notes">结尾安排提问，然后现场投票选下一节主题。可以直接举手统计，便于当场确认结果。</aside>
     </section>
 
   </main>
